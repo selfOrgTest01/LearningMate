@@ -26,6 +26,7 @@ function App() {
                 <h1>test</h1>
                 {/* John Doe 출력 */}
                 <h2>Sever Data:</h2>
+                <h2>테스트용입니다~!!</h2>
                 <h2>name:{data.name}</h2>
                 <h2>age:{data.age}</h2>
             </>
