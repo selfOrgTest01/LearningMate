@@ -3,3 +3,4 @@
 반드시 .env파일을 learningmate-server에 넣고 실행시키세요
 
 # develop branch 잘되는거 확인중입니다
+:bug:
