@@ -5,7 +5,9 @@ function App() {
     const [isloading, setLoading] = useState(true);
     const getData = useCallback(async () => {
         try {
-            const resp = await axios.get('http://localhost:8000/test/data');
+            const resp = await axios.get(
+                'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app/test/data'
+            );
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
             else setData((data) => ({ ...data, ...resp.data.resdata }));
