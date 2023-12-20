@@ -3,11 +3,13 @@ import axios from 'axios';
 function App() {
     const [data, setData] = useState({});
     const [isloading, setLoading] = useState(true);
-    const getData = useCallback(async () => {
+    //배포 서버 테스트 하실때 serverDomain을 사용하시면 됩니다
+    //로컬 서버 테스트 하실때는 localDomain을 사용하시면 됩니다
+    const serverDomain = 'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app';
+    const localDomain = 'http://localhost:8000';
+    const fn_get_data = useCallback(async () => {
         try {
-            const resp = await axios.get(
-                'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app/test/data'
-            );
+            const resp = await axios.get(`${localDomain}/test/data`);
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
             else setData((data) => ({ ...data, ...resp.data.resdata }));
@@ -18,8 +20,8 @@ function App() {
         }
     }, []);
     useEffect(() => {
-        getData();
-    }, [getData]);
+        fn_get_data();
+    }, [fn_get_data]);
     if (isloading) {
         return <div>Loading....</div>;
     } else {
