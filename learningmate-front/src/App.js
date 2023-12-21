@@ -1,41 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import About from './pages/About';
+import Test from './pages/Test';
+import Home from './pages/Home';
 function App() {
-    const [data, setData] = useState({});
-    const [isloading, setLoading] = useState(true);
-    //배포 서버 테스트 하실때 serverDomain을 사용하시면 됩니다
-    //로컬 서버 테스트 하실때는 localDomain을 사용하시면 됩니다
-    const serverDomain = 'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app';
-    const localDomain = 'http://localhost:8000';
-    const fn_get_data = useCallback(async () => {
-        try {
-            const resp = await axios.get(`${localDomain}/test/data`);
-            console.log(resp.data);
-            if (resp.data.resdata === false) window.alert('불러오기 실패');
-            else setData((data) => ({ ...data, ...resp.data.resdata }));
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-    useEffect(() => {
-        fn_get_data();
-    }, [fn_get_data]);
-    if (isloading) {
-        return <div>Loading....</div>;
-    } else {
-        return (
-            <>
-                <h1>test</h1>
-                {/* John Doe 출력 */}
-                <h2>Sever Data:</h2>
-                <h2>테스트용입니다~!!</h2>
-                <h2>name:{data.name}</h2>
-                <h2>age:{data.age}</h2>
-            </>
-        );
-    }
+    return (
+        <BrowserRouter>
+            <Header />
+            <Routes>
+                <Route path='/' element={<Home />}></Route>
+                <Route path='/login' element={<Login />}></Route>
+                <Route path='/signup' element={<Signup />}></Route>
+                <Route path='/about' element={<About />}></Route>
+                <Route path='/test' element={<Test />}></Route>
+            </Routes>
+            <Footer />
+        </BrowserRouter>
+    );
 }
-
 export default App;
