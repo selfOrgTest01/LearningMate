@@ -6,6 +6,8 @@ import Footer from './components/Footer';
 import About from './pages/About';
 import Test from './pages/Test';
 import Home from './pages/Home';
+import Userlist from './pages/Userlist';
+
 function App() {
     return (
         <BrowserRouter>
@@ -16,6 +18,7 @@ function App() {
                 <Route path='/signup' element={<Signup />}></Route>
                 <Route path='/about' element={<About />}></Route>
                 <Route path='/test' element={<Test />}></Route>
+                <Route path='/userlist' element={<Userlist />}></Route>
             </Routes>
             <Footer />
         </BrowserRouter>

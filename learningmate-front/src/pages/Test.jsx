@@ -4,9 +4,9 @@ import axios from 'axios';
 function Test() {
     const [data, setData] = useState({});
     const [isloading, setLoading] = useState(true);
-    //배포 서버 테스트 하실때 serverDomain을 사용하시면 됩니다
+    //배포 서버 테스트 하실때 주석제거하시고 serverDomain을 사용하시면 됩니다
     //로컬 서버 테스트 하실때는 localDomain을 사용하시면 됩니다
-    const serverDomain = 'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app';
+    // const serverDomain = 'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app';
     const localDomain = 'http://localhost:8000';
     const fn_get_data = useCallback(async () => {
         try {
