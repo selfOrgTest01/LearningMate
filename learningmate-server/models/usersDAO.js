@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const db = require('../src/database');
 const sql = {
-    sql_signUp: 'INSERT INTO users(email,phone_number, password_hash,nickname) VALUES (?,?,?,?)',
-    sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date FROM users',
-    sql_userDelete: 'DELETE FROM users WHERE user_id=?',
-    sql_check: 'SELECT user_id,email,phone_number,nickname FROM users',
+    sql_signUp: 'INSERT INTO users(email,phone_number, password_hash,nickname) VALUES (?,?,?,?)', //회원가입
+    sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
+    sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
+    sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
 };
 
 const usersDao = {

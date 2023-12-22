@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
+
 function Signup() {
     const [data, setData] = useState({
         email: '',
@@ -11,11 +13,13 @@ function Signup() {
     const [duplicateEmail, setDuplicateEmail] = useState(false);
     const [duplicatePhone, setDuplicatePhone] = useState(false);
     const [duplicateNickname, setDuplicateNickname] = useState(false);
+
+    const navigate = useNavigate();
     //데이터를 읽어오는 함수
     const fn_read_data = useCallback(async () => {
         try {
             const result = await axios.get('http://localhost:8000/users/check');
-            console.log(result.data.data);
+            // console.log(result.data.data);
             return result;
         } catch (err) {
             console.log('에러:', err);
@@ -65,18 +69,21 @@ function Signup() {
             if (item.nickname === data.nickname) {
                 isDuplicate = true;
             }
-            setDuplicatePhone(isDuplicate);
+            setDuplicateNickname(isDuplicate);
         });
     }, [data.nickname, fn_read_data]);
 
     const fn_submit_data = useCallback(
         async (evt) => {
-            // evt.preventDefault();
+            evt.preventDefault();
             const result = await axios.post('http://localhost:8000/users/signup', data);
-            console.log(result.data);
-            if (result.data.status === 500) window.alert('사용자가 존재합니다');
+            if (result.data.status === 500) {
+                window.alert('등록되지 않았습니다 에러가 발생했어요');
+            } else {
+                navigate('/');
+            }
         },
-        [data]
+        [data, navigate]
     );
 
     return (
