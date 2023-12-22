@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import { serverDomain } from '../config/config';
 
 function Signup() {
     const [data, setData] = useState({
@@ -18,7 +19,7 @@ function Signup() {
     //데이터를 읽어오는 함수
     const fn_read_data = useCallback(async () => {
         try {
-            const result = await axios.get('http://localhost:8000/users/check');
+            const result = await axios.get(`${serverDomain}/users/check`);
             // console.log(result.data.data);
             return result;
         } catch (err) {
@@ -76,7 +77,7 @@ function Signup() {
     const fn_submit_data = useCallback(
         async (evt) => {
             evt.preventDefault();
-            const result = await axios.post('http://localhost:8000/users/signup', data);
+            const result = await axios.post(`${serverDomain}/users/signup`, data);
             if (result.data.status === 500) {
                 window.alert('등록되지 않았습니다 에러가 발생했어요');
             } else {

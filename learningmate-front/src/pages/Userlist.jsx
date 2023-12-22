@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { serverDomain } from '../config/config';
 function Userlist() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -8,7 +9,7 @@ function Userlist() {
     const fn_read_users = useCallback(async () => {
         try {
             setLoading(true);
-            const resdata = await axios.get('http://localhost:8000/users/list');
+            const resdata = await axios.get(`${serverDomain}/users/list`);
             console.log(resdata.data.data);
             setUsers((users) => (users = resdata.data.data));
         } catch (err) {
@@ -19,7 +20,7 @@ function Userlist() {
     }, []);
     //버튼 클릭시 그 item의 id를 인자로 받아서 삭제
     const fn_delete_user = useCallback(async (id) => {
-        const resdata = await axios.delete(`http://localhost:8000/users/delete/${id}`);
+        const resdata = await axios.delete(`${serverDomain}/users/delete/${id}`);
         if (resdata.status === 200) {
             //인자로 받은 id와 같지 않은것들만 다시 users에 저장해서 삭제된 것만 filter로 거르고 화면에 출력되게 합니다
             setUsers((users) => users.filter((item) => item.user_id !== id));
