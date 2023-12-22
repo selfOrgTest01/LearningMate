@@ -12,7 +12,7 @@ function Test() {
         try {
             //데이터 get요청
             const resp = await axios.get(
-                `https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app//test/data`
+                `https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app/test/data`
             );
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
