@@ -11,9 +11,7 @@ function Test() {
     const fn_get_data = useCallback(async () => {
         try {
             //데이터 get요청
-            const resp = await axios.get(
-                `https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app/test/data`
-            );
+            const resp = await axios.get(`${serverDomain}/test/data`);
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
             else setData((data) => ({ ...data, ...resp.data.resdata }));
@@ -25,7 +23,7 @@ function Test() {
     }, []);
     useEffect(() => {
         fn_get_data();
-    }, []);
+    }, [fn_get_data]);
     if (isloading) {
         return <div>Loading....</div>;
     } else {
