@@ -1,17 +1,17 @@
 //서버 테스트용 페이지
 import { useCallback, useEffect, useState } from 'react';
+import { serverDomain } from '../config/config';
 import axios from 'axios';
 function Test() {
     const [data, setData] = useState({});
     const [isloading, setLoading] = useState(true);
-    //배포 서버 테스트 하실때 주석제거하시고 serverDomain을 사용하시면 됩니다
+    //배포 서버 테스트 하실때  serverDomain을 사용하시면 됩니다 config.jsx에 설정해놨어요
     //로컬 서버 테스트 하실때는 localDomain을 사용하시면 됩니다
-    // const serverDomain = 'https://port-0-learningmate-server-5r422alqajqbni.sel4.cloudtype.app';
-    const localDomain = 'http://localhost:8000';
+    // const localDomain = 'http://localhost:8000';
     const fn_get_data = useCallback(async () => {
         try {
             //데이터 get요청
-            const resp = await axios.get(`${localDomain}/test/data`);
+            const resp = await axios.get(`${serverDomain}/test/data`);
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
             else setData((data) => ({ ...data, ...resp.data.resdata }));
