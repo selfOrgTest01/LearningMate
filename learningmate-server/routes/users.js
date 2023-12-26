@@ -7,6 +7,11 @@ const usersController = require('../controllers/users');
 router.post('/login', usersController.login);
 //회원가입
 router.post('/signup', usersController.signupUser);
+//로그아웃
+router.get('/logout', usersController.logout);
+//로그인상태 인증
+router.get('/userinfo', usersController.userInfo);
+// router.get('/auth', usersController);
 //회원리스트
 router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색

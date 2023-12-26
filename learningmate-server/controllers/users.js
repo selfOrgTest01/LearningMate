@@ -14,6 +14,7 @@ exports.login = async (req, res) => {
         console.log(err);
     }
 };
+
 exports.signupUser = async (req, res) => {
     const userData = req.body;
     try {
@@ -22,6 +23,28 @@ exports.signupUser = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+    }
+};
+
+exports.userInfo = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        await usersDao.userInfo(userId, (resp) => {
+            res.send(resp);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+exports.logout = async (req, res) => {
+    try {
+        req.session.destroy();
+        res.clearCookie('connect.sid');
+        res.send({ status: 200, message: '로그아웃성공' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: 500, message: '서버 오류' });
     }
 };
 
