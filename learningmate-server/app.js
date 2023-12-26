@@ -7,6 +7,7 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test');
+const meetRouter = require('./routes/meets'); // 민경 추가
 const app = express();
 const session = require('express-session');
 // view engine setup
@@ -38,6 +39,7 @@ app.use(
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(testRouter);
+app.use('/meets', meetRouter); // 민경 추가
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
