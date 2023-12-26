@@ -10,8 +10,8 @@ function Test() {
     const localDomain = 'http://localhost:8000';
     const fn_get_data = useCallback(async () => {
         try {
-            //데이터 get요청
-            const resp = await axios.get(`${localDomain}/test/data`);
+            //데이터 get요청 withCredentials: true 옵션을 추가하면 세션 쿠키가 요청에 올바르게 포함되어 서버에 전달됩니다.
+            const resp = await axios.get(`${localDomain}/test/data`, { withCredentials: true });
             console.log(resp.data);
             if (resp.data.resdata === false) window.alert('불러오기 실패');
             else setData((data) => ({ ...data, ...resp.data.resdata }));
@@ -33,8 +33,8 @@ function Test() {
                 {/* John Doe 출력 */}
                 <h2>Sever Data:</h2>
                 <h2>테스트용입니다~!!</h2>
-                <h2>name:{data.name}</h2>
-                <h2>age:{data.age}</h2>
+                <h2>email:{data.email}</h2>
+                <h2>nickname:{data.nickname}</h2>
             </>
         );
     }

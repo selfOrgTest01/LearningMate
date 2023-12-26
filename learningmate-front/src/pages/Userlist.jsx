@@ -9,7 +9,7 @@ function Userlist() {
         try {
             setLoading(true);
             const resdata = await axios.get('http://localhost:8000/users/list');
-            console.log(resdata.data.data);
+            // console.log(resdata.data.data);
             setUsers((users) => (users = resdata.data.data));
         } catch (err) {
             console.log('에러', err);
@@ -27,6 +27,7 @@ function Userlist() {
             window.alert('삭제를 실패했습니다');
         }
     }, []);
+    //처음 렌더링때 한번 호출,함수가 변할때 호출
     useEffect(() => {
         fn_read_users();
     }, [fn_read_users]);
