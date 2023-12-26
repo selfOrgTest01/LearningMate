@@ -7,6 +7,10 @@ import About from './pages/About';
 import Test from './pages/Test';
 import Home from './pages/Home';
 import Userlist from './pages/Userlist';
+import Channel from './pages/Channel/index';
+import DirectMessage from './pages/DirectMessage/index';
+
+
 
 function App() {
     return (
@@ -19,6 +23,9 @@ function App() {
                 <Route path='/about' element={<About />}></Route>
                 <Route path='/test' element={<Test />}></Route>
                 <Route path='/userlist' element={<Userlist />}></Route>
+                <Route path='/Channel' element={<Channel />}></Route>
+                <Route path='/DirectMessage' element={<DirectMessage />}></Route>
+                
             </Routes>
             <Footer />
         </BrowserRouter>
