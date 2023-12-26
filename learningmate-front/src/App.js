@@ -7,6 +7,7 @@ import About from './pages/About';
 import Test from './pages/Test';
 import Home from './pages/Home';
 import Userlist from './pages/Userlist';
+import { Workspace, WorkspaceRoutes } from './layouts/WorkSpace/index';
 import Channel from './pages/Channel/index';
 import DirectMessage from './pages/DirectMessage/index';
 

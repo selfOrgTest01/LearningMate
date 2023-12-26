@@ -12,7 +12,8 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import useSWR, { useSWRInfinite  } from 'swr';
+import useSWR from 'swr';
+import useSWRInfinite from "swr/infinite";
 
 const PAGE_SIZE = 20;
 const Channel = () => {
