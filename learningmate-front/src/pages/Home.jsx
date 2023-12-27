@@ -1,7 +1,7 @@
-
 import { useEffect } from 'react';
 import { locationAction } from '../store/location';
 import { useDispatch } from 'react-redux';
+import ImageUploader from '../components/ImageUploader';
 
 function Home() {
     const dispatch = useDispatch();
@@ -18,6 +18,7 @@ function Home() {
     return (
         <>
             <h1>Home</h1>
+            <ImageUploader />
         </>
     );
 }

@@ -68,7 +68,7 @@ exports.deleteUser = async (req, res) => {
         console.log(err);
     }
 };
-
+//회원가입 중복검사
 exports.check = async (req, res) => {
     try {
         await usersDao.check((resp) => {
