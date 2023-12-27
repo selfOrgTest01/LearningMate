@@ -116,28 +116,12 @@ function Signup() {
 
     const fn_insert_data = useCallback(
         (evt) => {
-            const regexEmail = /^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+$/;
-            const regexPhone = /^[0-9]/;
             //변수명을 동적으로 정의하는경우 []안에 넣는다
             //setData로 갱신한 값(data.passwordcheck)을 사용하려면 리렌더링이 되어야해서 여기서는 fn_insert_data함수가 종료된후 갱신됨
             //때문에 fn_insert_data 내부에서 호출되는 fn_check_password에서 바로 갱신된 state를 쓸수 없기 때문에 evt.target.value를 넘겨줘야함
             //setData를 호출한 후에는 업데이트된 상태를 즉시 사용할 수 없습니다. 이러한 이유로,
             //setData 이후에 발생하는 로직에서는 업데이트된 값을 기대하기보다는 현재 상태를 사용하게 됩니다.
             //만약 setData 이후에 업데이트된 값을 사용해야 한다면, 보통 다음 렌더링에서 해당 값을 이용할 수 있습니다. 이것이 React에서의 일반적인 동작 방식입니다.
-            if (evt.key === 'Backspace') {
-                return;
-            }
-            if (evt.target.name === 'email') {
-                if (!regexEmail.test(evt.target.value)) {
-                    console.log('입력된값에 허용되지 않은 문자가 포함');
-                    return;
-                }
-            } else if (evt.target.name === 'phone_number') {
-                if (!regexPhone.test(evt.target.value)) {
-                    console.log('입력된값에 허용되지 않은 문자가 포함');
-                    return;
-                }
-            }
             setData((data) => ({ ...data, [evt.target.name]: evt.target.value }));
 
             if (evt.target.name === 'passwordcheck') {
