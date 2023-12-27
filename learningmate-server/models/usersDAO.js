@@ -7,9 +7,11 @@ const sql = {
     sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
     sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
     sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
+    sql_userInfo: 'SELECT email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
 };
 
 const usersDao = {
+    //로그인 모델
     login: async function (userData, fn_callback) {
         try {
             const { email, password } = userData;
@@ -49,6 +51,7 @@ const usersDao = {
             fn_callback({ status: 500, message: '로그인 통신실패' });
         }
     },
+    //회원가입 모델
     signUp: async function (userData, fn_callback) {
         try {
             const { email, phone_number, password, nickname } = userData;
@@ -66,6 +69,18 @@ const usersDao = {
             fn_callback({ status: 500, message: '등록실패' });
         }
     },
+    //마이리스트 유저정보 호출
+    userInfo: async function (userId, fn_callback) {
+        try {
+            const [resdata] = await db.query(sql.sql_userInfo, [userId]);
+            // console.log(resdata);
+            fn_callback({ status: 200, message: '읽기성공', data: resdata });
+        } catch (err) {
+            console.log(err);
+            fn_callback({ status: 500, message: '읽기실패' });
+        }
+    },
+    //유저 리스트 모델
     userList: async function (fn_callback) {
         try {
             const [resdata] = await db.query(sql.sql_userList);
@@ -76,6 +91,7 @@ const usersDao = {
             fn_callback({ status: 500, message: 'DB읽어오기 실패' });
         }
     },
+    //회원가입 중복 체크 모델
     check: async function (fn_callback) {
         try {
             const [resdata] = await db.query(sql.sql_check);
@@ -85,6 +101,7 @@ const usersDao = {
             fn_callback({ status: 500, message: 'DB읽어오기 실패' });
         }
     },
+    //유저리스트 유저정보 삭제 모델
     delete: async function (id, fn_callback) {
         try {
             const [resdata] = await db.query(sql.sql_userDelete, [Number(id)]);

@@ -30,8 +30,8 @@ app.use(
         saveUninitialized: false,
         cookie: {
             httpOnly: true, // 클라이언트에서 쿠키에 접근하는 것을 방지
-            secure: false, // HTTPS를 통해서만 쿠키를 전송하도록 설정 (배포 시에는 true로 변경)
-            maxAge: 3600000, // 쿠키의 만료 기간 (밀리초 단위, 여기서는 1시간)
+            secure: false, // HTTPS를 통해서만 쿠키를 전송하도록 설정 (배포 시에는 true로 변경) 로컬은 http 쓰기때문에 false로 사용
+            // maxAge: 1800000, // 쿠키의 만료 기간 (밀리초 단위, 여기서는 30분)1800000 maxAge 옵션을 0이아니라 설정하지 않으면 브라우저 종료시 세션이 삭제됨
         },
     })
 );
