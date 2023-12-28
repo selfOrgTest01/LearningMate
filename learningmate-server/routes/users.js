@@ -9,9 +9,10 @@ router.post('/login', usersController.login);
 router.post('/signup', usersController.signupUser);
 //로그아웃
 router.get('/logout', usersController.logout);
-//로그인상태 인증
+//사진업로드 테스트
+router.post('/image/:id', usersController.image);
+//마이리스트
 router.get('/userinfo', usersController.userInfo);
-// router.get('/auth', usersController);
 //회원리스트
 router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색

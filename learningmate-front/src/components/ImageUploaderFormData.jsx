@@ -6,12 +6,8 @@ function ImageUploader() {
     const [image, setImage] = useState(
         `${process.env.PUBLIC_URL}/img/Hani.jpg`
     );
-    const [file, setFile] = useState("");
-
     const fn_upload_image = useCallback((evt) => {
         const uploadfile = evt.target.files[0];
-        console.log(uploadfile);
-        setFile((current) => (current = uploadfile));
         const fileReader = new FileReader();
         fileReader.readAsDataURL(uploadfile);
         //이벤트 핸들러로 동작하는 매서드
@@ -25,15 +21,8 @@ function ImageUploader() {
     }, []);
 
     const fn_register_image = useCallback(async () => {
-        const formdata = new FormData();
-        console.log(file);
-        formdata.append("file", file);
-        await axios.post("http://localhost:8000/users/image/42", formdata, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-    }, [file]);
+        await axios.post("http://localhost:8000/users/image/42", image);
+    }, [image]);
 
     //useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
     let inputRef = useRef();

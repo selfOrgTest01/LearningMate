@@ -8,6 +8,7 @@ const sql = {
     sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
     sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
     sql_userInfo: 'SELECT email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
+    sql_image: 'UPDATE users SET profile_link = ? WHERE user_id = ?' //이미지
 };
 
 const usersDao = {
@@ -108,9 +109,18 @@ const usersDao = {
             fn_callback({ status: 200, message: '삭제 성공' });
         } catch (err) {
             console.log(err);
-            fn_callback({ status: 200, message: '삭제 실패' });
+            fn_callback({ status: 500, message: '삭제 실패' });
         }
     },
+    image: async function (id, image, fn_callback) {
+        try {
+            const [resdata] = await db.query(sql.sql_image, [image, Number(id)]);
+            fn_callback({ status: 200, message: '등록됨' });
+        } catch (err) {
+            console.log(err);
+            fn_callback({ status: 500, message: '등록실패' });
+        }
+    }
 };
 
 module.exports = usersDao;

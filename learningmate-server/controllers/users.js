@@ -1,4 +1,18 @@
-const usersDao = require('../models/usersDAO');
+const usersDao = require("../models/usersDAO");
+const multer = require("multer");
+const path = require("path");
+
+const staticPath = path.join(__dirname, "..", "learningmate-front", "public");
+
+const uploadName = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) =>
+            cb(null, path.join(staticPath, "..", "public", "images", "users")),
+        filename: (req, file, cb) =>
+            cb(null, `${Date.now()}_${file.originalname}`),
+    }),
+    limits: { fileSize: 1024 * 1024 * 3 },
+});
 
 exports.login = async (req, res) => {
     const userData = req.body;
@@ -40,11 +54,11 @@ exports.userInfo = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         req.session.destroy();
-        res.clearCookie('connect.sid');
-        res.send({ status: 200, message: '로그아웃성공' });
+        res.clearCookie("connect.sid");
+        res.send({ status: 200, message: "로그아웃성공" });
     } catch (err) {
         console.log(err);
-        res.status(500).send({ status: 500, message: '서버 오류' });
+        res.status(500).send({ status: 500, message: "서버 오류" });
     }
 };
 
@@ -77,4 +91,18 @@ exports.check = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+};
+
+exports.image = async (req, res) => {
+    const formdata = req.file;
+    console.log(formdata);
+    const { id } = req.params;
+    console.log(id);
+    // try {
+    //     await usersDao.image(id, image, (resp) => {
+    //         res.send(resp);
+    //     });
+    // } catch (err) {
+    //     console.log(err);
+    // }
 };
