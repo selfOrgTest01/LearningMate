@@ -1,16 +1,15 @@
-import axios from "axios";
-import { useCallback, useState } from "react";
-import { Form, Container, Row, Col, Button, InputGroup } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import { serverDomain } from "../config/config";
+import axios from 'axios';
+import { useCallback, useState } from 'react';
+import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
 function Signup() {
     const [data, setData] = useState({
-        email: "",
-        phone_number: "",
-        password: "",
-        passwordcheck: "",
-        nickname: "",
+        email: '',
+        phone_number: '',
+        password: '',
+        passwordcheck: '',
+        nickname: '',
     });
     const [diff, setDiff] = useState(false);
     const [duplicateEmail, setDuplicateEmail] = useState(false);
@@ -21,12 +20,11 @@ function Signup() {
     //데이터를 읽어오는 함수
     const fn_read_data = useCallback(async () => {
         try {
-            const result = await axios.get(`${serverDomain}/users/check`);
-            // console.log(result.data.data);
-
+            const result = await axios.get('http://localhost:8000/users/check');
+            console.log(result.data.data);
             return result;
         } catch (err) {
-            console.log("에러:", err);
+            console.log('에러:', err);
         }
     }, []);
     //input에 데이터를 입력
@@ -81,9 +79,7 @@ function Signup() {
             const resdata = await fn_read_data();
             //set으로 state를 바꿔서 사용하려고 하면 비동기적으로 되어서 현재 함수에서는 최신값을 못쓰기 때문에 변수에 할당해서 사용합니다
             //some은 배열의 모든 요소를 검사해서 조건과 같은게 있으면 true 없으면 false를 출력합니다
-            const isDuplicateEmail = resdata.data.data.some(
-                (item) => item.email === data.email
-            );
+            const isDuplicateEmail = resdata.data.data.some((item) => item.email === data.email);
             const isDuplicatePhone = resdata.data.data.some(
                 (item) => item.phone_number === data.phone_number
             );
@@ -91,17 +87,12 @@ function Signup() {
                 (item) => item.nickname === data.nickname
             );
 
-            if (
-                !(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)
-            ) {
-                const result = await axios.post(
-                    "http://localhost:8000/users/signup",
-                    data
-                );
+            if (!(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)) {
+                const result = await axios.post('http://localhost:8000/users/signup', data);
                 if (result.data.status === 500) {
-                    window.alert("등록되지 않았습니다 에러가 발생했어요");
+                    window.alert('등록되지 않았습니다 에러가 발생했어요');
                 } else {
-                    navigate("/");
+                    navigate('/');
                 }
             } else {
                 setDuplicateEmail(isDuplicateEmail);
@@ -132,12 +123,9 @@ function Signup() {
             //setData 이후에 발생하는 로직에서는 업데이트된 값을 기대하기보다는 현재 상태를 사용하게 됩니다.
             //만약 setData 이후에 업데이트된 값을 사용해야 한다면, 보통 다음 렌더링에서 해당 값을 이용할 수 있습니다. 이것이 React에서의 일반적인 동작 방식입니다.
 
-            setData((data) => ({
-                ...data,
-                [evt.target.name]: evt.target.value,
-            }));
+            setData((data) => ({ ...data, [evt.target.name]: evt.target.value }));
 
-            if (evt.target.name === "passwordcheck") {
+            if (evt.target.name === 'passwordcheck') {
                 fn_check_password(evt.target.value);
             }
         },
@@ -145,103 +133,88 @@ function Signup() {
     );
 
     return (
-        <Container
-            fluid
-            style={{ backgroundColor: "#95a5a6", height: "100vh" }}
-        >
-            <Row className="justify-content-md-center">
+        <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
+            <Row className='justify-content-md-center'>
                 <Col md={4}>
-                    <h1
-                        className="display-1 text-center"
-                        style={{ marginTop: 100 }}
-                    >
+                    <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
                         회원가입
                     </h1>
                     <Form onSubmit={fn_submit_data}>
-                        <InputGroup className="mb-3">
+                        <InputGroup className='mb-3'>
                             <Form.Group style={{ flex: 1 }}>
                                 <Form.Control
-                                    id="email"
-                                    type="email"
-                                    name="email"
+                                    id='email'
+                                    type='email'
+                                    name='email'
                                     onChange={fn_insert_data}
                                     value={data.email}
                                     required
-                                    placeholder="이메일"
+                                    placeholder='이메일'
                                     onBlur={fn_check_email}
                                 />
                             </Form.Group>
-                            <Button
-                                variant="primary"
-                                onClick={() => console.log("인증번호전송")}
-                            >
+                            <Button variant='primary' onClick={() => console.log('인증번호전송')}>
                                 인증번호전송
                             </Button>
                         </InputGroup>
 
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="text"
-                                placeholder="이메일인증번호"
-                            />
+                        <Form.Group className='mb-3'>
+                            <Form.Control type='text' placeholder='이메일인증번호' />
                         </Form.Group>
-                        <Form.Group className="mb-3">
+                        <Form.Group className='mb-3'>
                             <Form.Control
-                                id="phone_number"
-                                type="text"
-                                name="phone_number"
+                                id='phone_number'
+                                type='text'
+                                name='phone_number'
                                 onChange={fn_insert_data}
                                 value={data.phone_number}
                                 required
-                                placeholder="휴대전화번호"
+                                placeholder='휴대전화번호'
                                 onBlur={fn_check_phone}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
+                        <Form.Group className='mb-3'>
                             <Form.Control
-                                id="password"
-                                type="password"
-                                name="password"
+                                id='password'
+                                type='password'
+                                name='password'
                                 onChange={fn_insert_data}
                                 value={data.password}
                                 required
-                                placeholder="비밀번호"
+                                placeholder='비밀번호'
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
+                        <Form.Group className='mb-3'>
                             <Form.Control
-                                id="passwordcheck"
-                                type="password"
-                                name="passwordcheck"
+                                id='passwordcheck'
+                                type='password'
+                                name='passwordcheck'
                                 onChange={fn_insert_data}
                                 value={data.passwordcheck}
                                 required
-                                placeholder="비밀번호확인"
+                                placeholder='비밀번호확인'
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
+                        <Form.Group className='mb-3'>
                             <Form.Control
-                                id="nickname"
-                                type="text"
-                                name="nickname"
+                                id='nickname'
+                                type='text'
+                                name='nickname'
                                 onChange={fn_insert_data}
                                 value={data.nickname}
                                 required
-                                placeholder="닉네임"
+                                placeholder='닉네임'
                                 onBlur={fn_check_nickname}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="formGroupEmail">
+                        <Form.Group className='mb-3' controlId='formGroupEmail'>
                             <Button
-                                variant="primary"
-                                style={{ width: "100%" }}
-                                type="submit"
+                                variant='primary'
+                                style={{ width: '100%' }}
+                                type='submit'
                                 //중복되는게 하나라도 있다면 버튼이 disabled됩니다
                                 disabled={
-                                    duplicateEmail ||
-                                    duplicatePhone ||
-                                    duplicateNickname ||
-                                    diff
+                                    duplicateEmail || duplicatePhone || duplicateNickname || diff
                                 }
                             >
                                 등록

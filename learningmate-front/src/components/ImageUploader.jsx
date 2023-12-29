@@ -12,6 +12,7 @@ function ImageUploader() {
 
     const fn_read_imageUrl = useCallback(async () => {
         const resdata = await axios.get(`${localDomain}/users/imagetest/41`);
+        console.log(resdata);
         setImageUrl((current) => (current = resdata.data.data[0].profile_name));
     }, []);
 
