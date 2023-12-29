@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup, Container } from "react-bootstrap";
-import { localDomain } from "../config/config.jsx";
+import { serverDomain } from "../config/config.jsx";
 
 function ImageUploader() {
     const [image, setImage] = useState(
@@ -11,7 +11,7 @@ function ImageUploader() {
     const [imageUrl, setImageUrl] = useState("");
 
     const fn_read_imageUrl = useCallback(async () => {
-        const resdata = await axios.get(`${localDomain}/users/imagetest/41`);
+        const resdata = await axios.get(`${serverDomain}/users/imagetest/41`);
         console.log(resdata);
         setImageUrl((current) => (current = resdata.data.data[0].profile_name));
     }, []);
@@ -34,7 +34,7 @@ function ImageUploader() {
     const fn_register_image = useCallback(async () => {
         const formdata = new FormData();
         formdata.append("image", file);
-        await axios.post(`${localDomain}/users/image/41`, formdata, {
+        await axios.post(`${serverDomain}/users/image/41`, formdata, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

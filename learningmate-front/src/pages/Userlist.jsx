@@ -9,7 +9,7 @@ function Userlist() {
     const fn_read_users = useCallback(async () => {
         try {
             setLoading(true);
-            const resdata = await axios.get("http://localhost:8000/users/list");
+            const resdata = await axios.get(`${serverDomain}/users/list`);
             // console.log(resdata.data.data);
 
             setUsers((users) => (users = resdata.data.data));

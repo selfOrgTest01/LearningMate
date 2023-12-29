@@ -95,7 +95,7 @@ function Signup() {
                 !(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)
             ) {
                 const result = await axios.post(
-                    "http://localhost:8000/users/signup",
+                    `${serverDomain}/users/signup`,
                     data
                 );
                 if (result.data.status === 500) {

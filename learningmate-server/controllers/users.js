@@ -82,7 +82,7 @@ exports.check = async (req, res) => {
 
 exports.image = async (req, res) => {
     const { id } = req.params;
-    const imageUploadPath = `${domain.localDomain}/images/users/`;
+    const imageUploadPath = `${domain.deployDomain}/images/users/`;
     //single("name") 업로드시 input태그의 네임
     //서버에서 이미지가 저장되는 경로(무조건 있어야함) app.js에 staticPath 설정해서 public이 경로에 안붙어있는거니 걱정안해도됨
     const imageName = req.file
