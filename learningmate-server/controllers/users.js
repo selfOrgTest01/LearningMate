@@ -1,18 +1,5 @@
 const usersDao = require("../models/usersDAO");
-const multer = require("multer");
-const path = require("path");
-
-const staticPath = path.join(__dirname, "..", "learningmate-front", "public");
-
-const uploadName = multer({
-    storage: multer.diskStorage({
-        destination: (req, file, cb) =>
-            cb(null, path.join(staticPath, "..", "public", "images", "users")),
-        filename: (req, file, cb) =>
-            cb(null, `${Date.now()}_${file.originalname}`),
-    }),
-    limits: { fileSize: 1024 * 1024 * 3 },
-});
+const domain = require("../config/config.js");
 
 exports.login = async (req, res) => {
     const userData = req.body;
@@ -94,15 +81,33 @@ exports.check = async (req, res) => {
 };
 
 exports.image = async (req, res) => {
-    const formdata = req.file;
-    console.log(formdata);
     const { id } = req.params;
-    console.log(id);
-    // try {
-    //     await usersDao.image(id, image, (resp) => {
-    //         res.send(resp);
-    //     });
-    // } catch (err) {
-    //     console.log(err);
-    // }
+    const imageUploadPath = `${domain.localDomain}/images/users/`;
+    //single("name") 업로드시 input태그의 네임
+    //서버에서 이미지가 저장되는 경로(무조건 있어야함) app.js에 staticPath 설정해서 public이 경로에 안붙어있는거니 걱정안해도됨
+    const imageName = req.file
+        ? `${imageUploadPath}${req.file.filename}`
+        : `${imageUploadPath}default.png`;
+    //클라이언트의 이미지 절대경로(생략해도됨)
+    const imagePath = req.file ? req.file.path : "";
+    console.log(imageName);
+    console.log(imagePath);
+    try {
+        await usersDao.image(id, imageName, imagePath, (resp) => {
+            res.send(resp);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+exports.imagetest = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await usersDao.imagetest(id, (resp) => {
+            res.send(resp);
+        });
+    } catch (err) {
+        console.log(err);
+    }
 };
