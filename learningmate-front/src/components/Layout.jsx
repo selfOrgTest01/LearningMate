@@ -1,10 +1,14 @@
-import React from 'react'
-import Header from './Header'
+import React from 'react';
+import WorkSpaces from '../layouts/App/App';
 
-function Layout() {
+const Layout = ({ children }) => {
   return (
-    <Header />
-  )
-}
+    <div>
+      <WorkSpaces />
+      {children}
+      <WorkSpaces />
+    </div>
+  );
+};
 
-export default Layout
+export default Layout;

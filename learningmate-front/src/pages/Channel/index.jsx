@@ -1,3 +1,5 @@
+
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ChatBox from '../../components/ChatBox/index';
 import ChatList from '../../components/ChatList/index';
 import InviteChannelModal from '../../components/InviteChannelModal/index';
@@ -7,15 +9,13 @@ import { Header, Container } from './sytle';
 import fetcher from '../../utils/fetcher';
 import makeSection from '../../utils/makeSection';
 import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
-import { useParams } from 'react-router';
-import { Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import useSWR from 'swr';
-import useSWRInfinite from "swr/infinite";
+import useSWRInfinite from 'swr/infinite';
 
 const PAGE_SIZE = 20;
+
 const Channel = () => {
   const { workspace, channel } = useParams();
   const [socket] = useSocket(workspace);
@@ -141,25 +141,10 @@ const Channel = () => {
           </button>
         </div>
       </Header>
-      <ChatList
-        scrollbarRef={scrollbarRef}
-        isReachingEnd={isReachingEnd}
-        isEmpty={isEmpty}
-        chatSections={chatSections}
-        setSize={setSize}
-      />
-      <ChatBox
-        onSubmitForm={onSubmitForm}
-        chat={chat}
-        onChangeChat={onChangeChat}
-        placeholder={`Message #${channel}`}
-        data={channelMembersData}
-      />
-      <InviteChannelModal
-        show={showInviteChannelModal}
-        onCloseModal={onCloseModal}
-        setShowInviteChannelModal={setShowInviteChannelModal}
-      />
+      {/* Layout 제거 */}
+      <ChatList scrollbarRef={scrollbarRef} isReachingEnd={isReachingEnd} isEmpty={isEmpty} chatSections={chatSections} setSize={setSize} />
+      <ChatBox onSubmitForm={onSubmitForm} chat={chat} onChangeChat={onChangeChat} placeholder={`Message #${channel}`} data={channelMembersData} />
+      <InviteChannelModal show={showInviteChannelModal} onCloseModal={onCloseModal} setShowInviteChannelModal={setShowInviteChannelModal} />
       <ToastContainer position="bottom-center" />
     </Container>
   );
