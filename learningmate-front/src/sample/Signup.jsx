@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
 
+//react-hook-form 공부
 function Signup() {
   const navigate = useNavigate();
 
