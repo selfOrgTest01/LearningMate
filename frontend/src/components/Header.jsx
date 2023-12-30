@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
+
 function Header() {
     const dispatch = useDispatch();
     const fn_logout_user = useCallback(async () => {
@@ -33,7 +34,7 @@ function Header() {
                         <Nav.Link as={Link} to='/'>
                             검색
                         </Nav.Link>
-                        <Nav.Link as={Link} to='/'>
+                        <Nav.Link as={Link} to='/crouses'>
                             강의
                         </Nav.Link>
                         <Nav.Link as={Link} to='/about'>
@@ -45,10 +46,13 @@ function Header() {
                         <Nav.Link as={Link} to='/login'>
                             로그인
                         </Nav.Link>
+                        <Nav.Link as={Link} to='/mypage'>
+                            마이페이지
+                        </Nav.Link>
                     </Nav>
                     <button onClick={fn_logout_user}>로그아웃</button>
                 </Container>
-            </Navbar>
+            </Navbar >
         </>
     );
 }
