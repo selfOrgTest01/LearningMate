@@ -2,7 +2,7 @@
 
 const db = require('../src/database');
 
-class Bookmark {
+class bookmarkDAO {
     static addBookmark(user_id, course_id) {
         const sql = 'INSERT INTO bookmarks (user_id, course_id) VALUES (?, ?)';
         return db.query(sql, [user_id, course_id]);
