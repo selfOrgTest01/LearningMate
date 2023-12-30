@@ -116,3 +116,36 @@ const participantsDAO = {
 };
 
 module.exports = participantsDAO;
+
+
+
+// 소영.
+
+// moveToChatRoom: async () => {
+//   try {
+//     // meet_participants 테이블에서 manager가 1이거나 status가 1인 사용자 선택
+//     const userIds = await participantDAO.getParticipants();
+
+//     // 여기에서 게시판으로 이동하는 로직을 추가
+//     console.log('게시판으로 이동: ', userIds);
+
+//     // 예시: userIds 중 하나를 선택하여 해당 사용자의 meetId를 가져옴
+//     const meetId = await getMeetIdForUser(userIds[0]);
+
+//     // 채팅방 정보를 가져옴
+//     const chatRoomInfo = await chatRoomDAO.getChatRoomInfo(meetId);
+
+//     // 클라이언트에게 채팅방 정보 전송 (여기서는 간단히 콘솔에 출력)
+//     console.log('채팅방 정보 전송: ', chatRoomInfo);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// },
+// };
+
+// async function getMeetIdForUser(userId) {
+// // 여기에서 userId를 이용하여 해당 사용자의 meetId를 가져오는 로직을 추가
+// // 예시: userId를 이용하여 데이터베이스에서 meetId를 조회
+// const meetId = await meetDAO.getMeetIdForUser(userId);
+// return meetId;
+// }
