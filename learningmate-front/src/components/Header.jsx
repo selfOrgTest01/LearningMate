@@ -34,7 +34,7 @@ function Header() {
                         <Nav.Link as={Link} to='/'>
                             검색
                         </Nav.Link>
-                        <Nav.Link as={Link} to='/crouses'>
+                        <Nav.Link as={Link} to='/courses'>
                             강의
                         </Nav.Link>
                         <Nav.Link as={Link} to='/about'>
