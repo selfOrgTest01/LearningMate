@@ -7,6 +7,8 @@ import About from './pages/About';
 import Test from './pages/Test';
 import Home from './pages/Home';
 import Userlist from './pages/Userlist';
+import Mypage from './pages/Mypage';
+import Courses from './pages/Courses';
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                 <Route path='/about' element={<About />}></Route>
                 <Route path='/test' element={<Test />}></Route>
                 <Route path='/userlist' element={<Userlist />}></Route>
+                <Route path='/mypage' element={<Mypage />}></Route>
+                <Route path='/courses' element={<Courses />}></Route>
             </Routes>
             <Footer />
         </BrowserRouter>
