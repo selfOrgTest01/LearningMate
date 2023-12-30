@@ -2,7 +2,11 @@ import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { authAction } from '../store/auth';
+
 function Login() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [data, setData] = useState({ email: '', password: '' });
     const fn_change_data = useCallback((evt) => {
@@ -20,14 +24,14 @@ function Login() {
                 if (result.data.status === 500) {
                     window.alert('잘못된 로그인 정보입니다');
                 } else {
-                    console.log(result.data.sessionData);
+                    dispatch(authAction.login());
                     navigate('/test');
                 }
             } catch (err) {
                 console.log(err);
             }
         },
-        [data, navigate]
+        [data, navigate, dispatch]
     );
     return (
         <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>

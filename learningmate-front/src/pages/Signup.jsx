@@ -122,7 +122,9 @@ function Signup() {
             //setData를 호출한 후에는 업데이트된 상태를 즉시 사용할 수 없습니다. 이러한 이유로,
             //setData 이후에 발생하는 로직에서는 업데이트된 값을 기대하기보다는 현재 상태를 사용하게 됩니다.
             //만약 setData 이후에 업데이트된 값을 사용해야 한다면, 보통 다음 렌더링에서 해당 값을 이용할 수 있습니다. 이것이 React에서의 일반적인 동작 방식입니다.
+
             setData((data) => ({ ...data, [evt.target.name]: evt.target.value }));
+
             if (evt.target.name === 'passwordcheck') {
                 fn_check_password(evt.target.value);
             }

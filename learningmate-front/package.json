@@ -4,8 +4,12 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
+<<<<<<< HEAD
     "@emotion/styled": "^11.11.0",
     "@loadable/component": "^5.16.3",
+=======
+    "@reduxjs/toolkit": "^2.0.1",
+>>>>>>> 13309560540278241bffac1940e284da9279a450
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -18,6 +22,7 @@
     "react-bootstrap": "^2.9.1",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-mentions": "^4.4.10",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
@@ -26,6 +31,13 @@
     "regexify-string": "^1.0.19",
     "socket.io-client": "^4.7.2",
     "swr": "^2.2.4",
+=======
+    "react-kakao-maps-sdk": "^1.1.24",
+    "react-redux": "^9.0.4",
+    "react-router-dom": "^6.21.1",
+    "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
+>>>>>>> 13309560540278241bffac1940e284da9279a450
     "web-vitals": "^2.1.4"
   },
   "scripts": {
