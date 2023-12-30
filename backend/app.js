@@ -18,7 +18,7 @@ const bookmarkRouter = require('./routes/bookmark'); // 나현 추가
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+//정적경로를 public으로 설정
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
