@@ -1,7 +1,7 @@
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useSelector } from 'react-redux';
 
-function Location() {
+function MarkLocationSection() {
     const redux_lat = useSelector((state) => state.location.lat);
     const redux_lng = useSelector((state) => state.location.lng);
     return (
@@ -17,4 +17,4 @@ function Location() {
     );
 }
 
-export default Location;
+export default MarkLocationSection;

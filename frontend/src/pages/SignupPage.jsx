@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
-function Signup() {
+function SignUpPage() {
     const [data, setData] = useState({
         email: '',
         phone_number: '',
@@ -231,4 +231,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default SignUpPage;

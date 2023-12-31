@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
+import SignUpPage from './pages/SignupPage';
+import SignInPage from './pages/SignInPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import About from './pages/About';
-import Test from './pages/Test';
-import Home from './pages/Home';
-import Userlist from './pages/Userlist';
+import AboutPage from './pages/AboutPage';
+import TestPage from './pages/TestPage';
+import HomePage from './pages/HomePage';
+import UserListPage from './pages/UserListPage';
 import Mypage from './pages/Mypage';
 import Courses from './pages/Courses';
 
@@ -15,12 +15,12 @@ function App() {
         <BrowserRouter>
             <Header />
             <Routes>
-                <Route path='/' element={<Home />}></Route>
-                <Route path='/login' element={<Login />}></Route>
-                <Route path='/signup' element={<Signup />}></Route>
-                <Route path='/about' element={<About />}></Route>
-                <Route path='/test' element={<Test />}></Route>
-                <Route path='/userlist' element={<Userlist />}></Route>
+                <Route path='/' element={<HomePage />}></Route>
+                <Route path='/sign-in' element={<SignInPage />}></Route>
+                <Route path='/sign-up' element={<SignUpPage />}></Route>
+                <Route path='/about' element={<AboutPage />}></Route>
+                <Route path='/test' element={<TestPage />}></Route>
+                <Route path='/user-list' element={<UserListPage />}></Route>
                 <Route path='/mypage' element={<Mypage />}></Route>
                 <Route path='/courses' element={<Courses />}></Route>
             </Routes>

@@ -1,19 +1,11 @@
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { authAction } from '../store/auth';
-import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
+import LogoutFunction from '../containers/LogoutFunction';
 
 function Header() {
-    const dispatch = useDispatch();
-    const fn_logout_user = useCallback(async () => {
-        await axios.get('http://localhost:8000/users/logout', { withCredentials: true });
-        dispatch(authAction.logout());
-        window.location.reload();
-    }, [dispatch]);
+    const logout_user = LogoutFunction();
     return (
         <>
             <Navbar className='bg-body-tertiary'>
@@ -40,19 +32,19 @@ function Header() {
                         <Nav.Link as={Link} to='/about'>
                             About
                         </Nav.Link>
-                        <Nav.Link as={Link} to='/signup'>
+                        <Nav.Link as={Link} to='/sign-up'>
                             회원가입
                         </Nav.Link>
-                        <Nav.Link as={Link} to='/login'>
+                        <Nav.Link as={Link} to='/sign-in'>
                             로그인
                         </Nav.Link>
                         <Nav.Link as={Link} to='/mypage'>
                             마이페이지
                         </Nav.Link>
                     </Nav>
-                    <button onClick={fn_logout_user}>로그아웃</button>
+                    <button onClick={logout_user}>로그아웃</button>
                 </Container>
-            </Navbar >
+            </Navbar>
         </>
     );
 }

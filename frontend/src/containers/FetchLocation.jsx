@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { locationAction } from '../store/location';
 import { useDispatch } from 'react-redux';
-import ImageUploader from '../components/ImageUploader';
+import { locationAction } from '../store/location';
 
-function Home() {
+function FetchLocation() {
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchLocation = () => {
@@ -15,11 +14,6 @@ function Home() {
         };
         fetchLocation();
     }, [dispatch]);
-    return (
-        <>
-            <h1>Home</h1>
-            <ImageUploader />
-        </>
-    );
 }
-export default Home;
+
+export default FetchLocation;
