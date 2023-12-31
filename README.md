@@ -19,3 +19,19 @@ helpers : 1급함수
 containers: api 통신들어가는 복잡한로직
 constants: 상수를 저장
 컴포넌트는 렌더링하는걸로만 쓰임
+<br>
+
+# 12-31 front에만 eslint적용
+    'linebreak-style': 0,
+<br>
+    'react/react-in-jsx-scope': 0,
+<br>
+    'eslint/no-param-reassign': 0,
+<br>
+    'no-param-reassign': 'off',
+<br>
+순서대로 <br>
+LF, CRLF 구분해야하는 옵션 <br>
+react 를 매번 선언해야하는옵션 <br>
+함수의 파라미터에 대한 재할당을 금지 옵션<br>
+너무 불편해서 꺼버렸어요

@@ -1,12 +1,13 @@
 import ImageUploadSection from '../components/ImageUploadSection';
-import FetchLocation from '../containers/FetchLocation';
+import GetLocation from '../containers/pages/HomePage/GetLocation';
+
 function Home() {
-    FetchLocation();
-    return (
-        <>
-            <h1>Home</h1>
-            <ImageUploadSection />
-        </>
-    );
+  GetLocation();
+  return (
+    <>
+      <h1>Home</h1>
+      <ImageUploadSection />
+    </>
+  );
 }
 export default Home;
