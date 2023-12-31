@@ -10,3 +10,12 @@ learningmate-front => frontend
 learningmaet-server => backend
 
 db.sql파일 migration로 이동
+
+변수명: carmelCase
+컴포넌트: PascalCase
+url: kebab-case
+db: lower_snake_case
+helpers : 1급함수
+containers: api 통신들어가는 복잡한로직
+constants: 상수를 저장
+컴포넌트는 렌더링하는걸로만 쓰임
