@@ -4,14 +4,8 @@ import {
   Form, Container, Row, Col, Button, InputGroup,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import { useForm } from 'react-hook-form';
 
 function SignUpPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: 'onChange' });
   const [data, setData] = useState({
     email: '',
     phone_number: '',
@@ -49,26 +43,24 @@ function SignUpPage() {
         isDuplicate = true;
       }
       // 없는경우엔 그대로 false
-      return isDuplicate;
+      setDuplicateEmail(isDuplicate);
     });
   }, [data.email, readData]);
+    // 휴대전화번호 중복확인
+  const checkPhone = useCallback(async () => {
+    const result = await readData();
 
-  // 휴대전화번호 중복확인
-  // const checkPhone = useCallback(async () => {
-  //   const result = await readData();
-
-  //   let isDuplicate = false;
-  //   result.data.data.forEach((item) => {
-  //     if (item.phone_number === data.phone_number) {
-  //       isDuplicate = true;
-  //     }
-  //     setDuplicatePhone(isDuplicate);
-  //   });
-  // }, [data.phone_number, readData]);
-
-  // 닉네임 중복확인
-  // useCallback에서 의존성 배열에 명시하지 않으면 해당 함수는 초기 렌더링 때 한 번만 생성되고,
-  // 이후에는 해당 함수가 참조하는 상태나 함수의 변경을 감지하지 않습니다. 즉, 초기 렌더링 시의 값들이 고정적으로 사용되게 됩니다.
+    let isDuplicate = false;
+    result.data.data.forEach((item) => {
+      if (item.phone_number === data.phone_number) {
+        isDuplicate = true;
+      }
+      setDuplicatePhone(isDuplicate);
+    });
+  }, [data.phone_number, readData]);
+    // 닉네임 중복확인
+    // useCallback에서 의존성 배열에 명시하지 않으면 해당 함수는 초기 렌더링 때 한 번만 생성되고,
+    // 이후에는 해당 함수가 참조하는 상태나 함수의 변경을 감지하지 않습니다. 즉, 초기 렌더링 시의 값들이 고정적으로 사용되게 됩니다.
   const checkNickname = useCallback(async () => {
     const result = await readData();
 
@@ -151,24 +143,19 @@ function SignUpPage() {
           <h1 className="display-1 text-center" style={{ marginTop: 100 }}>
             회원가입
           </h1>
-          <form onSubmit={handleSubmit(submitData)}>
-
+          <Form onSubmit={submitData}>
             <InputGroup className="mb-3">
               <Form.Group style={{ flex: 1 }}>
                 <Form.Control
+                  id="email"
                   type="email"
-                  placeholder="이메일을 입력하세요"
-                  {...register('email', {
-                    required: true,
-                    minLength: { value: 8, message: 'email은 8자 이상이어야 합니다.' },
-                    validate: async (value) => {
-                      // validate 함수에서는 true가 반환되면 유효성 검사를 통과했다고 간주하고, false가 반환되면 유효성 검사를 실패했다고 간주
-                      const isDuplicate = await checkEmail(value);
-                      return !isDuplicate;
-                    },
-                  })}
+                  name="email"
+                  onChange={insertData}
+                  value={data.email}
+                  required
+                  placeholder="이메일"
+                  onBlur={checkEmail}
                 />
-                {errors.email && <span>Email required</span>}
               </Form.Group>
               <Button variant="primary" onClick={() => console.log('인증번호전송')}>
                 인증번호전송
@@ -180,9 +167,14 @@ function SignUpPage() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Control
+                id="phone_number"
                 type="text"
-                placeholder="휴대전화번호를 입력하세요"
-                {...register('phone_number', { required: true, minLength: { value: 8, message: '휴대전화번호는 8자 이상이어야 합니다.' } })}
+                name="phone_number"
+                onChange={insertData}
+                value={data.phone_number}
+                required
+                placeholder="휴대전화번호"
+                onBlur={checkPhone}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -232,7 +224,7 @@ function SignUpPage() {
                 등록
               </Button>
             </Form.Group>
-          </form>
+          </Form>
           {duplicateEmail && <p>-중복된 이메일입니다.</p>}
           {duplicatePhone && <p>-중복된 휴대전화번호입니다.</p>}
           {diff && <p>비밀번호확인이 다릅니다.</p>}

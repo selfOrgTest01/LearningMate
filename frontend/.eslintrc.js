@@ -23,5 +23,6 @@ module.exports = {
     'linebreak-style': 0,
     'react/react-in-jsx-scope': 0,
     'no-param-reassign': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };
