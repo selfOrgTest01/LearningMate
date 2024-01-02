@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import {
-  Form, Container, Row, Col, Button, InputGroup,
-} from 'react-bootstrap';
+import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
 function SignUpPage() {
@@ -46,7 +44,7 @@ function SignUpPage() {
       setDuplicateEmail(isDuplicate);
     });
   }, [data.email, readData]);
-    // 휴대전화번호 중복확인
+  // 휴대전화번호 중복확인
   const checkPhone = useCallback(async () => {
     const result = await readData();
 
@@ -58,9 +56,9 @@ function SignUpPage() {
       setDuplicatePhone(isDuplicate);
     });
   }, [data.phone_number, readData]);
-    // 닉네임 중복확인
-    // useCallback에서 의존성 배열에 명시하지 않으면 해당 함수는 초기 렌더링 때 한 번만 생성되고,
-    // 이후에는 해당 함수가 참조하는 상태나 함수의 변경을 감지하지 않습니다. 즉, 초기 렌더링 시의 값들이 고정적으로 사용되게 됩니다.
+  // 닉네임 중복확인
+  // useCallback에서 의존성 배열에 명시하지 않으면 해당 함수는 초기 렌더링 때 한 번만 생성되고,
+  // 이후에는 해당 함수가 참조하는 상태나 함수의 변경을 감지하지 않습니다. 즉, 초기 렌더링 시의 값들이 고정적으로 사용되게 됩니다.
   const checkNickname = useCallback(async () => {
     const result = await readData();
 
@@ -83,12 +81,8 @@ function SignUpPage() {
       // set으로 state를 바꿔서 사용하려고 하면 비동기적으로 되어서 현재 함수에서는 최신값을 못쓰기 때문에 변수에 할당해서 사용합니다
       // some은 배열의 모든 요소를 검사해서 조건과 같은게 있으면 true 없으면 false를 출력합니다
       const isDuplicateEmail = resdata.data.data.some((item) => item.email === data.email);
-      const isDuplicatePhone = resdata.data.data.some(
-        (item) => item.phone_number === data.phone_number,
-      );
-      const isDuplicateNickname = resdata.data.data.some(
-        (item) => item.nickname === data.nickname,
-      );
+      const isDuplicatePhone = resdata.data.data.some((item) => item.phone_number === data.phone_number);
+      const isDuplicateNickname = resdata.data.data.some((item) => item.nickname === data.nickname);
 
       if (!(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)) {
         const result = await axios.post('http://localhost:8000/users/signup', data);
@@ -138,88 +132,86 @@ function SignUpPage() {
 
   return (
     <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
-      <Row className="justify-content-md-center">
+      <Row className='justify-content-md-center'>
         <Col md={4}>
-          <h1 className="display-1 text-center" style={{ marginTop: 100 }}>
+          <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
             회원가입
           </h1>
           <Form onSubmit={submitData}>
-            <InputGroup className="mb-3">
+            <InputGroup className='mb-3'>
               <Form.Group style={{ flex: 1 }}>
                 <Form.Control
-                  id="email"
-                  type="email"
-                  name="email"
+                  id='email'
+                  type='email'
+                  name='email'
                   onChange={insertData}
                   value={data.email}
                   required
-                  placeholder="이메일"
+                  placeholder='이메일'
                   onBlur={checkEmail}
                 />
               </Form.Group>
-              <Button variant="primary" onClick={() => console.log('인증번호전송')}>
+              <Button variant='primary' onClick={() => console.log('인증번호전송')}>
                 인증번호전송
               </Button>
             </InputGroup>
 
-            <Form.Group className="mb-3">
-              <Form.Control type="text" placeholder="이메일인증번호" />
+            <Form.Group className='mb-3'>
+              <Form.Control type='text' placeholder='이메일인증번호' />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="phone_number"
-                type="text"
-                name="phone_number"
+                id='phone_number'
+                type='text'
+                name='phone_number'
                 onChange={insertData}
                 value={data.phone_number}
                 required
-                placeholder="휴대전화번호"
+                placeholder='휴대전화번호'
                 onBlur={checkPhone}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="password"
-                type="password"
-                name="password"
+                id='password'
+                type='password'
+                name='password'
                 onChange={insertData}
                 value={data.password}
                 required
-                placeholder="비밀번호"
+                placeholder='비밀번호'
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="passwordcheck"
-                type="password"
-                name="passwordcheck"
+                id='passwordcheck'
+                type='password'
+                name='passwordcheck'
                 onChange={insertData}
                 value={data.passwordcheck}
                 required
-                placeholder="비밀번호확인"
+                placeholder='비밀번호확인'
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="nickname"
-                type="text"
-                name="nickname"
+                id='nickname'
+                type='text'
+                name='nickname'
                 onChange={insertData}
                 value={data.nickname}
                 required
-                placeholder="닉네임"
+                placeholder='닉네임'
                 onBlur={checkNickname}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGroupEmail">
+            <Form.Group className='mb-3' controlId='formGroupEmail'>
               <Button
-                variant="primary"
+                variant='primary'
                 style={{ width: '100%' }}
-                type="submit"
-                                // 중복되는게 하나라도 있다면 버튼이 disabled됩니다
-                disabled={
-                                    duplicateEmail || duplicatePhone || duplicateNickname || diff
-                                }
+                type='submit'
+                // 중복되는게 하나라도 있다면 버튼이 disabled됩니다
+                disabled={duplicateEmail || duplicatePhone || duplicateNickname || diff}
               >
                 등록
               </Button>

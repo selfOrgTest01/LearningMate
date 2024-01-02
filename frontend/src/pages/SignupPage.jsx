@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import {
-  Form, Container, Row, Col, Button, InputGroup,
-} from 'react-bootstrap';
+import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 
@@ -91,12 +89,8 @@ function SignUpPage() {
       // set으로 state를 바꿔서 사용하려고 하면 비동기적으로 되어서 현재 함수에서는 최신값을 못쓰기 때문에 변수에 할당해서 사용합니다
       // some은 배열의 모든 요소를 검사해서 조건과 같은게 있으면 true 없으면 false를 출력합니다
       const isDuplicateEmail = resdata.data.data.some((item) => item.email === data.email);
-      const isDuplicatePhone = resdata.data.data.some(
-        (item) => item.phone_number === data.phone_number,
-      );
-      const isDuplicateNickname = resdata.data.data.some(
-        (item) => item.nickname === data.nickname,
-      );
+      const isDuplicatePhone = resdata.data.data.some((item) => item.phone_number === data.phone_number);
+      const isDuplicateNickname = resdata.data.data.some((item) => item.nickname === data.nickname);
 
       if (!(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)) {
         const result = await axios.post('http://localhost:8000/users/signup', data);
@@ -146,18 +140,17 @@ function SignUpPage() {
 
   return (
     <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
-      <Row className="justify-content-md-center">
+      <Row className='justify-content-md-center'>
         <Col md={4}>
-          <h1 className="display-1 text-center" style={{ marginTop: 100 }}>
+          <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
             회원가입
           </h1>
           <form onSubmit={handleSubmit(submitData)}>
-
-            <InputGroup className="mb-3">
+            <InputGroup className='mb-3'>
               <Form.Group style={{ flex: 1 }}>
                 <Form.Control
-                  type="email"
-                  placeholder="이메일을 입력하세요"
+                  type='email'
+                  placeholder='이메일을 입력하세요'
                   {...register('email', {
                     required: true,
                     minLength: { value: 8, message: 'email은 8자 이상이어야 합니다.' },
@@ -170,64 +163,65 @@ function SignUpPage() {
                 />
                 {errors.email && <span>Email required</span>}
               </Form.Group>
-              <Button variant="primary" onClick={() => console.log('인증번호전송')}>
+              <Button variant='primary' onClick={() => console.log('인증번호전송')}>
                 인증번호전송
               </Button>
             </InputGroup>
 
-            <Form.Group className="mb-3">
-              <Form.Control type="text" placeholder="이메일인증번호" />
+            <Form.Group className='mb-3'>
+              <Form.Control type='text' placeholder='이메일인증번호' />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                type="text"
-                placeholder="휴대전화번호를 입력하세요"
-                {...register('phone_number', { required: true, minLength: { value: 8, message: '휴대전화번호는 8자 이상이어야 합니다.' } })}
+                type='text'
+                placeholder='휴대전화번호를 입력하세요'
+                {...register('phone_number', {
+                  required: true,
+                  minLength: { value: 8, message: '휴대전화번호는 8자 이상이어야 합니다.' },
+                })}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="password"
-                type="password"
-                name="password"
+                id='password'
+                type='password'
+                name='password'
                 onChange={insertData}
                 value={data.password}
                 required
-                placeholder="비밀번호"
+                placeholder='비밀번호'
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="passwordcheck"
-                type="password"
-                name="passwordcheck"
+                id='passwordcheck'
+                type='password'
+                name='passwordcheck'
                 onChange={insertData}
                 value={data.passwordcheck}
                 required
-                placeholder="비밀번호확인"
+                placeholder='비밀번호확인'
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="nickname"
-                type="text"
-                name="nickname"
+                id='nickname'
+                type='text'
+                name='nickname'
                 onChange={insertData}
                 value={data.nickname}
                 required
-                placeholder="닉네임"
+                placeholder='닉네임'
                 onBlur={checkNickname}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGroupEmail">
+            <Form.Group className='mb-3' controlId='formGroupEmail'>
               <Button
-                variant="primary"
+                variant='primary'
                 style={{ width: '100%' }}
-                type="submit"
-                                // 중복되는게 하나라도 있다면 버튼이 disabled됩니다
-                disabled={
-                                    duplicateEmail || duplicatePhone || duplicateNickname || diff
-                                }
+                type='submit'
+                // 중복되는게 하나라도 있다면 버튼이 disabled됩니다
+                disabled={duplicateEmail || duplicatePhone || duplicateNickname || diff}
               >
                 등록
               </Button>
