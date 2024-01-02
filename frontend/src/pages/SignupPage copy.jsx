@@ -151,10 +151,10 @@ function SignUpPage() {
                   onBlur={checkEmail}
                 />
               </Form.Group>
-              <Button variant='primary' onClick={() => console.log('인증번호전송')}>
-                인증번호전송
-              </Button>
             </InputGroup>
+            <Button variant='primary' onClick={() => console.log('인증번호전송')}>
+              인증번호전송
+            </Button>
 
             <Form.Group className='mb-3'>
               <Form.Control type='text' placeholder='이메일인증번호' />
