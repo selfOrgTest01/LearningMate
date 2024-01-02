@@ -39,20 +39,20 @@ function ImageUploadSection() {
       },
     });
   }, [file]);
-    // useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
+  // useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
   const inputRef = useRef();
   return (
-    <Container className=" d-flex justify-content-center align-items-center flex-column">
-      <img src={imageUrl} alt="Test_Img" width={200} height={200} />
+    <Container className=' d-flex justify-content-center align-items-center flex-column'>
+      <img src={imageUrl} alt='Test_Img' width={200} height={200} />
 
       <h1>ImageUploader</h1>
-      <img src={image} width="300" height="300" alt="uploadImage" />
+      <img src={image} width='300' height='300' alt='uploadImage' />
       <br />
       <input
-        type="file"
-        id="imgInput"
-        name="image"
-        accept="image/*"
+        type='file'
+        id='imgInput'
+        name='image'
+        accept='image/*'
         onChange={uploadImage}
         onClick={(event) => {
           event.target.value = null;
@@ -63,20 +63,16 @@ function ImageUploadSection() {
       />
       {/* inputRef.current.click() input의 onClick이벤트가 실행되는게 아니라 input버튼을 사용자가 누른것처럼 됨 */}
       <ButtonGroup>
-        <Button variant="primary" size="sm" onClick={() => inputRef.current.click()}>
+        <Button variant='primary' size='sm' onClick={() => inputRef.current.click()}>
           사진선택
         </Button>
-        <Button
-          variant="danger"
-          size="sm"
-          onClick={() => setImage(`${process.env.PUBLIC_URL}/img/Hani.jpg`)}
-        >
+        <Button variant='danger' size='sm' onClick={() => setImage(`${process.env.PUBLIC_URL}/img/Hani.jpg`)}>
           삭제
         </Button>
-        <Button variant="success" size="sm" onClick={registerImage}>
+        <Button variant='success' size='sm' onClick={registerImage}>
           등록
         </Button>
-        <Button variant="success" size="sm" onClick={readImageUrl}>
+        <Button variant='success' size='sm' onClick={readImageUrl}>
           읽어오기 테스트
         </Button>
       </ButtonGroup>

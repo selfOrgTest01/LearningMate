@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Button, Col, Container, Row, Table,
-} from 'react-bootstrap';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 function Userlist() {
   const [users, setUsers] = useState([]);
@@ -22,7 +20,7 @@ function Userlist() {
       setLoading(false);
     }
   }, []);
-    // 버튼 클릭시 그 item의 id를 인자로 받아서 삭제
+  // 버튼 클릭시 그 item의 id를 인자로 받아서 삭제
   const deleteUser = useCallback(async (id) => {
     const resdata = await axios.delete(`http://localhost:8000/users/delete/${id}`);
     if (resdata.status === 200) {
@@ -32,21 +30,21 @@ function Userlist() {
       window.alert('삭제를 실패했습니다');
     }
   }, []);
-    // 처음 렌더링때 한번 호출,함수가 변할때 호출
+  // 처음 렌더링때 한번 호출,함수가 변할때 호출
   useEffect(() => {
     readUsers();
   }, [readUsers]);
 
   return (
-  // 테이블 시작
+    // 테이블 시작
     <Container fluid style={{ height: '100vh' }}>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <Row className="justify-content-md-center align-items-center">
+        <Row className='justify-content-md-center align-items-center'>
           <Col md={8}>
-            <h1 className="display-1 text-center">회원관리</h1>
-            <Table striped bordered hover variant="dark">
+            <h1 className='display-1 text-center'>회원관리</h1>
+            <Table striped bordered hover variant='dark'>
               <thead>
                 <tr>
                   <th>user_id</th>
@@ -65,9 +63,7 @@ function Userlist() {
                     <td>{item.nickname}</td>
                     <td>
                       {/* 이벤트 핸들러는 항상 실행함수가 와야함 함수가 오면 반환값을 받는데 이벤트 핸들러에서는 쓸모가 없어서 에러가남 */}
-                      <Button onClick={() => deleteUser(item.user_id)}>
-                        삭제
-                      </Button>
+                      <Button onClick={() => deleteUser(item.user_id)}>삭제</Button>
                     </td>
                   </tr>
                 ))}
@@ -77,7 +73,7 @@ function Userlist() {
         </Row>
       )}
     </Container>
-  // 테이블 끝
+    // 테이블 끝
   );
 }
 export default Userlist;
