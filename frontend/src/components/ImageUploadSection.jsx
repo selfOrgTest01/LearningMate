@@ -9,7 +9,7 @@ function ImageUploadSection() {
   const [imageUrl, setImageUrl] = useState('');
 
   const readImageUrl = useCallback(async () => {
-    const resData = await axios.get(`${localDomain}/users/imagetest/41`);
+    const resData = await axios.get(`${localDomain}/users/imagetest/54`);
     setImageUrl(() => {
       const newImage = resData.data.data[0].profile_name;
       return newImage;
@@ -33,7 +33,7 @@ function ImageUploadSection() {
   const registerImage = useCallback(async () => {
     const formdata = new FormData();
     formdata.append('image', file);
-    await axios.post(`${localDomain}/users/image/41`, formdata, {
+    await axios.post(`${localDomain}/users/image/54`, formdata, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

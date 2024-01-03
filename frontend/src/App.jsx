@@ -15,14 +15,14 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/test" element={<TestPage />} />
-        <Route path="/user-list" element={<UserListPage />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/courses" element={<Courses />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/sign-in' element={<SignInPage />} />
+        <Route path='/sign-up' element={<SignUpPage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/test' element={<TestPage />} />
+        <Route path='/user-list' element={<UserListPage />} />
+        <Route path='/mypage' element={<Mypage />} />
+        <Route path='/courses' element={<Courses />} />
       </Routes>
       <Footer />
     </BrowserRouter>
