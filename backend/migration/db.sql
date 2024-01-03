@@ -1,3 +1,4 @@
+-- Active: 1703657196229@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -109,7 +110,7 @@ VALUES
 -- select @@global.time_zone, @@session.time_zone;
 --
 --유저테이블 조회
--- SELECT
---     *
--- FROM
---     users
+SELECT * FROM users
+
+ALTER TABLE users
+ADD COLUMN profile_nickname VARCHAR(255);

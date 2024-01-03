@@ -22,16 +22,8 @@ constants: 상수를 저장
 <br>
 
 # 12-31 front에만 eslint적용
-    'linebreak-style': 0,
-<br>
-    'react/react-in-jsx-scope': 0,
-<br>
-    'eslint/no-param-reassign': 0,
-<br>
-    'no-param-reassign': 'off',
-<br>
-순서대로 <br>
-LF, CRLF 구분해야하는 옵션 <br>
-react 를 매번 선언해야하는옵션 <br>
-함수의 파라미터에 대한 재할당을 금지 옵션<br>
-너무 불편해서 꺼버렸어요
+
+    airbnb-base로 변경하고
+
+  <br>
+    prettier설정하니까 잘되는것 같습니다
