@@ -1,0 +1,13 @@
+require('dotenv').config({ path: `${__dirname}/../.env` });
+const mysql = require('mysql2');
+
+const pool = mysql.createPool({
+    host: process.env.DB_USER_URL,
+    user: process.env.DB_USER_NAME,
+    database: process.env.DB_USER_DATABASE,
+    password: process.env.DB_USER_PASSWORD,
+    port: process.env.DB_USER_PORT,
+});
+
+module.exports = pool.promise();
+
