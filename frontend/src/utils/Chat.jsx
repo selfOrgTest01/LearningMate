@@ -35,22 +35,36 @@ function Chat({ dynamicValue }) {
     return <p>Loading...</p>;
   }
 
+  // Extracting unique values for Title, User Nickname, and Chat Content
+  const uniqueTitles = [...new Set(chatRoomInfo.initialRoom.map(room => room.title))];
+
+  // Filter messages for the channel with the description "공지사항"
+  const filteredMessages = chatRoomInfo.initialRoom.filter(room => room.channel_description === "공지사항");
+
   return (
     <div>
       <h1>Chat Room Info</h1>
-      {chatRoomInfo.initialRoom.map((room, index) => (
+      {uniqueTitles.map((title, index) => (
         <div key={index}>
-          <p>Title: {room.title}</p>
-          <p>Channel Description: {room.channel_description}</p>
-          <p>User Nickname: {room.user_nickname}</p>
-          <p>Chat Content: {room.chat_content}</p>
-          <p>Chat Sender User ID: {room.chat_sender_user_id}</p>
-          <p>Chat Sent Time: {room.chat_sent_time}</p>
+          <p>Title: {title}</p>
+          {/* Displaying details for the latest message with the specific title */}
+          {filteredMessages
+            .filter(room => room.title === title)
+            .map((room, idx) => (
+              <div key={idx}>
+                <p>Channel Description: {room.channel_description}</p>
+                <p>User Nickname: {room.user_nickname}</p>
+                <p>Chat Content: {room.chat_content}</p>
+                <p>Chat Sender User ID: {room.chat_sender_user_id}</p>
+                <p>Chat Sent Time: {room.chat_sent_time}</p>
+              </div>
+            ))
+          }
         </div>
       ))}
       <p>Channel List: {chatRoomInfo.channelList.map(channel => channel.channel_description).join(', ')}</p>
       <p>Participant List: {chatRoomInfo.participantList.join(', ')}</p>
-  </div>
+    </div>
   );
 }
 
