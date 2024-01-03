@@ -25,9 +25,9 @@ exports.participantUpdate = async (req, res) => {
 };
 
 exports.participantDelete = async (req, res) => {
-  const { participant_id, meet_id } = req.params;
+  const { meet_id, participant_id } = req.params;
   try {
-    await participantsDAO.participantDelete(participant_id, meet_id, (resp) => {
+    await participantsDAO.participantDelete(meet_id, participant_id, (resp) => {
       res.send(resp);
     });
   } catch (err) {

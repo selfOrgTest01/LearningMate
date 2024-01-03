@@ -3,10 +3,14 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import storageSession from 'redux-persist/lib/storage/session';
 import authReducer from './auth';
 import locationReducer from './location';
+import userStore from './userStore'; // 민경 추가
+import meetStore from './meetStore'; // 민경 추가
 
 const rootReducer = combineReducers({
   auth: authReducer,
   location: locationReducer,
+  meetStore,
+  userStore,
 });
 // redux-persist사용
 const persistConfig = {

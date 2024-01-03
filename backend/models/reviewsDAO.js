@@ -101,7 +101,7 @@ const reviewsDAO = {
     }
   },
 
-  // 리뷰 삭제 함수
+  // 리뷰 삭제 함수 --> 이렇게 안 하고 강사님이 주신 코드처럼 하면 될듯
   delete: async (review_id, user_id, callback) => { // 데이터 확인
     try {
       // 리뷰를 삭제하기 전에 작성자인지 확인
