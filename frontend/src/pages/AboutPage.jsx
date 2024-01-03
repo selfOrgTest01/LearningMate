@@ -1,4 +1,4 @@
-import MarkLocationSection from '../components/MarkLocationSection';
+import SearchLocationSection from '../components/maps/SearchLocationSection';
 import Page from '../components/Page';
 
 function About() {
@@ -6,7 +6,7 @@ function About() {
     <Page>
       <>
         <h1>About</h1>
-        <MarkLocationSection />
+        <SearchLocationSection />
       </>
     </Page>
   );
