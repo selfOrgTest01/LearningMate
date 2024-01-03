@@ -1,8 +1,10 @@
 const usersDao = require('../models/usersDAO');
 const domain = require('../config/config.js');
+const imageUploadPath = `${domain.localDomain}/images/users/`;
+const path = require('path');
 
 exports.login = async (req, res) => {
-  const userData = req.body.data;
+  const userData = req.body;
   //세션에 저장할 user_id 세션 설정은 app.js같은 메인파일에서 합니다
   try {
     await usersDao.login(userData, (resp) => {
@@ -18,19 +20,22 @@ exports.login = async (req, res) => {
 
 exports.signupUser = async (req, res) => {
   try {
-    const userData = req.body;
+    const userData = JSON.parse(req.body.data);
     console.log(userData);
-    res.send({ message: '잘도착함' });
-  } catch (error) {
-    console.log(error);
+    console.log(req.file);
+    const imageName = req.file
+      ? `${imageUploadPath}${req.file.filename}`
+      : `${imageUploadPath}default.png`;
+    const imageNickname = req.file
+      ? path.parse(req.file.originalname).name
+      : '';
+    console.log(imageNickname);
+    await usersDao.signUp(userData, imageName, imageNickname, (resp) => {
+      res.send(resp);
+    });
+  } catch (err) {
+    console.log(err);
   }
-  // try {
-  //   await usersDao.signUp(userData, (resp) => {
-  //     res.send(resp);
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  // }
 };
 
 exports.userInfo = async (req, res) => {
@@ -88,18 +93,17 @@ exports.check = async (req, res) => {
 
 exports.image = async (req, res) => {
   const { id } = req.params;
-  const imageUploadPath = `${domain.localDomain}/images/users/`;
   //single("name") 업로드시 input태그의 네임
   //서버에서 이미지가 저장되는 경로(무조건 있어야함) app.js에 staticPath 설정해서 public이 경로에 안붙어있는거니 걱정안해도됨
   const imageName = req.file
     ? `${imageUploadPath}${req.file.filename}`
     : `${imageUploadPath}default.png`;
   //클라이언트의 이미지 절대경로(생략해도됨)
-  const imagePath = req.file ? req.file.path : '';
+  const imageNickname = req.file ? req.file.originalname : '';
   console.log(imageName);
-  console.log(imagePath);
+  console.log(imageNickname);
   try {
-    await usersDao.image(id, imageName, imagePath, (resp) => {
+    await usersDao.image(id, imageName, imageNickname, (resp) => {
       res.send(resp);
     });
   } catch (err) {
