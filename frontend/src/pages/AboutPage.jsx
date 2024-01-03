@@ -1,5 +1,6 @@
 import NearByMyLocationSection from '../components/maps/NearByMyLocationSection';
 import SearchLocationSection from '../components/maps/SearchLocationSection';
+import SearchLocationSectioncopy from '../components/maps/SearchLocationSectioncopy';
 import Page from '../components/Page';
 
 function About() {
@@ -8,7 +9,7 @@ function About() {
       <>
         <h1>About</h1>
         <SearchLocationSection />
-        <NearByMyLocationSection />
+        <SearchLocationSectioncopy />
       </>
     </Page>
   );

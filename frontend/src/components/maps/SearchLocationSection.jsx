@@ -10,7 +10,7 @@ function SearchLocationSection() {
   // position을 axios통신으로 저장하시면 마우스로 찍은게 저장이됩니다.
   const [position, setPosition] = useState({ lat: '', lng: '' });
   const [map, setMap] = useState(false);
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState(null);
   const reduxLat = useSelector((state) => state.location.lat);
   const reduxLng = useSelector((state) => state.location.lng);
 
@@ -38,16 +38,19 @@ function SearchLocationSection() {
         setMarkers(newMarkers);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
+        // 검색 후 마커들을 띄웁니다.
+        if (newMarkers.length > 0) {
+          setInfo(newMarkers[0]);
+        }
       }
     });
   };
 
   const onClickHandlerMarker = (marker) => {
-    setInfo(marker);
-    // 더블클릭하면 마커가 지도의 중앙이 됩니다
+    // 더블클릭하면 맵중앙으로 마커이동
     const moveLatLon = new window.kakao.maps.LatLng(marker.position.lat, marker.position.lng);
     map.panTo(moveLatLon);
-    // map.setCenter(moveLatLon);
+    setInfo(marker); // 문제가 생기는 코드다 info가 안뜨는 마커를 눌렀을때 이상한 위치로 이동하는 문제가 생긴다 => 검색된 마커의 거리가 너무 멀때 발생하는 에러인데 아마 api자체에러인듯
   };
   return (
     <Container>
