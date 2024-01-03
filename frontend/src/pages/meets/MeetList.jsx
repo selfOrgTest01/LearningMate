@@ -1,56 +1,75 @@
-// 모임 리스트를 보여줌
+// 모임 리스트
 
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil'
 
-import { boardListState, boardListSelector } from '@recoils/board'
+// import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-function BoardList() {
-  const navigate = useNavigate();
+function MeetList() {
+  const navigate = useNavigate(); // 페이지 간 이동
 
-  // recoil Atom의 값만 취득
-  const boardList = useRecoilValue(boardListState);
-  // recoil Selector에서 리스트 호출 부분만 취득. 
-  // 호출되면 위의 boardListState의 값이 변경되고 변경 후 boardListState를 사용한 이 컴퍼넌트가 재 렌더링 된다
-  const { getBoardList } = useRecoilValue(boardListSelector);
+  const [meetList, setMeetList] = useState({
+    status: '', message: '', pageno: 1, pagesize: 10, total: 0, totalPage: 1, data: []
+  });
+  const getMeetList = useCallback(async (no = 1, size = 10) => {
+    const resp = await axios.get('http://localhost:8000/meets/meetList', { params: { no, size } });
+    console.log(resp.data);
+    setMeetList(resp.data);
+  }, []);
 
   useEffect(() => {
-    getBoardList(1, 10);
-  }, [getBoardList])
+    getMeetList();
+  }, [getMeetList]);
+
+  //const { nickname } = useSelector(state => state.userStore);
+  const storage = window.sessionStorage;
+  //const storageName = storage.getItem('name');
+  // console.log(storageName);
+
+  // logout은 userStore의 name 값을 '' 로 대입
+  // storage.removeItem('name'); 형태로 storage 삭제도 해야 함
+  storage.removeItem('nickname');
+
+  // useEffect(() => {
+  //   if (!nickname && !storageName) navigate('/sign-in');
+  // }, [nickname, storageName, navigate]);
 
   return (
     <main id="main">
-      {/*  ======= Property Grid =======  */}
       <section className="property-grid grid">
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <table className="table table-striped">
+              <table className="table">
                 <thead>
                   <tr>
-                    <th>번호</th>
-                    <th>타이틀</th>
-                    <th>이름</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
+                    {/* <th>타이틀</th>
+                    <th>온오프라인</th>
+                    <th>내용</th> */}
+                    {/* <th>멤버 수</th> 추가 해야함 */}
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList?.boards?.map((board) => (
-                    <tr key={board.id}>
-                      <td>{board.id}</td>
-                      <td><Link to={'/boardDetail/' + board.id}>{board.title}</Link></td>
-                      <td>{board.name}</td>
-                      <td>{board.createdAt}</td>
-                      <td>{board.cnt}</td>
-                    </tr>
+                  {meetList.data.map((meetlist) => (
+                    <React.Fragment key={meetlist.meet_id}>
+                      <tr>
+                        <td colSpan={3}>
+                          <div style={{ border: '1px solid #000', borderRadius: '10px', padding: '10px' }}>
+                            <Link to={"/detail/" + meetlist.meet_id}>{meetlist.title}</Link><br />
+                            {meetlist.onoff}<br />
+                            {meetlist.content}
+                          </div>
+                        </td>
+                      </tr>
+                    </React.Fragment>
                   ))}
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colSpan={5} className="text-end">
-                      <button className="btn btn-outline-secondary" onClick={() => navigate('/boardInsert')}>ADD</button>
+                      {/* 모임 추가 버튼 */}
+                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/insert')}>새로운 모임 작성하기</button>
                     </td>
                   </tr>
                 </tfoot>
@@ -63,8 +82,8 @@ function BoardList() {
   )
 }
 
-export default BoardList;
+export default MeetList;
 
-BoardList.defaultProps = {
+MeetList.defaultProps = {
   sub: ''
 };

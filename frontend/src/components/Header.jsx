@@ -1,11 +1,15 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // useLocation
 import LogoutFunction from '../containers/Header/LogoutFunction';
 
 function Header() {
   const logoutUser = LogoutFunction();
+
+  // const location = useLocation();
+  // const pathName = location.pathname.substring(1);
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -25,6 +29,9 @@ function Header() {
           </Nav.Link>
           <Nav.Link as={Link} to="/">
             검색
+          </Nav.Link>
+          <Nav.Link as={Link} to="/meets"> {/* className={pathName === 'meets' ? "nav-link active" : "nav-link"} */}
+            모임
           </Nav.Link>
           <Nav.Link as={Link} to="/crouses">
             강의
