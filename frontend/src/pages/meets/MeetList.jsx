@@ -29,18 +29,9 @@ function MeetList() {
     getMeetList();
   }, [getMeetList]);
 
-  // const { nickname } = useSelector(state => state.userStore);
   const storage = window.sessionStorage;
-  // const storageName = storage.getItem('name');
-  // console.log(storageName);
 
-  // logout은 userStore의 name 값을 '' 로 대입
-  // storage.removeItem('name'); 형태로 storage 삭제도 해야 함
   storage.removeItem('nickname');
-
-  // useEffect(() => {
-  //   if (!nickname && !storageName) navigate('/sign-in');
-  // }, [nickname, storageName, navigate]);
 
   return (
     <main id='main'>

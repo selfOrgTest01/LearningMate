@@ -1,4 +1,5 @@
 // 모임 디테일
+// 24.01.03 - 데이터 나오는데 화면에 안 나옴
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -30,7 +31,7 @@ function MeetDetail() {
 
   const getMeetDetail = useCallback(async () => {
     const resp = await axios.get(`http://localhost:8000/meets/meet/${id}`);
-    console.log(resp.data);
+    // console.log(resp.data);
     setmeet(resp.data.data);
     dispatch(getMeetAction(resp.data.data));
   }, [dispatch, setmeet, id]);
