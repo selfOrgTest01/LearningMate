@@ -1,20 +1,27 @@
 // 모임 리스트
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function MeetList() {
-  const navigate = useNavigate(); // 페이지 간 이동
+  // 페이지 간 이동
+  const navigate = useNavigate();
 
   const [meetList, setMeetList] = useState({
-    status: '', message: '', pageno: 1, pagesize: 10, total: 0, totalPage: 1, data: []
+    status: '',
+    message: '',
+    pageno: 1,
+    pagesize: 10,
+    total: 0,
+    totalPage: 1,
+    data: [],
   });
   const getMeetList = useCallback(async (no = 1, size = 10) => {
     const resp = await axios.get('http://localhost:8000/meets/meetList', { params: { no, size } });
-    console.log(resp.data);
+    // console.log(resp.data);
     setMeetList(resp.data);
   }, []);
 
@@ -22,9 +29,9 @@ function MeetList() {
     getMeetList();
   }, [getMeetList]);
 
-  //const { nickname } = useSelector(state => state.userStore);
+  // const { nickname } = useSelector(state => state.userStore);
   const storage = window.sessionStorage;
-  //const storageName = storage.getItem('name');
+  // const storageName = storage.getItem('name');
   // console.log(storageName);
 
   // logout은 userStore의 name 값을 '' 로 대입
@@ -36,12 +43,12 @@ function MeetList() {
   // }, [nickname, storageName, navigate]);
 
   return (
-    <main id="main">
-      <section className="property-grid grid">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <table className="table">
+    <main id='main'>
+      <section className='property-grid grid'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-sm-12'>
+              <table className='table table-borderless'>
                 <thead>
                   <tr>
                     {/* <th>타이틀</th>
@@ -56,8 +63,10 @@ function MeetList() {
                       <tr>
                         <td colSpan={3}>
                           <div style={{ border: '1px solid #000', borderRadius: '10px', padding: '10px' }}>
-                            <Link to={"/detail/" + meetlist.meet_id}>{meetlist.title}</Link><br />
-                            {meetlist.onoff}<br />
+                            <Link to={`/detail/${meetlist.meet_id}`}>{meetlist.title}</Link>
+                            <br />
+                            {meetlist.onoff}
+                            <br />
                             {meetlist.content}
                           </div>
                         </td>
@@ -67,9 +76,11 @@ function MeetList() {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan={5} className="text-end">
+                    <td colSpan={5} className='text-end'>
                       {/* 모임 추가 버튼 */}
-                      <button className="btn btn-primary btn-sm" onClick={() => navigate('/insert')}>새로운 모임 작성하기</button>
+                      <button className='btn btn-primary btn-sm' onClick={() => navigate('/insert')}>
+                        새로운 모임 작성하기
+                      </button>
                     </td>
                   </tr>
                 </tfoot>
@@ -79,11 +90,11 @@ function MeetList() {
         </div>
       </section>
     </main>
-  )
+  );
 }
 
 export default MeetList;
 
 MeetList.defaultProps = {
-  sub: ''
+  sub: '',
 };
