@@ -1,4 +1,4 @@
-// 추가할 기능: 검색결과 ui목록 구현, 검색한 마커의 위도와 경도를 db에 보낼 state에 저장, 맵을 클릭해서 나온 위도와 경도를 db에 보낼 state에 저장
+// 추가할 기능: 검색결과 ui목록 구현
 import { useEffect, useState } from 'react';
 import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
