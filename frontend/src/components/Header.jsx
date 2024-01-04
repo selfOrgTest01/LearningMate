@@ -29,16 +29,12 @@ function Header() {
           <Nav.Link as={Link} to='/'>
             검색
           </Nav.Link>
-<<<<<<< HEAD
-          <Nav.Link as={Link} to="/courses">
-=======
           <Nav.Link as={Link} to='/meets'>
             {' '}
             {/* className={pathName === 'meets' ? "nav-link active" : "nav-link"} */}
             모임
           </Nav.Link>
           <Nav.Link as={Link} to='/crouses'>
->>>>>>> 6d8255fd2cd23738ab55ebbf70678375b406f9cf
             강의
           </Nav.Link>
           <Nav.Link as={Link} to='/about'>
