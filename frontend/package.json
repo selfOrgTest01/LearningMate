@@ -23,6 +23,8 @@
     "react-router": "^6.21.1",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
+    "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "web-vitals": "^2.1.4"
   },
@@ -33,10 +35,44 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "globals": {
+      "kakao": true
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ],
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      }
+    },
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "airbnb-base",
+      "plugin:prettier/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
+      "react/react-in-jsx-scope": 0,
+      "no-param-reassign": "off",
+      "react/jsx-props-no-spreading": "off",
+      "no-unused-vars": "warn"
+    }
   },
   "browserslist": {
     "production": [
@@ -52,12 +88,13 @@
   },
   "devDependencies": {
     "craco-alias": "^3.0.1",
-    "eslint": "^8.56.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.1",
     "react-app-alias": "^2.2.2"
   }
 }

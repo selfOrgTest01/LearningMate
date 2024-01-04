@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
-import {
-  Form, Container, Row, Col, Button,
-} from 'react-bootstrap';
+import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../store/auth';
 
@@ -38,36 +36,36 @@ function Login() {
   );
   return (
     <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
-      <Row className="justify-content-md-center">
+      <Row className='justify-content-md-center'>
         <Col md={4}>
-          <h1 className="display-1 text-center" style={{ marginTop: 100 }}>
+          <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
             로그인
           </h1>
           <Form onSubmit={submitData}>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="email"
-                name="email"
-                type="email"
+                id='email'
+                name='email'
+                type='email'
                 value={data.email}
                 onChange={changeData}
                 required
-                placeholder="이메일"
+                placeholder='이메일'
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            <Form.Group className='mb-3'>
               <Form.Control
-                id="password"
-                name="password"
-                type="password"
+                id='password'
+                name='password'
+                type='password'
                 value={data.password}
                 onChange={changeData}
                 required
-                placeholder="비밀번호"
+                placeholder='비밀번호'
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGroupEmail">
-              <Button variant="primary" style={{ width: '100%' }} type="submit">
+            <Form.Group className='mb-3' controlId='formGroupEmail'>
+              <Button variant='primary' style={{ width: '100%' }} type='submit'>
                 등록
               </Button>
             </Form.Group>
