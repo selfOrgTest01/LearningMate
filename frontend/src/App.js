@@ -7,8 +7,8 @@ import About from './pages/About';
 import Test from './pages/Test';
 import Home from './pages/Home';
 import Userlist from './pages/Userlist';
-import ParentComponent from './utils/ParentComponent';
-import WorkspaceLayout from './layouts/WorkspaceLayout';
+import Workspace from './layouts/WorkSpace/index';
+
 
 
 
@@ -23,8 +23,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/test" element={<Test />} />
         <Route path="/userlist" element={<Userlist />} />
-        <Route path="/ParentComponent" element={<ParentComponent />} />
-        <Route path="/WorkspaceLayout" element={<WorkspaceLayout />} />
+        <Route path="/workspace/*" element={<Workspace />} />
+        
       
       
       </Routes>

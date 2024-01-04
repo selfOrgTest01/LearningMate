@@ -7,13 +7,11 @@ function Chat({ dynamicValue }) {
   useEffect(() => {
     const fetchChatRoomInfo = async () => {
       try {
-        // dynamicValue가 undefined인 경우 함수를 종료
         if (dynamicValue === undefined) {
           console.error('dynamicValue is undefined.');
           return;
         }
 
-        // 동적으로 받아온 값을 사용
         const response = await axios.get(`http://localhost:8000/chat/chatRoom/${dynamicValue}`, { withCredentials: true });
         if (response.data.success) {
           setChatRoomInfo(response.data.data);
@@ -25,7 +23,6 @@ function Chat({ dynamicValue }) {
       }
     };
 
-    // dynamicValue가 변경될 때만 fetchChatRoomInfo 함수 실행
     if (dynamicValue !== undefined) {
       fetchChatRoomInfo();
     }
@@ -43,6 +40,7 @@ function Chat({ dynamicValue }) {
 
   return (
     <div>
+      {/* Your workspace layout or styling here */}
       <h1>Chat Room Info</h1>
       {uniqueTitles.map((title, index) => (
         <div key={index}>
