@@ -7,7 +7,7 @@ exports.addBookmark = async (req, res) => {
         const { user_id, course_id } = req.body;
 
         // 즐겨찾기 추가
-        await Bookmark.addBookmark(user_id, course_id);
+        await bookmarkDAO.addBookmark(user_id, course_id);
 
         res.status(200).json({ message: '즐겨찾기 추가 성공' });
     } catch (error) {
@@ -21,7 +21,7 @@ exports.removeBookmark = async (req, res) => {
         const { user_id, course_id } = req.body;
 
         // 즐겨찾기 제거
-        await Bookmark.removeBookmark(user_id, course_id);
+        await bookmarkDAO.removeBookmark(user_id, course_id);
 
         res.status(200).json({ message: '즐겨찾기 해제 성공' });
     } catch (error) {
@@ -35,7 +35,7 @@ exports.getBookmarksByUserId = async (req, res) => {
         const user_id = req.params.user_id;
 
         // 사용자의 모든 즐겨찾기 조회
-        const bookmarks = await Bookmark.getBookmarksByUserId(user_id);
+        const bookmarks = await bookmarkDAO.getBookmarksByUserId(user_id);
 
         res.status(200).json(bookmarks);
     } catch (error) {

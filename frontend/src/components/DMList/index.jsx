@@ -1,14 +1,19 @@
-import useSocket from '../../hooks/useSocket';
-import { CollapseButton } from '../../components/DMList/style';
-import fetcher from '../../utils/fetcher';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
+import useSocket from '../../hooks/useSocket';
+import { CollapseButton } from './style';
+import fetcher from '../../utils/fetcher';
 
 const DMList = () => {
   const { workspace } = useParams();
-  const { data: userData, error, revalidate, mutate } = useSWR('/api/users', fetcher, {
+  const {
+    data: userData,
+    error,
+    revalidate,
+    mutate,
+  } = useSWR('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: memberData } = useSWR(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
@@ -67,9 +72,9 @@ const DMList = () => {
       <h2>
         <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
           <i
-            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-            data-qa="channel-section-collapse"
-            aria-hidden="true"
+            className='c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline'
+            data-qa='channel-section-collapse'
+            aria-hidden='true'
           />
         </CollapseButton>
         <span>Direct Messages</span>
@@ -82,7 +87,7 @@ const DMList = () => {
             return (
               <NavLink
                 key={member.id}
-                activeClassName="selected"
+                activeClassName='selected'
                 to={`/workspace/${workspace}/dm/${member.id}`}
                 onClick={resetCount(member.id)}
               >
@@ -90,15 +95,15 @@ const DMList = () => {
                   className={`c-icon p-channel_sidebar__presence_icon p-channel_sidebar__presence_icon--dim_enabled c-presence ${
                     isOnline ? 'c-presence--active c-icon--presence-online' : 'c-icon--presence-offline'
                   }`}
-                  aria-hidden="true"
-                  data-qa="presence_indicator"
-                  data-qa-presence-self="false"
-                  data-qa-presence-active="false"
-                  data-qa-presence-dnd="false"
+                  aria-hidden='true'
+                  data-qa='presence_indicator'
+                  data-qa-presence-self='false'
+                  data-qa-presence-active='false'
+                  data-qa-presence-dnd='false'
                 />
                 <span className={count > 0 ? 'bold' : undefined}>{member.nickname}</span>
                 {member.id === userData?.id && <span> (나)</span>}
-                {count > 0 && <span className="count">{count}</span>}
+                {count > 0 && <span className='count'>{count}</span>}
               </NavLink>
             );
           })}

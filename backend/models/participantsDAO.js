@@ -6,17 +6,12 @@ const sql = {
                      WHERE p.meet_id = ?`, // 참가자 목록
   insert: 'INSERT INTO meet_participants(meet_id, user_id) VALUES(?, ?)',
   update: 'UPDATE meet_participants SET status = 1 WHERE participant_id = ?', // 참가 허락되면 status(권한)이 1
-  delete: 'DELETE FROM meet_participants WHERE participant_id = ? AND meet_id = ? AND manager = 1',
-  getMeetInfo: `
-    SELECT mp.user_id AS meet_creator_id, m.manager
-    FROM meet_participants mp
-    INNER JOIN meets m ON mp.meet_id = m.meet_id
-    WHERE mp.meet_id = ?
-  `,
-  moveToChatRoom: `
-  UPDATE meet_participants SET status = 1
-  WHERE user_id = ? AND meet_id = ?
-`,
+  delete: 'DELETE FROM meet_participants WHERE meet_id = ? AND participant_id = ?', // 삭제를 하려는 사람의 meet_id, participant_id를 가져오기
+  // -> 프론트에서 manager가 1인 사람에게만 삭제 버튼이 보여지게 만들기
+  // -> 세션사용 !! 백에서 !
+  getMeetInfo: 'SELECT mp.user_id AS meet_creator_id, mp.manager ' +
+    'FROM meet_participants mp ' +
+    'WHERE mp.meet_id = ?'
 };
 
 
@@ -60,7 +55,7 @@ const participantsDAO = {
     }
   },
 
-  delete: async (req, participant_id, meet_id, callback) => {
+  delete: async (meet_id, participant_id, callback) => { // 테스트 해봐야함
     try {
       const user_id = req.session.user_id;
 

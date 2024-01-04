@@ -1,5 +1,5 @@
-import { CreateModal, CloseModalButton } from '../../components/Modal/style';
 import React, { useCallback } from 'react';
+import { CreateModal, CloseModalButton } from './style';
 
 const Modal = ({ show, children, onCloseModal }) => {
   const stopPropagation = useCallback((e) => {

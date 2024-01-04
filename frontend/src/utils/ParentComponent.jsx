@@ -6,12 +6,7 @@ function ParentComponent() {
 
   return (
     <div>
-      {/* 다른 UI 또는 로직 ... */}
-      <button onClick={() => setDynamicValue(19)}>
-        Set Dynamic Value
-      </button>
-
-      {/* Chat 컴포넌트에 동적으로 설정된 값을 props로 전달 */}
+      <button onClick={() => setDynamicValue(19)}>Set Dynamic Value</button>
       <Chat dynamicValue={dynamicValue} />
     </div>
   );

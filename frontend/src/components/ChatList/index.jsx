@@ -1,14 +1,16 @@
-import Chat from '../../components/Chat/index';
-import { ChatZone, Section, StickyHeader } from './style';
 import React, { useCallback } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import Chat from '../Chat/index';
+import { ChatZone, Section, StickyHeader } from './style';
 
 const ChatList = ({ scrollbarRef, isReachingEnd, isEmpty, chatSections, setSize }) => {
   const onScroll = useCallback(
     (values) => {
-      if (values.scrollTop === 0 && !isReachingEnd && !isEmpty) {
+      const scrollbar = scrollbarRef.current;
+
+      if (scrollbar && values.scrollTop === 0 && !isReachingEnd && !isEmpty) {
         setSize((size) => size + 1).then(() => {
-          scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight);
+          scrollbar.scrollTop(scrollbar.getScrollHeight() - values.scrollHeight);
         });
       }
     },

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -12,7 +13,9 @@ function Chat({ dynamicValue }) {
           return;
         }
 
-        const response = await axios.get(`http://localhost:8000/chat/chatRoom/${dynamicValue}`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:8000/chat/chatRoom/${dynamicValue}`, {
+          withCredentials: true,
+        });
         if (response.data.success) {
           setChatRoomInfo(response.data.data);
         } else {
@@ -26,17 +29,17 @@ function Chat({ dynamicValue }) {
     if (dynamicValue !== undefined) {
       fetchChatRoomInfo();
     }
-  }, [dynamicValue]); 
+  }, [dynamicValue]);
 
   if (!chatRoomInfo) {
     return <p>Loading...</p>;
   }
 
   // Extracting unique values for Title, User Nickname, and Chat Content
-  const uniqueTitles = [...new Set(chatRoomInfo.initialRoom.map(room => room.title))];
+  const uniqueTitles = [...new Set(chatRoomInfo.initialRoom.map((room) => room.title))];
 
   // Filter messages for the channel with the description "공지사항"
-  const filteredMessages = chatRoomInfo.initialRoom.filter(room => room.channel_description === "공지사항");
+  const filteredMessages = chatRoomInfo.initialRoom.filter((room) => room.channel_description === '공지사항');
 
   return (
     <div>
@@ -47,7 +50,7 @@ function Chat({ dynamicValue }) {
           <p>Title: {title}</p>
           {/* Displaying details for the latest message with the specific title */}
           {filteredMessages
-            .filter(room => room.title === title)
+            .filter((room) => room.title === title)
             .map((room, idx) => (
               <div key={idx}>
                 <p>Channel Description: {room.channel_description}</p>
@@ -56,11 +59,10 @@ function Chat({ dynamicValue }) {
                 <p>Chat Sender User ID: {room.chat_sender_user_id}</p>
                 <p>Chat Sent Time: {room.chat_sent_time}</p>
               </div>
-            ))
-          }
+            ))}
         </div>
       ))}
-      <p>Channel List: {chatRoomInfo.channelList.map(channel => channel.channel_description).join(', ')}</p>
+      <p>Channel List: {chatRoomInfo.channelList.map((channel) => channel.channel_description).join(', ')}</p>
       <p>Participant List: {chatRoomInfo.participantList.join(', ')}</p>
     </div>
   );

@@ -1,12 +1,12 @@
-import Modal from '../../components/Modal/index';
-import useInput from '../../hooks/useInput';
-import { Button, Input, Label } from './style';
-import fetcher from '../../utils/fetcher';
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
+import Modal from '../Modal/index';
+import useInput from '../../hooks/useInput';
+import { Button, Input, Label } from './style';
+import fetcher from '../../utils/fetcher';
 
 const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }) => {
   const params = useParams();
@@ -41,9 +41,9 @@ const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }) =
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onCreateChannel}>
-        <Label id="channel-label">
+        <Label id='channel-label'>
           <span>채널 이름</span>
-          <Input id="channel" value={newChannel} onChange={onChangeNewChannel} />
+          <Input id='channel' value={newChannel} onChange={onChangeNewChannel} />
         </Label>
         <Button>생성하기</Button>
       </form>

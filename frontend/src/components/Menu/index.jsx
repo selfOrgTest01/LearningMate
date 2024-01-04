@@ -1,5 +1,5 @@
-import { CreateMenu, CloseModalButton } from '../../components/Menu/style';
 import React, { useCallback } from 'react';
+import { CreateMenu, CloseModalButton } from './style';
 
 const Menu = ({ closeButton, style, show, children, onCloseModal }) => {
   const stopPropagation = useCallback((e) => {

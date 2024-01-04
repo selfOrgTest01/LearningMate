@@ -1,12 +1,12 @@
-import Modal from '../../components/Modal/index';
-import useInput from '../../hooks/useInput';
-import { Button, Input, Label } from '../../pages/SignUp/style';
-import fetcher from '../../utils/fetcher';
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
+import Modal from '../Modal/index';
+import useInput from '../../hooks/useInput';
+import { Button, Input, Label } from './style';
+import fetcher from '../../utils/fetcher';
 
 const InviteWorkspaceModal = ({ show, onCloseModal, setShowInviteWorkspaceModal }) => {
   const { workspace } = useParams();
@@ -40,11 +40,11 @@ const InviteWorkspaceModal = ({ show, onCloseModal, setShowInviteWorkspaceModal 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onInviteMember}>
-        <Label id="member-label">
+        <Label id='member-label'>
           <span>이메일</span>
-          <Input id="member" type="email" value={newMember} onChange={onChangeNewMember} />
+          <Input id='member' type='email' value={newMember} onChange={onChangeNewMember} />
         </Label>
-        <Button type="submit">초대하기</Button>
+        <Button type='submit'>초대하기</Button>
       </form>
     </Modal>
   );

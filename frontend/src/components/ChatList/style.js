@@ -27,7 +27,9 @@ export const StickyHeader = styled.div`
     padding: 0 16px;
     z-index: 2;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
-    box-shadow: 0 0 0 1px var(--saf-0), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 0 0 1px var(--saf-0),
+      0 1px 3px 0 rgba(0, 0, 0, 0.08);
     border-radius: 24px;
     position: relative;
     top: -13px;

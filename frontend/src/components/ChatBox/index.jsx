@@ -1,8 +1,8 @@
-import { ChatArea, Form, MentionsTextarea, SendButton, Toolbox, EachMention } from '../../components/ChatBox/style';
-import autosize from 'autosize';
-import gravatar from 'gravatar';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Mention, SuggestionDataItem } from 'react-mentions';
+import gravatar from 'gravatar';
+import autosize from 'autosize';
+import { ChatArea, Form, MentionsTextarea, SendButton, Toolbox, EachMention } from './style';
 
 const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, data }) => {
   const textareaRef = useRef(null);
@@ -43,7 +43,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, data }) => {
     <ChatArea>
       <Form onSubmit={onSubmitForm}>
         <MentionsTextarea
-          id="editor-chat"
+          id='editor-chat'
           value={chat}
           onChange={onChangeChat}
           onKeyPress={onKeydownChat}
@@ -53,24 +53,23 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, data }) => {
         >
           <Mention
             appendSpaceOnAdd
-            trigger="@"
+            trigger='@'
             data={data?.map((v) => ({ id: v.id, display: v.nickname })) || []}
             renderSuggestion={renderUserSuggestion}
           />
         </MentionsTextarea>
         <Toolbox>
           <SendButton
-            className={
-              'c-button-unstyled c-icon_button c-icon_button--light c-icon_button--size_medium c-texty_input__button c-texty_input__button--send' +
-              (chat?.trim() ? '' : ' c-texty_input__button--disabled')
-            }
-            data-qa="texty_send_button"
-            aria-label="Send message"
-            data-sk="tooltip_parent"
-            type="submit"
+            className={`c-button-unstyled c-icon_button c-icon_button--light c-icon_button--size_medium c-texty_input__button c-texty_input__button--send${
+              chat?.trim() ? '' : ' c-texty_input__button--disabled'
+            }`}
+            data-qa='texty_send_button'
+            aria-label='Send message'
+            data-sk='tooltip_parent'
+            type='submit'
             disabled={!chat?.trim()}
           >
-            <i className="c-icon c-icon--paperplane-filled" aria-hidden="true" />
+            <i className='c-icon c-icon--paperplane-filled' aria-hidden='true' />
           </SendButton>
         </Toolbox>
       </Form>

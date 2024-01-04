@@ -1,3 +1,10 @@
+import axios from 'axios';
+import useSWR from 'swr';
+import gravatar from 'gravatar';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { Link, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import ChannelList from '../../components/Channelist/index';
 import CreateChannelModal from '../../components/CreateChannelModal/index';
 import DMList from '../../components/DMList/index';
@@ -6,18 +13,10 @@ import Menu from '../../components/Menu/index';
 import Modal from '../../components/Modal/index';
 import useInput from '../../hooks/useInput';
 import useSocket from '../../hooks/useSocket';
-import Channel from '../../pages/Channel';
 import DirectMessage from '../../pages/DirectMessage';
-import fetcher from '../../utils/fetcher';
-import axios from 'axios';
-import gravatar from 'gravatar';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link, Routes, Route, Navigate, Outlet  } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useSWR from 'swr';
 import { Button, Input, Label } from './style2';
+import fetcher from '../../utils/fetcher';
 import Chat from '../../utils/Chat';
 import TypingChat from '../../pages/Channel/index';
 
@@ -37,16 +36,14 @@ import {
   Workspaces,
   WorkspaceWrapper,
 } from './style';
+
 const Workspace = () => {
   const params = useParams();
   const { workspace } = params;
   const { userData, loginError, revalidateUser } = useSWR('/api/users', fetcher);
   const { channelData } = useSWR(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const [socket, disconnectSocket] = useSocket(workspace);
-  const { chatRoomInfo, error: chatRoomError } = useSWR(
-    userData ? `/api/chat/chatRoom/${workspace}` : null,
-    fetcher
-  );
+  const { chatRoomInfo, error: chatRoomError } = useSWR(userData ? `/api/chat/chatRoom/${workspace}` : null, fetcher);
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
@@ -93,7 +90,7 @@ const Workspace = () => {
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [newWorkspace, newUrl, revalidateUser]
+    [newWorkspace, newUrl, revalidateUser],
   );
 
   const onClickCreateWorkspace = useCallback(() => {
@@ -137,7 +134,7 @@ const Workspace = () => {
   }, [socket, userData, channelData]);
 
   if (loginError) {
-    return <Routes to="/login" />;
+    return <Routes to='/login' />;
   }
 
   return (
@@ -153,8 +150,8 @@ const Workspace = () => {
                 <ProfileModal>
                   <img src={gravatar.url(userData.email, { s: '36px', d: 'retro' })} alt={userData.nickname} />
                   <div>
-                    <span id="profile-name">{userData.nickname}</span>
-                    <span id="profile-active">Active</span>
+                    <span id='profile-name'>{userData.nickname}</span>
+                    <span id='profile-active'>Active</span>
                   </div>
                 </ProfileModal>
                 <LogOutButton onClick={onLogOut}>로그아웃</LogOutButton>
@@ -193,8 +190,8 @@ const Workspace = () => {
           {/* Integrate the Chat component */}
           <Chat dynamicValue={workspace} />
           <Navigate>
-            <Route path="/workspace/:workspace/channel/:channel" element={<Channel />} />
-            <Route path="/workspace/:workspace/dm/:id" element={<DirectMessage />} />
+            <Route path='/workspace/:workspace/channel/:channel' element={<TypingChat />} />
+            <Route path='/workspace/:workspace/dm/:id' element={<DirectMessage />} />
           </Navigate>
           <TypingChat />
         </Chats>
@@ -202,15 +199,15 @@ const Workspace = () => {
       <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
         <form onSubmit={onCreateWorkspace}>
           {/* Assuming these functions are defined somewhere */}
-          <Label id="workspace-label">
+          <Label id='workspace-label'>
             <span>워크스페이스 이름</span>
-            <Input id="workspace" value={newWorkspace} onChange={setNewWorkspace} />
+            <Input id='workspace' value={newWorkspace} onChange={setNewWorkspace} />
           </Label>
-          <Label id="workspace-url-label">
+          <Label id='workspace-url-label'>
             <span>워크스페이스 url</span>
-            <Input id="workspace-url" value={newUrl} onChange={setNewUrl} />
+            <Input id='workspace-url' value={newUrl} onChange={setNewUrl} />
           </Label>
-          <Button type="submit">생성하기</Button>
+          <Button type='submit'>생성하기</Button>
         </form>
       </Modal>
       <CreateChannelModal
@@ -223,7 +220,7 @@ const Workspace = () => {
         onCloseModal={onCloseModal}
         setShowInviteWorkspaceModal={setShowInviteWorkspaceModal}
       />
-      <ToastContainer position="bottom-center" />
+      <ToastContainer position='bottom-center' />
     </div>
   );
 };

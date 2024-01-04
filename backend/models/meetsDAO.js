@@ -3,11 +3,11 @@
 const db = require('./../src/database');
 
 const sql = {
-  meetList: `SELECT m.meet_id, u.nickname, title, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt
+  meetList: `SELECT m.meet_id, title, content, onoff, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
              ORDER BY m.meet_id DESC
              LIMIT ?, ?`, // 미팅번호로 내림차순 (GROUP BY m.meet_id 해야하나?)
-  meet: `SELECT m.meet_id, u.nickname, title, content, start_date, end_date, max_num, onoff, image, category, approve, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt
+  meet: `SELECT m.meet_id, u.nickname, email, title, content, start_date, end_date, max_num, onoff, image, category, approve, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt
           FROM users u INNER JOIN meets m ON u.user_id = m.user_id
           WHERE m.meet_id = ?`, // 특정 미팅 상세조회
   insert: `INSERT INTO meets(title, content, start_date, end_date, max_num, onoff, image, category, approve, user_id) 

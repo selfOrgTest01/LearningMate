@@ -1,5 +1,7 @@
+// 사용자의 MeetId를 기반으로 채팅방 정보를 가져오고 가능한 경우 관련 세부 정보를 렌더링합니다.
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from './path/to/UserContext'; // Import your user context
+// eslint-disable-next-line import/named
+import { UserContext } from './UserContext'; // Import your user context
 
 const ChatRoom = () => {
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
@@ -30,21 +32,21 @@ const ChatRoom = () => {
   }, [user]);
 
   return (
-  <div>
-    <h1>Chat Room</h1>
-    {chatRoomInfo && (
-      <div>
-        <h2>{chatRoomInfo.initialRoom[0].title}</h2>
-        <ul>
-          {chatRoomInfo.channelList.map((channel) => (
-            <li key={channel.channel_id}>{channel.channel_description}</li>
-          ))}
-        </ul>
-        {/* Render participantList or other data as needed */}
-      </div>
-    )}
-  </div>
-);
+    <div>
+      <h1>Chat Room</h1>
+      {chatRoomInfo && (
+        <div>
+          <h2>{chatRoomInfo.initialRoom[0].title}</h2>
+          <ul>
+            {chatRoomInfo.channelList.map((channel) => (
+              <li key={channel.channel_id}>{channel.channel_description}</li>
+            ))}
+          </ul>
+          {/* Render participantList or other data as needed */}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ChatRoom;

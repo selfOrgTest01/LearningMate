@@ -1,5 +1,10 @@
-
+/* eslint-disable no-console */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useParams, Navigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 import ChatBox from '../../components/ChatBox/index';
 import ChatList from '../../components/ChatList/index';
 import InviteChannelModal from '../../components/InviteChannelModal/index';
@@ -8,11 +13,6 @@ import useSocket from '../../hooks/useSocket';
 import { Header, Container } from './sytle';
 import fetcher from '../../utils/fetcher';
 import makeSection from '../../utils/makeSection';
-import axios from 'axios';
-import { useParams, Navigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import useSWR from 'swr';
-import useSWRInfinite from 'swr/infinite';
 
 const PAGE_SIZE = 20;
 
@@ -37,7 +37,11 @@ const Channel = () => {
   const { data: userData } = useSWR('/api/users', fetcher);
   const { data: channelsData } = useSWR(`/api/workspaces/${workspace}/channels`, fetcher);
   const channelData = channelsData?.find((v) => v.name === channel);
-  const { data: chatData, mutate: mutateChat, setSize } = useSWRInfinite(
+  const {
+    data: chatData,
+    mutate: mutateChat,
+    setSize,
+  } = useSWRInfinite(
     (index) => `/api/workspaces/${workspace}/channels/${channel}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
     fetcher,
   );
@@ -88,9 +92,9 @@ const Channel = () => {
 
   const onMessage = (data) => {
     if (data.Channel.name === channel && data.UserId !== userData?.id) {
-      mutateChat((chatData) => {
-        chatData?.[0].unshift(data);
-        return chatData;
+      mutateChat((newchatData) => {
+        newchatData?.[0].unshift(data);
+        return newchatData;
       }, false).then(() => {
         scrollToBottomIfNeeded(scrollbarRef);
       });
@@ -132,23 +136,38 @@ const Channel = () => {
           <span>{channelMembersData?.length}</span>
           <button
             onClick={onClickInviteChannel}
-            className="c-button-unstyled p-ia__view_header__button"
-            aria-label="Add people to #react-native"
-            data-sk="tooltip_parent"
-            type="button"
+            className='c-button-unstyled p-ia__view_header__button'
+            aria-label='Add people to #react-native'
+            data-sk='tooltip_parent'
+            type='button'
           >
-            <i className="c-icon p-ia__view_header__button_icon c-icon--add-user" aria-hidden="true" />
+            <i className='c-icon p-ia__view_header__button_icon c-icon--add-user' aria-hidden='true' />
           </button>
         </div>
       </Header>
       {/* Layout 제거 */}
-      <ChatList scrollbarRef={scrollbarRef} isReachingEnd={isReachingEnd} isEmpty={isEmpty} chatSections={chatSections} setSize={setSize} />
-      <ChatBox onSubmitForm={onSubmitForm} chat={chat} onChangeChat={onChangeChat} placeholder={`Message #${channel}`} data={channelMembersData} />
-      <InviteChannelModal show={showInviteChannelModal} onCloseModal={onCloseModal} setShowInviteChannelModal={setShowInviteChannelModal} />
-      <ToastContainer position="bottom-center" />
+      <ChatList
+        scrollbarRef={scrollbarRef}
+        isReachingEnd={isReachingEnd}
+        isEmpty={isEmpty}
+        chatSections={chatSections}
+        setSize={setSize}
+      />
+      <ChatBox
+        onSubmitForm={onSubmitForm}
+        chat={chat}
+        onChangeChat={onChangeChat}
+        placeholder={`Message #${channel}`}
+        data={channelMembersData}
+      />
+      <InviteChannelModal
+        show={showInviteChannelModal}
+        onCloseModal={onCloseModal}
+        setShowInviteChannelModal={setShowInviteChannelModal}
+      />
+      <ToastContainer position='bottom-center' />
     </Container>
   );
 };
 
 export default Channel;
-

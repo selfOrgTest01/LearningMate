@@ -1,10 +1,4 @@
-import ChatBox from '../../components/ChatBox/index';
-import ChatList from '../../components/ChatList';
-import useInput from '../../hooks/useInput';
-import useSocket from '../../hooks/useSocket';
-import { Header, Container } from '../DirectMessage/sytle';
-import fetcher from '../../utils/fetcher';
-import makeSection from '../../utils/makeSection';
+/* eslint-disable no-console */
 import axios from 'axios';
 import gravatar from 'gravatar';
 import React, { useCallback, useEffect, useRef } from 'react';
@@ -12,7 +6,14 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
-import useSWRInfinite from "swr/infinite";
+import useSWRInfinite from 'swr/infinite';
+import ChatBox from '../../components/ChatBox/index';
+import ChatList from '../../components/ChatList';
+import useInput from '../../hooks/useInput';
+import useSocket from '../../hooks/useSocket';
+import { Header, Container } from './sytle';
+import fetcher from '../../utils/fetcher';
+import makeSection from '../../utils/makeSection';
 
 const PAGE_SIZE = 20;
 const DirectMessage = () => {
@@ -20,7 +21,11 @@ const DirectMessage = () => {
   const [socket] = useSocket(workspace);
   const { data: myData } = useSWR('/api/users', fetcher);
   const { data: userData } = useSWR(`/api/workspaces/${workspace}/users/${id}`, fetcher);
-  const { data: chatData, mutate: mutateChat, setSize } = useSWRInfinite(
+  const {
+    data: chatData,
+    mutate: mutateChat,
+    setSize,
+  } = useSWRInfinite(
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
     fetcher,
   );
@@ -65,9 +70,9 @@ const DirectMessage = () => {
 
   const onMessage = (data) => {
     if (data.SenderId === Number(id) && myData.id !== Number(id)) {
-      mutateChat((chatData) => {
-        chatData?.[0].unshift(data);
-        return chatData;
+      mutateChat((NewchatData) => {
+        NewchatData?.[0].unshift(data);
+        return NewchatData;
       }, false).then(() => {
         if (scrollbarRef.current) {
           if (
