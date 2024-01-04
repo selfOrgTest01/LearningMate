@@ -1,6 +1,6 @@
 // 추가할 기능: 검색결과 ui목록 구현, 검색한 마커의 위도와 경도를 db에 보낼 state에 저장, 맵을 클릭해서 나온 위도와 경도를 db에 보낼 state에 저장
 import { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useSelector } from 'react-redux';
 
@@ -46,6 +46,11 @@ function SearchLocationSection() {
     });
   };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // 기본 폼 제출 동작 막기
+    searchLocation();
+  };
+
   const onClickHandlerMarker = (marker) => {
     // 더블클릭하면 맵중앙으로 마커이동
     const moveLatLon = new window.kakao.maps.LatLng(marker.position.lat, marker.position.lng);
@@ -54,51 +59,57 @@ function SearchLocationSection() {
   };
   return (
     <Container>
-      <h1>SearchLocationSection</h1>
-      <Map
-        center={{ lat: reduxLat, lng: reduxLng }} // 지도의 중심 좌표 홈에서 수집한 위치정보를 기준으로함
-        style={{ width: '800px', height: '600px' }} // 지도 크기
-        level={2}
-        onCreate={setMap}
-        disableDoubleClickZoom={true} // 더블클릭 확대 끔
-        // 클릭한 위치의 위도 경도를 받는 이벤트 소수점6자리까지만 받는다
-        onClick={(_t, mouseEvent) =>
-          setPosition((current) => ({
-            ...current,
-            lat: mouseEvent.latLng.getLat().toFixed(6),
-            lng: mouseEvent.latLng.getLng().toFixed(6),
-          }))
-        }
-      >
-        {/* 내위치 마커 생성 */}
-        <MapMarker position={{ lat: reduxLat, lng: reduxLng }}>
-          <div style={{ color: '#000', textAlign: 'center' }}>내위치</div>
-        </MapMarker>
-        {/* 클릭으로 마커 생성 */}
-        {position && <MapMarker position={position} />}
-        {/* 키워드 검색으로 주변 마커 생성 */}
-        {markers.map((marker) => (
-          <MapMarker
-            key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-            position={marker.position}
-            onClick={() => onClickHandlerMarker(marker)}
-          >
-            {info && info.content === marker.content && <div style={{ color: '#000' }}>{marker.content}</div>}
+      {/* mx-auto: 중앙정렬 */}
+      <Form className='mx-auto' style={{ width: '50%' }} onSubmit={handleFormSubmit}>
+        <InputGroup className='mb-3'>
+          <Form.Control
+            type='text'
+            value={keyword}
+            required
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder='장소를 검색하세요'
+          />
+          <Button variant='primary' type='button' onClick={searchLocation}>
+            검색
+          </Button>
+        </InputGroup>
+      </Form>
+      <Container className='d-flex justify-content-center align-items-center'>
+        <Map
+          center={{ lat: reduxLat, lng: reduxLng }} // 지도의 중심 좌표 홈에서 수집한 위치정보를 기준으로함
+          style={{ width: '800px', height: '600px' }} // 지도 크기
+          level={2}
+          onCreate={setMap}
+          disableDoubleClickZoom={true} // 더블클릭 확대 끔
+          // 클릭한 위치의 위도 경도를 받는 이벤트 소수점6자리까지만 받는다
+          onClick={(_t, mouseEvent) =>
+            setPosition((current) => ({
+              ...current,
+              lat: mouseEvent.latLng.getLat().toFixed(6),
+              lng: mouseEvent.latLng.getLng().toFixed(6),
+            }))
+          }
+        >
+          {/* 내위치 마커 생성 */}
+          <MapMarker position={{ lat: reduxLat, lng: reduxLng }}>
+            <div style={{ color: '#000', textAlign: 'center' }}>내위치</div>
           </MapMarker>
-        ))}
-      </Map>
+          {/* 클릭으로 마커 생성 */}
+          {position && <MapMarker position={position} />}
+          {/* 키워드 검색으로 주변 마커 생성 */}
+          {markers.map((marker) => (
+            <MapMarker
+              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+              position={marker.position}
+              onClick={() => onClickHandlerMarker(marker)}
+            >
+              {info && info.content === marker.content && <div style={{ color: '#000' }}>{marker.content}</div>}
+            </MapMarker>
+          ))}
+        </Map>
+      </Container>
       {position && <p>{`클릭한 위치의 위도는 ${position.lat}이고, 경도는 ${position.lng} 입니다`}</p>}
-      <div>
-        <input
-          type='text'
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder='장소를 검색하세요'
-        />
-        <button type='button' onClick={searchLocation}>
-          검색
-        </button>
-      </div>
+      <h3>원하는 장소를 지도에 클릭하세요</h3>
     </Container>
   );
 }

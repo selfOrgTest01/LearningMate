@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Pagination, Row, Table } from 'react-bootstrap';
 
 function Userlist() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(10); // 페이지당 표시할 사용자 수
   // users 데이터베이스에서 user_id,email,phone_number,nickname을 읽어옵니다.
   const readUsers = useCallback(async () => {
     try {
@@ -35,9 +37,18 @@ function Userlist() {
     readUsers();
   }, [readUsers]);
 
+  // 현재 페이지의 사용자 데이터 계산
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     // 테이블 시작
-    <Container fluid style={{ height: '100vh' }}>
+    <Container fluid>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -55,7 +66,7 @@ function Userlist() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((item) => (
+                {currentUsers.map((item) => (
                   <tr key={item.user_id}>
                     <td>{item.user_id}</td>
                     <td>{item.email}</td>
@@ -69,6 +80,17 @@ function Userlist() {
                 ))}
               </tbody>
             </Table>
+            <Pagination>
+              {[...Array(Math.ceil(users.length / usersPerPage))].map((_, index) => (
+                <Pagination.Item
+                  key={index + 1}
+                  active={index + 1 === currentPage}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </Pagination.Item>
+              ))}
+            </Pagination>
           </Col>
         </Row>
       )}

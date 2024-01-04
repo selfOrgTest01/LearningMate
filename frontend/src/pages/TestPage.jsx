@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import ImageUploadSection from '../components/ImageUploadSection';
 
 function Test() {
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
@@ -51,6 +52,7 @@ function Test() {
         로그인상태:
         {auth.toString()}
       </h2>
+      <ImageUploadSection />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 
 const { kakao } = window;
 
@@ -79,35 +80,37 @@ const MapContainer = ({ searchPlace }) => {
   }, [searchPlace]);
 
   return (
-    <div>
-      <div
-        id='myMap'
-        style={{
-          width: '500px',
-          height: '500px',
-        }}
-      ></div>
-      <div id='result-list'>
-        {Places.map((item, i) => (
-          <div key={i} style={{ marginTop: '20px' }}>
-            <span>{i + 1}</span>
-            <div>
-              <h5>{item.place_name}</h5>
-              {item.road_address_name ? (
-                <div>
-                  <span>{item.road_address_name}</span>
+    <Container>
+      <div>
+        <div
+          id='myMap'
+          style={{
+            width: '500px',
+            height: '500px',
+          }}
+        ></div>
+        <div id='result-list'>
+          {Places.map((item, i) => (
+            <div key={i} style={{ marginTop: '20px' }}>
+              <span>{i + 1}</span>
+              <div>
+                <h5>{item.place_name}</h5>
+                {item.road_address_name ? (
+                  <div>
+                    <span>{item.road_address_name}</span>
+                    <span>{item.address_name}</span>
+                  </div>
+                ) : (
                   <span>{item.address_name}</span>
-                </div>
-              ) : (
-                <span>{item.address_name}</span>
-              )}
-              <span>{item.phone}</span>
+                )}
+                <span>{item.phone}</span>
+              </div>
             </div>
-          </div>
-        ))}
-        <div id='pagination'></div>
+          ))}
+          <div id='pagination'></div>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

@@ -1,6 +1,4 @@
-import NearByMyLocationSection from '../components/maps/NearByMyLocationSection';
-import SearchLocationSection from '../components/maps/SearchLocationSection';
-import SearchLocationSectioncopy from '../components/maps/SearchLocationSectioncopy';
+import LandingModal from '../components/maps/LandingModal';
 import Page from '../components/Page';
 
 function About() {
@@ -8,8 +6,8 @@ function About() {
     <Page>
       <>
         <h1>About</h1>
-        <SearchLocationSection />
-        <SearchLocationSectioncopy />
+        <LandingModal />
+        {/* <LandingPage /> */}
       </>
     </Page>
   );
