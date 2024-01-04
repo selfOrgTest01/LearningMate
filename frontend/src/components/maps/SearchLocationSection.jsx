@@ -1,5 +1,5 @@
 // 추가할 기능: 검색결과 ui목록 구현, 검색한 마커의 위도와 경도를 db에 보낼 state에 저장, 맵을 클릭해서 나온 위도와 경도를 db에 보낼 state에 저장
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useSelector } from 'react-redux';
@@ -55,8 +55,20 @@ function SearchLocationSection() {
     // 더블클릭하면 맵중앙으로 마커이동
     const moveLatLon = new window.kakao.maps.LatLng(marker.position.lat, marker.position.lng);
     map.panTo(moveLatLon);
-    setInfo(marker); // 문제가 생기는 코드다 info가 안뜨는 마커를 눌렀을때 이상한 위치로 이동하는 문제가 생긴다 => 검색된 마커의 거리가 너무 멀때 발생하는 에러인데 아마 api자체에러인듯
+
+    setInfo(marker); // setInfo 함수 호출
+    // marker.position.lat이 숫자가아니기 때문에 toFixed(6)를 쓰기위해서는 숫자화를 해줘야함
+    setPosition((current) => ({
+      ...current,
+      lat: Number(marker.position.lat).toFixed(6),
+      lng: Number(marker.position.lng).toFixed(6),
+    }));
   };
+  useEffect(() => {
+    console.log('내 위도:', reduxLat);
+    console.log('내 경도:', reduxLng);
+    console.log('저장할 위치정보:', position);
+  }, [position]);
   return (
     <Container>
       {/* mx-auto: 중앙정렬 */}
@@ -81,7 +93,7 @@ function SearchLocationSection() {
           level={2}
           onCreate={setMap}
           disableDoubleClickZoom={true} // 더블클릭 확대 끔
-          // 클릭한 위치의 위도 경도를 받는 이벤트 소수점6자리까지만 받는다
+          // 클릭한 위치의 위도 경도를 받는 이벤트 소수점6자리까지만 받는다 mouseEvent.latLng.getLat()는 숫자라 따로 변환안해도 된다
           onClick={(_t, mouseEvent) =>
             setPosition((current) => ({
               ...current,
@@ -91,7 +103,17 @@ function SearchLocationSection() {
           }
         >
           {/* 내위치 마커 생성 */}
-          <MapMarker position={{ lat: reduxLat, lng: reduxLng }}>
+          <MapMarker
+            position={{ lat: reduxLat, lng: reduxLng }}
+            // 내위치마커를 클릭해도 위치가 저장이 된다
+            onClick={() =>
+              setPosition((current) => ({
+                ...current,
+                lat: reduxLat.toFixed(6),
+                lng: reduxLng.toFixed(6),
+              }))
+            }
+          >
             <div style={{ color: '#000', textAlign: 'center' }}>내위치</div>
           </MapMarker>
           {/* 클릭으로 마커 생성 */}

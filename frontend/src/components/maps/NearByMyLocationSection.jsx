@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import geolib from 'geolib';
 import { conditionRadius } from '../../constants/math';
 
 function NearByMyLocationSection() {
