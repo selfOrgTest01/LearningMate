@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ImageUploadSection from '../components/ImageUploadSection';
+import LandingModal from '../components/maps/LandingModal';
 
 function Test() {
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
@@ -16,7 +17,6 @@ function Test() {
       const resp = await axios.get(`${localDomain}/users/userinfo`, {
         withCredentials: true,
       });
-      console.log(resp.data.data);
       if (resp.data.data === false) window.alert('불러오기 실패');
       else setData((currentData) => ({ ...currentData, ...resp.data.data[0] }));
     } catch (err) {
@@ -53,6 +53,7 @@ function Test() {
         {auth.toString()}
       </h2>
       <ImageUploadSection />
+      <LandingModal />
     </>
   );
 }

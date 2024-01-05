@@ -6,8 +6,10 @@ import './styles.css';
 
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Container } from 'react-bootstrap';
+import CardForSwiper from './CardForSwiper';
 
 export default function MeetSection() {
+  const img = `${process.env.PUBLIC_URL}/img/Hani.jpg`;
   return (
     <>
       <Container style={{ height: '300px' }}>
@@ -24,15 +26,34 @@ export default function MeetSection() {
           modules={[Autoplay, Pagination]}
           className='mySwiper'
         >
-          <SwiperSlide>Slide 1</SwiperSlide>
-          <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
-          <SwiperSlide>Slide 4</SwiperSlide>
-          <SwiperSlide>Slide 5</SwiperSlide>
-          <SwiperSlide>Slide 6</SwiperSlide>
-          <SwiperSlide>Slide 7</SwiperSlide>
-          <SwiperSlide>Slide 8</SwiperSlide>
-          <SwiperSlide>Slide 9</SwiperSlide>
+          {/* 슬라이드 내용에 통신으로 meet에서 가져온 객체를 프롭으로 보낸다 */}
+          <SwiperSlide>
+            <CardForSwiper item={img} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper item={img} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper item={img} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper item={img} />
+          </SwiperSlide>
         </Swiper>
       </Container>
     </>

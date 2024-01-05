@@ -6,8 +6,10 @@ import './styles.css';
 
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Container } from 'react-bootstrap';
+import CardForSwiper from './CardForSwiper';
 
 export default function CourseSection() {
+  const img = `${process.env.PUBLIC_URL}/img/lectureImg.jpg`;
   return (
     <>
       <Container style={{ height: '300px' }}>
@@ -24,7 +26,9 @@ export default function CourseSection() {
           modules={[Autoplay, Pagination]}
           className='mySwiper'
         >
-          <SwiperSlide>Slide 1</SwiperSlide>
+          <SwiperSlide>
+            <CardForSwiper item={img} />
+          </SwiperSlide>
           <SwiperSlide>Slide 2</SwiperSlide>
           <SwiperSlide>Slide 3</SwiperSlide>
           <SwiperSlide>Slide 4</SwiperSlide>

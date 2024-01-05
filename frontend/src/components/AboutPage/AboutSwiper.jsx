@@ -2,7 +2,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './styles.css';
 import { Container } from 'react-bootstrap';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Pagination, Navigation } from 'swiper/modules';
+import InfoSlide from './InfoSlide';
 
 export default function App() {
   return (
@@ -11,15 +12,11 @@ export default function App() {
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
           pagination={{
             clickable: true,
           }}
           navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
+          modules={[Pagination, Navigation]}
           className='mySwiper'
         >
           <SwiperSlide>
@@ -28,15 +25,10 @@ export default function App() {
           <SwiperSlide>
             <img src={`${process.env.PUBLIC_URL}/img/Hani.jpg`} alt='exampleImage2.jpg'></img>
           </SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
-          <SwiperSlide>Slide 4</SwiperSlide>
           <SwiperSlide>
-            <img src={`${process.env.PUBLIC_URL}/img/lectureImg.jpg`} alt='exampleImage3.jpg'></img>
+            <InfoSlide />
           </SwiperSlide>
-          <SwiperSlide>Slide 6</SwiperSlide>
-          <SwiperSlide>Slide 7</SwiperSlide>
-          <SwiperSlide>Slide 8</SwiperSlide>
-          <SwiperSlide>Slide 9</SwiperSlide>
+          <SwiperSlide>Slide 4</SwiperSlide>
         </Swiper>
       </Container>
     </>

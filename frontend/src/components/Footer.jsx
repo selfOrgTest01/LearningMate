@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <footer className='page-footer font-small blue pt-4 ' style={{ borderTop: '1px solid #ddd' }}>
@@ -15,13 +16,13 @@ const Footer = () => (
           <h5 className='text-uppercase'>Links</h5>
           <ul className='list-unstyled'>
             <li>
-              <a href='#!'>Link 1</a>
+              <Link to='/about'>팀소개</Link>
             </li>
             <li>
-              <a href='#!'>Link 2</a>
+              <a href='/test'>개발용테스트</a>
             </li>
             <li>
-              <a href='#!'>Link 3</a>
+              <a href='/user-list'>개발용유저리스트</a>
             </li>
             <li>
               <a href='#!'>Link 4</a>

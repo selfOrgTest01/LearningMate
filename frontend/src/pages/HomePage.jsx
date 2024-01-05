@@ -2,7 +2,7 @@ import { Container } from 'react-bootstrap';
 import GetLocation from '../containers/pages/HomePage/GetLocation';
 import HomeSwiper from '../components/HomePage/HomeSwiper';
 import MeetSection from '../components/HomePage/MeetSection';
-import CourseSection from '../components/HomePage/CourseSection';
+import CourseSection from '../components/HomePage/LectureSection';
 
 function Home() {
   GetLocation();
@@ -12,6 +12,7 @@ function Home() {
         <section id='about'>
           <HomeSwiper />
         </section>
+        <br />
         <section id='contact'>
           <div className='container px-4'>
             <div className='row gx-4 justify-content-center'>
@@ -31,6 +32,9 @@ function Home() {
         <br />
         <h2>강의정보</h2>
         <CourseSection />
+        <br />
+        <br />
+        <br />
       </Container>
     </>
   );

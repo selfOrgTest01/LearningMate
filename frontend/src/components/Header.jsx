@@ -36,43 +36,43 @@ function Header() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link active' to='/'>
+              <Link className='nav-link' to='/'>
                 검색
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link active' to='/meets'>
+              <Link className='nav-link' to='/meets'>
                 모임
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link active' to='/crouses'>
+              <Link className='nav-link' to='/crouses'>
                 강의
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
-            <li className='nav-item'>
+            {/* <li className='nav-item'>
               <Link className='nav-link active' to='/about'>
                 About
                 <span className='visually-hidden'>(current)</span>
               </Link>
-            </li>
+            </li> */}
             <li className='nav-item'>
-              <Link className='nav-link active' to='/sign-up'>
+              <Link className='nav-link' to='/sign-up'>
                 회원가입
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link active' to='/sign-in'>
+              <Link className='nav-link' to='/sign-in'>
                 로그인
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link active' to='/mypage'>
+              <Link className='nav-link' to='/mypage'>
                 마이페이지
                 <span className='visually-hidden'>(current)</span>
               </Link>
