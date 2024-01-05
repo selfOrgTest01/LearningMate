@@ -1,18 +1,12 @@
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom'; // useLocation
+import { Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import LogoutFunction from '../containers/Header/LogoutFunction';
 
 function Header() {
   const logoutUser = LogoutFunction();
-
-  // const location = useLocation();
-  // const pathName = location.pathname.substring(1);
-
   return (
-    <Navbar className='bg-body-tertiary'>
-      <Container>
+    <nav className='navbar navbar-expand-lg bg-body-tertiary'>
+      <div className='container-fluid'>
         <Navbar.Brand href='/'>
           <img
             alt=''
@@ -22,39 +16,104 @@ function Header() {
             className='d-inline-block align-top'
           />{' '}
         </Navbar.Brand>
-        <Nav className='me-auto'>
-          <Nav.Link as={Link} to='/'>
-            Home
-          </Nav.Link>
-          <Nav.Link as={Link} to='/'>
-            검색
-          </Nav.Link>
-          <Nav.Link as={Link} to='/meets'>
-            {' '}
-            {/* className={pathName === 'meets' ? "nav-link active" : "nav-link"} */}
-            모임
-          </Nav.Link>
-          <Nav.Link as={Link} to='/crouses'>
-            강의
-          </Nav.Link>
-          <Nav.Link as={Link} to='/about'>
-            About
-          </Nav.Link>
-          <Nav.Link as={Link} to='/sign-up'>
-            회원가입
-          </Nav.Link>
-          <Nav.Link as={Link} to='/sign-in'>
-            로그인
-          </Nav.Link>
-          <Nav.Link as={Link} to='/mypage'>
-            마이페이지
-          </Nav.Link>
-        </Nav>
-        <button type='button' onClick={logoutUser}>
-          로그아웃
+        <button
+          className='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarColor04'
+          aria-controls='navbarColor04'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span className='navbar-toggler-icon'></span>
         </button>
-      </Container>
-    </Navbar>
+        <div className='collapse navbar-collapse' id='navbarColor04'>
+          <ul className='navbar-nav me-auto'>
+            <li className='nav-item'>
+              <Link className='nav-link active' to='/'>
+                Home
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/'>
+                검색
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/meets'>
+                모임
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/courses'>
+                강의
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            {/* <li className='nav-item'>
+              <Link className='nav-link active' to='/about'>
+                About
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li> */}
+            <li className='nav-item'>
+              <Link className='nav-link' to='/sign-up'>
+                회원가입
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/sign-in'>
+                로그인
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/mypage'>
+                마이페이지
+                <span className='visually-hidden'>(current)</span>
+              </Link>
+            </li>
+            {/* <li className='nav-item dropdown'>
+              <a
+                className='nav-link dropdown-toggle'
+                data-bs-toggle='dropdown'
+                href='#'
+                role='button'
+                aria-haspopup='true'
+                aria-expanded='false'
+              >
+                Dropdown
+              </a>
+              <div className='dropdown-menu'>
+                <a className='dropdown-item' href='#'>
+                  Action
+                </a>
+                <a className='dropdown-item' href='#'>
+                  Another action
+                </a>
+                <a className='dropdown-item' href='#'>
+                  Something else here
+                </a>
+                <div className='dropdown-divider'></div>
+                <a className='dropdown-item' href='#'>
+                  Separated link
+                </a>
+              </div>
+            </li> */}
+          </ul>
+          <form className='d-flex'>
+            <button className='btn btn-secondary my-2 my-sm-0' type='submit' onClick={logoutUser}>
+              logout
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
   );
 }
+
 export default Header;
