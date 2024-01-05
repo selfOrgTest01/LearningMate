@@ -10,6 +10,7 @@ function Test() {
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
   const [isloading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
+  const userInfo = useSelector((state) => state.userInfo);
   const localDomain = 'http://localhost:8000';
   const getData = useCallback(async () => {
     try {
@@ -51,6 +52,14 @@ function Test() {
       <h2>
         로그인상태:
         {auth.toString()}
+      </h2>
+      <h2>
+        유저ID:
+        {userInfo.userId}
+      </h2>
+      <h2>
+        유저닉네임:
+        {userInfo.nickname}
       </h2>
       <ImageUploadSection />
       <LandingModal />

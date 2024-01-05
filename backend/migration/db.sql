@@ -1,4 +1,4 @@
--- Active: 1703657196229@@34.64.245.68@3306@learningmate
+-- Active: 1703034513814@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성

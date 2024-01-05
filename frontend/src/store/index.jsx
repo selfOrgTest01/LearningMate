@@ -3,6 +3,7 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import storageSession from 'redux-persist/lib/storage/session';
 import authReducer from './auth';
 import { locationReducer, positionReducer } from './location';
+import userInfoReducer from './userInfo';
 import userStore from './userStore'; // 민경 추가
 import meetStore from './meetStore'; // 민경 추가
 
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   location: locationReducer,
   position: positionReducer,
+  userInfo: userInfoReducer,
   meetStore,
   userStore,
 });
@@ -17,7 +19,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['auth', 'location', 'position'], // 리듀서의 이름이 들어가야함
+  whitelist: ['auth', 'location', 'position', 'userInfo'], // 리듀서의 이름이 들어가야함
 };
 // persistReducer를 사용하여 Redux reducer를 감싸고, configureStore에 전달합니다.
 const persistedReducer = persistReducer(persistConfig, rootReducer);
