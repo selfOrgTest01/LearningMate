@@ -3,12 +3,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import './styles.css';
 import { Container } from 'react-bootstrap';
 import { Pagination, Navigation } from 'swiper/modules';
-import InfoSlide from './InfoSlide';
+import AboutCard from './AboutCard';
+import AboutCard2 from './AboutCard2';
+import AboutCard3 from './AboutCard3';
+import AboutCard4 from './AboutCard4';
 
 export default function App() {
   return (
     <>
-      <Container style={{ height: '500px' }}>
+      <Container style={{ height: '100%' }}>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -20,15 +23,17 @@ export default function App() {
           className='mySwiper'
         >
           <SwiperSlide>
-            <img src={`${process.env.PUBLIC_URL}/img/러닝메이트로고.png`} alt='exampleImage1.jpg'></img>
+            <AboutCard />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={`${process.env.PUBLIC_URL}/img/Hani.jpg`} alt='exampleImage2.jpg'></img>
+            <AboutCard2 />
           </SwiperSlide>
           <SwiperSlide>
-            <InfoSlide />
+            <AboutCard3 />
           </SwiperSlide>
-          <SwiperSlide>Slide 4</SwiperSlide>
+          <SwiperSlide>
+            <AboutCard4 />
+          </SwiperSlide>
         </Swiper>
       </Container>
     </>

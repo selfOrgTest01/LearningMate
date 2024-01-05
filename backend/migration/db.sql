@@ -115,6 +115,7 @@ SELECT * FROM users
 ALTER TABLE users
 ADD COLUMN profile_nickname VARCHAR(255);
 
+SELECT * FROM courses;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;

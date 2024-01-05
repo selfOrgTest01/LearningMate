@@ -2,13 +2,15 @@
 import { useEffect, useState } from 'react';
 import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { positionAction } from '../../store/location';
 
 function SearchLocationSection() {
+  const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('');
   const [markers, setMarkers] = useState([]);
   // position을 axios통신으로 저장하시면 마우스로 찍은게 저장이됩니다.
-  const [position, setPosition] = useState({ lat: '', lng: '' });
+  const position = useSelector((state) => state.position);
   const [map, setMap] = useState(false);
   const [info, setInfo] = useState(null);
   const reduxLat = useSelector((state) => state.location.lat);
@@ -58,17 +60,18 @@ function SearchLocationSection() {
 
     setInfo(marker); // setInfo 함수 호출
     // marker.position.lat이 숫자가아니기 때문에 toFixed(6)를 쓰기위해서는 숫자화를 해줘야함
-    setPosition((current) => ({
-      ...current,
-      lat: Number(marker.position.lat).toFixed(6),
-      lng: Number(marker.position.lng).toFixed(6),
-    }));
+    dispatch(
+      positionAction.setPosition({
+        lat: Number(marker.position.lat).toFixed(6),
+        lng: Number(marker.position.lng).toFixed(6),
+      }),
+    );
   };
   useEffect(() => {
     console.log('내 위도:', reduxLat);
     console.log('내 경도:', reduxLng);
     console.log('저장할 위치정보:', position);
-  }, [position]);
+  }, [reduxLat, reduxLng, position]);
   return (
     <Container>
       {/* mx-auto: 중앙정렬 */}
@@ -94,24 +97,32 @@ function SearchLocationSection() {
           onCreate={setMap}
           disableDoubleClickZoom={true} // 더블클릭 확대 끔
           // 클릭한 위치의 위도 경도를 받는 이벤트 소수점6자리까지만 받는다 mouseEvent.latLng.getLat()는 숫자라 따로 변환안해도 된다
-          onClick={(_t, mouseEvent) =>
-            setPosition((current) => ({
-              ...current,
-              lat: mouseEvent.latLng.getLat().toFixed(6),
-              lng: mouseEvent.latLng.getLng().toFixed(6),
-            }))
+          onClick={
+            (_t, mouseEvent) =>
+              dispatch(
+                positionAction.setPosition({
+                  lat: mouseEvent.latLng.getLat().toFixed(6),
+                  lng: mouseEvent.latLng.getLng().toFixed(6),
+                }),
+              )
+            // setPosition((current) => ({
+            //   ...current,
+            //   lat: mouseEvent.latLng.getLat().toFixed(6),
+            //   lng: mouseEvent.latLng.getLng().toFixed(6),
+            // }))
           }
         >
           {/* 내위치 마커 생성 */}
           <MapMarker
             position={{ lat: reduxLat, lng: reduxLng }}
             // 내위치마커를 클릭해도 위치가 저장이 된다
-            onClick={() =>
-              setPosition((current) => ({
-                ...current,
-                lat: reduxLat.toFixed(6),
-                lng: reduxLng.toFixed(6),
-              }))
+            onClick={
+              () => dispatch(positionAction.setPosition({ lat: reduxLat.toFixed(6), lng: reduxLng.toFixed(6) }))
+              // setPosition((current) => ({
+              //   ...current,
+              //   lat: reduxLat.toFixed(6),
+              //   lng: reduxLng.toFixed(6),
+              // }))
             }
           >
             <div style={{ color: '#000', textAlign: 'center' }}>내위치</div>
