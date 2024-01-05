@@ -10,7 +10,9 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
+    "bootswatch": "^5.3.2",
     "dotenv": "^16.3.1",
+    "geolib": "^3.3.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
@@ -21,9 +23,10 @@
     "react-router": "^6.21.1",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
-    "redux": "^4.2.1",
+    "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
+    "swiper": "^11.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -45,6 +48,10 @@
           "extensions": [
             ".js",
             ".jsx"
+          ],
+          "moduleDirectory": [
+            "node_modules",
+            "src/"
           ]
         }
       }
@@ -69,7 +76,8 @@
       "react/react-in-jsx-scope": 0,
       "no-param-reassign": "off",
       "react/jsx-props-no-spreading": "off",
-      "no-unused-vars": "warn"
+      "no-unused-vars": "warn",
+      "camelcase": "off"
     }
   },
   "browserslist": {

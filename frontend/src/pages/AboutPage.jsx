@@ -1,12 +1,16 @@
-import SearchLocationSection from '../components/maps/SearchLocationSection';
+import LandingModal from '../components/maps/LandingModal';
 import Page from '../components/Page';
+import AboutSwiper from '../components/AboutPage/AboutSwiper';
 
 function About() {
   return (
     <Page>
       <>
         <h1>About</h1>
-        <SearchLocationSection />
+        <br />
+        <AboutSwiper />
+        <LandingModal />
+        {/* <LandingPage /> */}
       </>
     </Page>
   );
