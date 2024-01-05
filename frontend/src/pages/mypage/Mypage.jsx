@@ -8,6 +8,7 @@ import UserProfile from '../../components/Mypage/UserProfile';
 import Calendar from '../../components/Mypage/Calendar';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
+import Footer from '../../components/Mypage/Footer';
 
 function Mypage() {
   return (
@@ -25,6 +26,7 @@ function Mypage() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </div>
   );
 }

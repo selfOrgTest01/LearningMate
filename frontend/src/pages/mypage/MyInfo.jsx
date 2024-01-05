@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import UserProfile from '../../components/Mypage/UserProfile';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
+import Footer from '../../components/Mypage/Footer';
 
 function MyInfo() {
   return (
@@ -19,6 +20,7 @@ function MyInfo() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
+import Footer from '../../components/Mypage/Footer';
 
 function LikeCourses() {
   return (
@@ -15,6 +16,7 @@ function LikeCourses() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </div>
   );
 }

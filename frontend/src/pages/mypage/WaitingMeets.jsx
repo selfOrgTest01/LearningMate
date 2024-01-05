@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
+import Footer from '../../components/Mypage/Footer';
 
 function WaitingMeets() {
   return (
@@ -15,6 +16,7 @@ function WaitingMeets() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </div>
   );
 }
