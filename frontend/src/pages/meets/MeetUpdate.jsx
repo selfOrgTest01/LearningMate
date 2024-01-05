@@ -1,68 +1,32 @@
-// 모임 생성
-// 24.01.04 ~
-// - onoff, approve는 0, 1 값 받기(완료)
-// - 최대 참여 인원 음수로 안 가게 설정하기(완료), 최대 인원도 제한 하면 좋을 듯
-// - 제목, 내용 글자수 제한 두기
-// - 종료날짜가 시작날짜 뒤로 가지 않게 하기
-// - 모임 생성 안 됨 (user불러오는지 확인)
-// - 오프라인 체크하면 위치 작성 뜨게 하기
-// - 로그인 정보가 안 가져와짐
+// 모임 수정
 
-import React, { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { changeData, clearData, setDates } from '../../store/meetStore';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { changeData, setDates } from '../../store/meetStore';
 
-function MeetInsert() {
+function BoardUpdate() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userId, nickname } = useSelector((state) => state.userStore);
+
   const { meet } = useSelector((state) => state.meetStore);
   const { register } = useForm({ defaultValues: {}, mode: 'onBlur' });
-
   const categories = ['게임', '요리', '운동', '여행', '취미', '문화예술']; // 카테고리 생성
 
-  const insertBoard = useCallback(
+  const updateBoard = useCallback(
     async (evt) => {
       evt.preventDefault();
-
-      // 라디오 버튼 onoff 값 확인
-      // console.log('선택된 온오프라인:', meet.onoff);
-
-      // 라디오 버튼 approve 값 확인
-      // console.log('선택된 온오프라인:', meet.approve);
-
-      const sendData = {
-        user_id: userId,
-        title: meet.title,
-        content: meet.content,
-        nickname,
-        start_date: meet.start_date,
-        end_date: meet.end_date,
-        max_num: meet.max_num,
-        onoff: meet.onoff,
-        image: meet.image,
-        category: meet.category,
-        approve: meet.approve,
-      };
-      await axios.post('http://localhost:8000/meets/insert/', sendData);
-      navigate('/meets');
+      await axios.put('http://localhost:8000/boards/update/', meet);
+      // console.log(resp.data);
+      navigate('/meet');
     },
-    [meet, userId, nickname, navigate],
+    [meet, navigate],
   );
 
-  // useEffect(() => {
-  //   if (!userId) navigate('/sign-in');
-  // }, [navigate, userId]);
-
-  useEffect(() => {
-    dispatch(clearData());
-  }, [dispatch]);
-
   return (
-    <main id='main' style={{ background: 'white' }}>
+    <main id='main'>
       <section className='property-grid grid'>
         <div className='container'>
           <div className='row'>
@@ -125,21 +89,14 @@ function MeetInsert() {
                         className='form-control'
                         name='max_num'
                         value={meet.max_num}
-                        onChange={(evt) => {
-                          // 입력된 값이 음수인지 확인
-                          const inputValue = parseInt(evt.target.value, 10);
-                          if (!Number.isNaN(inputValue) && inputValue >= 0) {
-                            // 음수가 아닌 경우만 값 업데이트
-                            dispatch(changeData(evt));
-                          }
-                        }}
+                        onChange={(evt) => dispatch(changeData(evt))}
                       />
                     </td>
                   </tr>
                   <tr>
                     <td>생성자</td>
-                    <td>{userId.nickname}</td>
-                    {/* 이렇게 두면 닉네임 나오는지 꼭 확인하기 */}
+                    <td>{meet.nickname}</td>
+                    {/* 이렇게 두면 유저의 닉네임 나오는지 꼭 확인하기 */}
                   </tr>
                   <tr>
                     <td>온오프라인</td>
@@ -228,12 +185,12 @@ function MeetInsert() {
                   </tr>
                   <tr>
                     <td colSpan='2' className='text-end'>
-                      <button type='button' className='btn btn-primary btn-sm' onClick={() => navigate('/meets')}>
-                        취소
+                      <button type='button' className='btn btn-primary btn-sm' onClick={() => navigate('/boards')}>
+                        리스트
                       </button>{' '}
-                      <button type='submit' className='btn btn-warning btn-sm' onClick={insertBoard}>
-                        입력
-                      </button>
+                      <button type='button' className='btn btn-warning btn-sm' onClick={(evt) => updateBoard(evt)}>
+                        수정
+                      </button>{' '}
                     </td>
                   </tr>
                 </tbody>
@@ -246,8 +203,8 @@ function MeetInsert() {
   );
 }
 
-export default MeetInsert;
+export default BoardUpdate;
 
-MeetInsert.defaultProps = {
+BoardUpdate.defaultProps = {
   sub: '',
 };

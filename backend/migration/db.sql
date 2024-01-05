@@ -1,4 +1,5 @@
--- Active: 1703034513814@@34.64.245.68@3306@learningmate
+-- Active: 1703035126470@@34.64.245.68@3306@learningmate
+
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -165,10 +166,14 @@ SELECT * FROM meets;
 INSERT INTO meets (title, content, start_date, end_date, max_num, onoff, image, category, approve, user_id)
 VALUES
 -- ('모임1', '내용1', '2023-04-01', '2023-04-10', 20, 1, '/images/meetup1.jpg', '운동', 0, 15);
-('모임2', '내용2', '2023-04-01', '2023-04-10', 25, 0, '/images/meetup2.jpg', '문화활동', 1, 16);
+-- ('모임2', '내용2', '2023-04-01', '2023-04-10', 25, 0, '/images/meetup2.jpg', '문화활동', 1, 16);
 -- ('모임3', '내용3', '2023-04-01', '2023-04-10', 40, 1, '/images/meetup3.jpg', '취미', 1, 17),
 -- ('모임4', '내용4', '2023-04-01', '2023-04-10', 45, 1, '/images/meetup3.jpg', '취미', 1, 19),
 -- ('모임5', '내용5', '2023-04-01', '2023-04-10', 10, 1, '/images/meetup3.jpg', '취미', 1, 20);
+-- ('코딩 스터디', '주제: 자바스크립트 프론트엔드', '2024-01-10', '2024-02-10', 15, 0, '/images/coding_study.jpg', '프로그래밍', 0, 41),
+-- ('요리 강연', '맛있는 음식 만들기에 관한 강연', '2024-02-01', '2024-02-28', 20, 1, '/images/cooking_event.jpg', '요리', 1, 42),
+-- ('피아노 연주회', '클래식 음악 감상 및 연주', '2024-03-15', '2024-03-20', 30, 0, '/images/piano_concert.jpg', '음악', 0, 43),
+('제목', '내용', '2024-04-15', '2024-04-20', 35, 0, '/public/images/users/1704238664418_you.jpg', '취미', 0, 44);
 
 -- READ 읽기
 SELECT * FROM meets;
@@ -190,7 +195,7 @@ WHERE m.meet_id = 14;
 UPDATE meets SET title = '모임1 제목 변경' WHERE meet_id = 14;
 
 -- DELETE 삭제
-DELETE FROM meets WHERE meet_id = 18;
+DELETE FROM meets WHERE meet_id = 24;
 
 ------ participants table ------
 -- 참가버튼을 누른 사람은 다 여기에 추가하고 manager, status가 1인 사람만 게시판으로 이동할 수 있게, status가 1인 사람만 리뷰를 작성할 수 있게
@@ -230,8 +235,8 @@ WHERE
 -- meet_participants 테이블에 참가자 추가
 INSERT INTO meet_participants (meet_id, user_id)
 VALUES
-(20, 24),
-(20, 26);
+(19, 45),
+(19, 46);
 
 -- READ 모든 참가자 조회
 SELECT * FROM meet_participants;
