@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import UserProfile from '../../components/Mypage/UserProfile';
 import Sidebar from '../../components/Mypage/Sidebar';
-import Header from '../../components/Header';
+import Header from '../../components/Mypage/Header';
 
 function MyInfo() {
   return (
