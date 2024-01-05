@@ -13,5 +13,7 @@ router.post('/update', participantsController.participantUpdate);
 router.delete('/delete/:participant_id/:meet_id', participantsController.participantDelete);
 // 전체 참여자 조회
 router.get('/participantList/:meet_id', participantsController.participantList);
+// 참가자 수 카운트
+router.get('/getMeetParticipantsCount/:meet_id', participantsController.getMeetParticipantsCount);
 
 module.exports = router;

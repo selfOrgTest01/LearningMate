@@ -1,4 +1,8 @@
 // 모임 리스트
+// 2024.01.04 ~
+// - 검색했을 때 검색 키워드가 들어가있는 제목의 리스트들 나오게 하기
+// - 카테고리별로 리스트 나오게 하기
+// - 예쁘게 꾸미기
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -34,11 +38,11 @@ function MeetList() {
   storage.removeItem('nickname');
 
   return (
-    <main id='main'>
+    <main id='main' style={{ background: 'white' }}>
       <section className='property-grid grid'>
         <div className='container'>
           <div className='row'>
-            <div className='col-sm-12'>
+            <div className='col-sm-10' style={{ marginLeft: '80px', marginTop: '40px' }}>
               <table className='table table-borderless'>
                 <thead>
                   <tr>
@@ -53,12 +57,45 @@ function MeetList() {
                     <React.Fragment key={meetlist.meet_id}>
                       <tr>
                         <td colSpan={3}>
-                          <div style={{ border: '1px solid #000', borderRadius: '10px', padding: '10px' }}>
-                            <Link to={`/detail/${meetlist.meet_id}`}>{meetlist.title}</Link>
-                            <br />
-                            {meetlist.onoff}
-                            <br />
-                            {meetlist.content}
+                          <div
+                            style={{
+                              border: '1px solid #c0c0c0',
+                              borderRadius: '10px',
+                              paddingTop: '20px',
+                              paddingLeft: '20px',
+                              paddingBottom: '10px',
+                              boxShadow: '1px 1px lightgray',
+                              marginBottom: '20px',
+                            }}
+                          >
+                            <h3
+                              style={{
+                                fontSize: '1.4rem',
+                                marginBottom: '3px',
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              <Link
+                                to={`/detail/${meetlist.meet_id}`}
+                                style={{
+                                  textDecoration: 'none',
+                                  color: 'inherit',
+                                  transition: 'color 0.3s',
+                                }}
+                                onMouseOver={(e) => {
+                                  e.target.style.color = '#848383';
+                                }}
+                                onMouseOut={(e) => {
+                                  e.target.style.color = 'inherit';
+                                }}
+                              >
+                                {meetlist.title}
+                              </Link>
+                            </h3>
+                            <p style={{ color: '#4f4f4f', fontWeight: 600 }}>
+                              {meetlist.onoff === 0 ? '오프라인' : '온라인'}
+                            </p>
+                            <p style={{ color: 'gray' }}>{meetlist.content}</p>
                           </div>
                         </td>
                       </tr>
@@ -68,7 +105,6 @@ function MeetList() {
                 <tfoot>
                   <tr>
                     <td colSpan={5} className='text-end'>
-                      {/* 모임 추가 버튼 */}
                       <button className='btn btn-primary btn-sm' onClick={() => navigate('/insert')}>
                         새로운 모임 작성하기
                       </button>
