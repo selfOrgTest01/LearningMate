@@ -1,16 +1,28 @@
 // 12.27 나현 추가
-// 01.03 나현 추가 수정
+// 01.03 나현 수정
+// 01.05 나현 수정
 
 import React from 'react';
-import UserProfile from '../components/UserProfile';
-import Calendar from '../components/Calendar';
+import { Container, Row, Col } from 'react-bootstrap';
+import UserProfile from '../components/Mypage/UserProfile';
+import Calendar from '../components/Mypage/Calendar';
+import Sidebar from '../components/Mypage/Sidebar';
 
 function Mypage() {
   return (
     <div>
-      <h1>Mypage</h1>
-      <UserProfile />
-      <Calendar />
+      <Container fluid>
+        <h1>Mypage</h1>
+        <Row>
+          <Col xs={2} id='sidebar'>
+            <Sidebar />
+          </Col>
+          <Col xs={10} id='content'>
+            <UserProfile />
+            <Calendar />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
