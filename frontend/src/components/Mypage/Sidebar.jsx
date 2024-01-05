@@ -1,39 +1,40 @@
 // 01.05 나현 추가
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
+import './styles/Sidebar.css';
 
 const Sidebar = () => {
   return (
-    <nav className='flex-column'>
-      <NavLink to='/my-home' className='nav-link' activeClassName='active'>
+    <Nav className='flex-column'>
+      <Nav.Link href='/mypage' className='sidebar-link'>
         내 일정 조회하기
-      </NavLink>
-      <NavLink to='/my-info' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/my-info' className='sidebar-link'>
         내 정보 조회하기
-      </NavLink>
-      <NavLink to='/my-reviews' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/my-reviews' className='sidebar-link'>
         내 리뷰 모아보기
-      </NavLink>
-      <NavLink to='/meets' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/like-meets' className='sidebar-link'>
         내 모임 모아보기
-      </NavLink>
-      <NavLink to='/courses' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/like-courses' className='sidebar-link'>
         내 강의 모아보기
-      </NavLink>
-      <NavLink to='/waiting-meets' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/waiting-meets' className='sidebar-link'>
         대기 중인 모임 보기
-      </NavLink>
-      <NavLink to='/my-meets' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/my-meets' className='sidebar-link'>
         내가 만든 모임 보기
-      </NavLink>
-      <NavLink to='/my-courses' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/my-courses' className='sidebar-link'>
         내가 올린 강의 보기
-      </NavLink>
-      <NavLink to='/withdraw' className='nav-link' activeClassName='active'>
+      </Nav.Link>
+      <Nav.Link href='/withdraw' className='sidebar-link'>
         탈퇴하기
-      </NavLink>
-    </nav>
+      </Nav.Link>
+    </Nav>
   );
 };
 
