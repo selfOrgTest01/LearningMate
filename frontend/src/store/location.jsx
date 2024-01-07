@@ -16,5 +16,19 @@ const locationSlice = createSlice({
   },
 });
 
+const positionSlice = createSlice({
+  name: 'position',
+  initialState: initialLocationState,
+  reducers: {
+    setPosition(state, action) {
+      state.lat = action.payload.lat;
+      state.lng = action.payload.lng;
+    },
+  },
+});
+
 export const locationAction = locationSlice.actions;
-export default locationSlice.reducer;
+export const positionAction = positionSlice.actions;
+
+export const locationReducer = locationSlice.reducer;
+export const positionReducer = positionSlice.reducer;

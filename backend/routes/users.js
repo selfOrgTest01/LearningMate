@@ -15,14 +15,14 @@ const uploadFile = multer({
       cb(null, `${Date.now()}_${file.originalname}`),
   }),
   limits: { fileSize: 1024 * 1024 * 3 },
-  // fileFilter: (req, file, cb) => {
-  //   // 파일 필터 로직 추가 (예: 이미지만 허용)
-  //   if (file.mimetype.startsWith('image/')) {
-  //     cb(null, true);
-  //   } else {
-  //     cb(new Error('Only images are allowed!'), false);
-  //   }
-  // },
+  fileFilter: (req, file, cb) => {
+    // 파일 필터 로직 추가 (예: 이미지만 허용)
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('이미지만 업로드 해주세요!'), false);
+    }
+  },
 });
 
 //회원가입, 로그인, 마이페이지는 여기에 구현하면 됩니다.

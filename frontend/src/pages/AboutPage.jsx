@@ -1,12 +1,15 @@
-import MarkLocationSection from '../components/MarkLocationSection';
 import Page from '../components/Page';
+import AboutSwiper from '../components/AboutPage/AboutSwiper';
 
 function About() {
   return (
     <Page>
       <>
-        <h1>About</h1>
-        <MarkLocationSection />
+        <br />
+        <h1>러닝메이트 개발팀</h1>
+        <br />
+        <AboutSwiper />
+        {/* <LandingPage /> */}
       </>
     </Page>
   );

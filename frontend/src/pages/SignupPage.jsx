@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 function SignUpPage() {
+  // useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
+  const inputRef = useRef();
   const navigate = useNavigate();
+  const [selectedFileName, setSelectedFileName] = useState('');
   const {
     register,
     handleSubmit,
@@ -67,8 +70,13 @@ function SignUpPage() {
     [navigate],
   );
 
+  const handleFileChange = (e) => {
+    const fileName = e.target.files[0].name;
+    setSelectedFileName(fileName);
+  };
+
   return (
-    <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
+    <Container fluid style={{ height: '100vh' }}>
       <Row className='justify-content-md-center'>
         <Col md={4}>
           <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
@@ -153,8 +161,9 @@ function SignUpPage() {
             </Form.Group>
             <div className='col-sm-12 mb-3'>
               <label htmlFor='profile' className='form-label'>
-                프로파일 이미지
+                프로필 이미지를 선택해주세요
               </label>
+              <br />
               <input
                 type='file'
                 className='form-control'
@@ -162,8 +171,16 @@ function SignUpPage() {
                 name='profile'
                 accept='image/*'
                 {...register('profile')}
+                ref={inputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
               />
+              <Button variant='success' size='sm' onClick={() => inputRef.current.click()}>
+                사진선택
+              </Button>
+              {selectedFileName && <p style={{ display: 'inline-block', marginLeft: '10px' }}>{selectedFileName}</p>}
             </div>
+
             <Form.Group className='mb-3' controlId='formGroupEmail'>
               <Button variant='primary' style={{ width: '100%' }} type='submit'>
                 등록
