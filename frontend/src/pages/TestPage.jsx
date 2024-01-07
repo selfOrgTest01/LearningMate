@@ -61,7 +61,7 @@ function Test() {
         유저닉네임:
         {userInfo.nickname}
       </h2>
-      <ImageUploadSection />
+      <ImageUploadSection userId={userInfo.userId} />
       <LandingModal />
       {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
     </>

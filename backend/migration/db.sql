@@ -113,17 +113,18 @@ VALUES
 SELECT
     *
 FROM
-    users
-ALTER TABLE
-    users
-ADD
-    COLUMN profile_nickname VARCHAR(255);
+    users;
 
+-- ALTER TABLE
+--     users
+-- ADD
+--     COLUMN profile_nickname VARCHAR(255);
 SELECT
     *
 FROM
     courses;
 
+-- ALTER DATABASE learningmate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;

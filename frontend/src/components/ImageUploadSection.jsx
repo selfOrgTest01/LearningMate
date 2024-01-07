@@ -3,13 +3,13 @@ import { useCallback, useRef, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { localDomain } from '../config/config';
 
-function ImageUploadSection() {
+function ImageUploadSection({ userId }) {
   const [image, setImage] = useState(`${process.env.PUBLIC_URL}/img/Hani.jpg`);
   const [file, setFile] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
   const readImageUrl = useCallback(async () => {
-    const resData = await axios.get(`${localDomain}/users/imagetest/54`);
+    const resData = await axios.get(`${localDomain}/users/imagetest/${userId}`);
     setImageUrl(() => {
       const newImage = resData.data.data[0].profile_name;
       return newImage;

@@ -54,7 +54,7 @@ function Header() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/crouses'>
+              <Link className='nav-link' to='/courses'>
                 강의
                 <span className='visually-hidden'>(current)</span>
               </Link>

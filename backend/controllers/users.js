@@ -21,15 +21,13 @@ exports.login = async (req, res) => {
 exports.signupUser = async (req, res) => {
   try {
     const userData = JSON.parse(req.body.data);
-    console.log(userData);
-    console.log(req.file);
     const imageName = req.file
       ? `${imageUploadPath}${req.file.filename}`
       : `${imageUploadPath}default.png`;
+      //path.parse().name으로 확장자를 제거한 데이터를 받는다
     const imageNickname = req.file
       ? path.parse(req.file.originalname).name
       : '';
-    console.log(imageNickname);
     await usersDao.signUp(userData, imageName, imageNickname, (resp) => {
       res.send(resp);
     });
