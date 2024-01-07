@@ -10,7 +10,6 @@ import TestPage from './pages/TestPage';
 import HomePage from './pages/HomePage';
 import UserListPage from './pages/UserListPage';
 import Courses from './pages/Courses';
-// 민경
 import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
@@ -24,6 +23,7 @@ import WaitingMeets from './pages/mypage/WaitingMeets';
 import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
+import MeetUpdate from './pages/meets/MeetUpdate';
 
 function App() {
   return (
@@ -37,10 +37,10 @@ function App() {
           <Route path='/test' element={<TestPage />} />
           <Route path='/user-list' element={<UserListPage />} />
           <Route path='/courses' element={<Courses />} />
-          {/* 민경 */}
           <Route path='/meets' element={<MeetList />} />
           <Route path='/detail/:id' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
+          <Route path='/update' element={<MeetUpdate />} />
         </Route>
         <Route>
           <Route path='/mypage' element={<Mypage />} />
