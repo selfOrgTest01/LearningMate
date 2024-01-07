@@ -20,11 +20,14 @@ function UserLikeMeets() {
     fetchUserLikeMeets();
   }, [auth.userId]);
 
+  // 승인이 난 모임들만 필터링
+  const approvedLikeMeets = userLikeMeets.filter((meet) => meet.approved);
+
   return (
     <div>
       <h3>좋아하는 모임 목록</h3>
       <ul>
-        {userLikeMeets.map((meet) => (
+        {approvedLikeMeets.map((meet) => (
           <li key={meet.meetId}>{meet.meetName}</li>
         ))}
       </ul>
