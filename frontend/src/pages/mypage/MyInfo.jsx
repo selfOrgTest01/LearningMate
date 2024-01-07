@@ -9,9 +9,9 @@ import MyInfoEdit from '../../components/Mypage/MyInfoEdit';
 function MyInfo() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userInfo, setUserInfo] = useState({
-    닉네임: 'nickname', // 예시로 초기값 설정
-    전화번호: '010-1234-5678',
-    이메일: 'example@email.com',
+    nickname: 'nickname', // 예시로 초기값 설정
+    phone_number: '010-1234-5678',
+    email: 'example@email.com',
   });
 
   const handleEditClick = () => {

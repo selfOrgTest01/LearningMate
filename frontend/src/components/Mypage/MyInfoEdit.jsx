@@ -3,9 +3,9 @@ import { Form, Button } from 'react-bootstrap';
 
 function MyInfoEdit({ onCancel, onSave }) {
   const [editedData, setEditedData] = useState({
-    닉네임: '',
-    전화번호: '',
-    이메일: '',
+    nickname: '',
+    phone_number: '',
+    email: '',
   });
 
   const handleChange = (e) => {
