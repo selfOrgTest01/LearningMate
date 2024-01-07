@@ -37,15 +37,15 @@ function UserProfile() {
         님, 안녕하세요.
       </h3>
       <h5>
-        nickname:
+        -닉네임:
         {data.nickname}
       </h5>
       <h5>
-        휴대폰번호:
+        -전화번호:
         {data.phone_number}
       </h5>
       <h5>
-        email:
+        -이메일:
         {data.email}
       </h5>
     </>
