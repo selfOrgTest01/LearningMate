@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import './styles/UserProfile.css';
 
 function UserProfile() {
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
@@ -36,16 +37,16 @@ function UserProfile() {
         {data.nickname}
         님, 안녕하세요.
       </h3>
-      <h5>
-        -닉네임:
+      <h5 className='user-info'>
+        <span className='info-label'>닉네임 : </span>
         {data.nickname}
       </h5>
-      <h5>
-        -전화번호:
+      <h5 className='user-info'>
+        <span className='info-label'>전화번호 : </span>
         {data.phone_number}
       </h5>
-      <h5>
-        -이메일:
+      <h5 className='user-info'>
+        <span className='info-label'>이메일 : </span>
         {data.email}
       </h5>
     </>
