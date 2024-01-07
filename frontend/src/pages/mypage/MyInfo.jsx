@@ -10,7 +10,7 @@ function MyInfo() {
     <div>
       <Header />
       <Container fluid>
-        <h1>MyInfo</h1>
+        <h1>내 정보 조회하기</h1>
         <Row>
           <Col xs={2} id='sidebar'>
             <Sidebar />

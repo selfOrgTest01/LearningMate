@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-function UserProfile() {
+function UserId() {
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
   const [isloading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
@@ -36,20 +36,8 @@ function UserProfile() {
         {data.nickname}
         님, 안녕하세요.
       </h3>
-      <h5>
-        nickname:
-        {data.nickname}
-      </h5>
-      <h5>
-        휴대폰번호:
-        {data.phone_number}
-      </h5>
-      <h5>
-        email:
-        {data.email}
-      </h5>
     </>
   );
 }
 
-export default UserProfile;
+export default UserId;
