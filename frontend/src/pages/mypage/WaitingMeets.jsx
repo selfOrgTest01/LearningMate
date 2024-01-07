@@ -3,13 +3,14 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
 import Footer from '../../components/Mypage/Footer';
+import '../../components/Mypage/styles/Title.css';
 
 function WaitingMeets() {
   return (
     <div>
       <Header />
       <Container fluid>
-        <h1>WaitingMeets</h1>
+        <h2 className='title'>대기 중인 모임 보기</h2>
         <Row>
           <Col xs={2} id='sidebar'>
             <Sidebar />

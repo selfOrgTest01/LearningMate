@@ -6,6 +6,7 @@ import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
 import Footer from '../../components/Mypage/Footer';
 import MyInfoEdit from '../../components/Mypage/MyInfoEdit';
+import '../../components/Mypage/styles/Title.css';
 
 function MyInfo() {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -56,7 +57,7 @@ function MyInfo() {
     <div>
       <Header />
       <Container fluid>
-        <h1>내 정보 조회하기</h1>
+        <h2 className='title'>내 정보 조회하기</h2>
         <Row>
           <Col xs={2} id='sidebar'>
             <Sidebar />
