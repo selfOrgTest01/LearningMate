@@ -13,6 +13,7 @@ import Courses from './pages/Courses';
 import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
+import MeetUpdate from './pages/meets/MeetUpdate';
 // 나현
 import Mypage from './pages/mypage/Mypage';
 import MyInfo from './pages/mypage/MyInfo';
@@ -23,7 +24,6 @@ import WaitingMeets from './pages/mypage/WaitingMeets';
 import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
-import MeetUpdate from './pages/meets/MeetUpdate';
 
 function App() {
   return (

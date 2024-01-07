@@ -1,11 +1,34 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import UserProfile from '../../components/Mypage/UserProfile';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
 import Footer from '../../components/Mypage/Footer';
+import MyInfoEdit from '../../components/Mypage/MyInfoEdit';
 
 function MyInfo() {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    닉네임: 'example@email.com', // 예시로 초기값 설정
+    전화번호: '010-1234-5678',
+    이메일: 'nickname',
+  });
+
+  const handleEditClick = () => {
+    setIsEditMode(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditMode(false);
+  };
+
+  const handleSaveEdit = (editedData) => {
+    // 수정된 데이터를 저장하고
+    // 서버에 업데이트 요청을 보낼 수도 있습니다.
+    setUserInfo(editedData);
+    setIsEditMode(false);
+  };
+
   return (
     <div>
       <Header />
@@ -16,7 +39,16 @@ function MyInfo() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
-            <UserProfile />
+            {isEditMode ? (
+              <MyInfoEdit onCancel={handleCancelEdit} onSave={handleSaveEdit} />
+            ) : (
+              <>
+                <UserProfile userInfo={userInfo} />
+                <Button variant='primary' onClick={handleEditClick}>
+                  내 정보 수정하기
+                </Button>
+              </>
+            )}
           </Col>
         </Row>
       </Container>
