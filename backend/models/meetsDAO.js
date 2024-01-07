@@ -1,7 +1,8 @@
 // 2023.12.29 수정 완료
-
+const geolib = require('geolib');
 const db = require('./../src/database');
-
+// 주변위치 검색때 반경(km);
+const radius = 2;
 const sql = {
   meetList: `SELECT m.meet_id, title, content, onoff, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
@@ -46,6 +47,20 @@ const meetsDAO = {
       callback({ status: 500, message: '모임 상세 조회 실패', error: error });
     }
   },
+  // // 주변 모임을 찾는 함수
+  // findNearbyMeetup: async (myLocation, callback) => {
+  //   try{
+  //     //locations => db에서 가져온 모임들의 위치정보
+  //     const nearbyMeets = locations.filter(location => {
+  //       const distance = geolib.getDistance({latitude: location.latitude, longitude: location.longitude}, myLocation);
+  //       const distanceInKm = distance / 1000;
+  //       return distanceInKm <= radius;
+  //     });
+  //   }
+  //   catch (error){
+  //     console.log(error);
+  //   }
+  // },
 
   insert: async (item, callback) => { // data 들어온거 확인 완료!
     try {
