@@ -1,5 +1,3 @@
-// 12.27 나현 추가
-
 const db = require('../src/database');
 
 const sql = {
@@ -13,12 +11,11 @@ const sql = {
     insert: `INSERT INTO courses(title, content, category, user_id, attach_file_path, attach_file_name) 
              VALUES(?, ?, ?, ?, ?, ?)`,
     update: 'UPDATE courses SET title = ?, content = ?, category = ?, attach_file_path = ?, attach_file_name = ? WHERE course_id = ?',
-    delete: 'DELETE FROM courses WHERE course_id = ?',
-    totalCount: 'SELECT COUNT(*) as cnt FROM courses' // 총 강의 개수
+    delete: 'DELETE FROM courses WHERE course_id = ?'
 };
 
 const coursesDAO = {
-    courseList: async (item, callback) => { // data 들어온거 확인 완료!
+    courseList: async (item, callback) => {
         const no = Number(item.no) - 1 || 0;
         const size = Number(item.size) || 10;
 
@@ -33,7 +30,7 @@ const coursesDAO = {
         }
     },
 
-    course: async (id, callback) => { // data 들어온거 확인 완료!
+    course: async (id, callback) => {
         try {
             const resp = await db.query(sql.meet, [id]);
             if (resp.length === 0) { // course_id에 해당하는 강의가 없다면
@@ -58,7 +55,7 @@ const coursesDAO = {
         }
     },
 
-    update: async (item, callback) => { // data 들어온거 확인 완료!
+    update: async (item, callback) => {
         try {
             const resp = await db.query(sql.update, [item.title, item.content, item.category, item.attach_file_path, item.attach_file_name, item.course_id]);
             if (resp.affectedRows === 0) {
@@ -72,7 +69,7 @@ const coursesDAO = {
         }
     },
 
-    delete: async (id, callback) => { // data 들어온거 확인 완료!
+    delete: async (id, callback) => {
         try {
             const resp = await db.query(sql.delete, [id]);
             if (resp.affectedRows === 0) { //  해당 조건에 맞는 행이 존재하지 않는다면 affectedRows가 0

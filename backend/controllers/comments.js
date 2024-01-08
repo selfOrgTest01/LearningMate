@@ -1,5 +1,3 @@
-// 12.28 나현 추가
-
 const commentsDAO = require('../models/commentsDAO');
 
 exports.commentInsert = async (req, res) => {
