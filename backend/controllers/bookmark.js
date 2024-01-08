@@ -1,5 +1,3 @@
-// 12.29 나현 추가
-
 const bookmarkDAO = require('../models/bookmarkDAO');
 
 exports.addBookmark = async (req, res) => {

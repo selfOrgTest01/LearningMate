@@ -6,13 +6,22 @@ import AboutPage from './pages/AboutPage';
 import TestPage from './pages/TestPage';
 import HomePage from './pages/HomePage';
 import UserListPage from './pages/UserListPage';
-import Mypage from './pages/Mypage';
 import Courses from './pages/lectures/Courses';
 import RegisterLecturePage from './pages/lectures/RegisterLecturePage';
 import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
 import MeetUpdate from './pages/meets/MeetUpdate';
+// 나현
+import Mypage from './pages/mypage/Mypage';
+import MyInfo from './pages/mypage/MyInfo';
+import MyReviews from './pages/mypage/MyReviews';
+import LikeMeets from './pages/mypage/LikeMeets';
+import LikeCourses from './pages/mypage/LikeCourses';
+import WaitingMeets from './pages/mypage/WaitingMeets';
+import MyMeets from './pages/mypage/MyMeets';
+import MyCourses from './pages/mypage/MyCourses';
+import Withdraw from './pages/mypage/Withdraw';
 
 function App() {
   return (
@@ -25,7 +34,6 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/test' element={<TestPage />} />
           <Route path='/user-list' element={<UserListPage />} />
-          <Route path='/mypage' element={<Mypage />} />
           {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
             <Route index element={<Courses />} />
@@ -35,6 +43,17 @@ function App() {
           <Route path='/detail/:id' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
           <Route path='/update' element={<MeetUpdate />} />
+        </Route>
+        <Route>
+          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/my-info' element={<MyInfo />} />
+          <Route path='/my-reviews' element={<MyReviews />} />
+          <Route path='/like-meets' element={<LikeMeets />} />
+          <Route path='/like-courses' element={<LikeCourses />} />
+          <Route path='/waiting-meets' element={<WaitingMeets />} />
+          <Route path='/my-meets' element={<MyMeets />} />
+          <Route path='/my-courses' element={<MyCourses />} />
+          <Route path='/withdraw' element={<Withdraw />} />
         </Route>
       </Routes>
     </BrowserRouter>

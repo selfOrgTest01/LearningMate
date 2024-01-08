@@ -1,5 +1,3 @@
-// 12.27 나현 추가
-
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
