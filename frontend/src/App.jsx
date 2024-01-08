@@ -22,8 +22,11 @@ import WaitingMeets from './pages/mypage/WaitingMeets';
 import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
+// 강의페이지
 import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
 import LectureDetail from './pages/lectures/LectureDetail';
+// 챗봇페이지
+import ChatbotPage from './pages/chatbot/ChabotPage';
 
 function App() {
   return (
@@ -47,6 +50,7 @@ function App() {
           <Route path='/detail/:id' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
           <Route path='/update' element={<MeetUpdate />} />
+          <Route path='/chatbot' element={<ChatbotPage />} />
         </Route>
         <Route>
           <Route path='/mypage' element={<Mypage />} />
