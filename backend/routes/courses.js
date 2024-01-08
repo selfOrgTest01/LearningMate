@@ -17,7 +17,15 @@ const uploadFile = multer({
 });
 
 // 강의 생성
-router.post('/insert', uploadFile.single('lectureVideo'),coursesController.courseInsert);
+router.post(
+  '/insert',
+  uploadFile.fields([
+    // 이름으로 식별하는 req.files 생성
+    { name: 'lectureVideo', maxCount: 1 },
+    { name: 'lectureImage', maxCount: 1 },
+  ]),
+  coursesController.courseInsert,
+);
 // 강의 수정
 router.patch('/update', coursesController.courseUpdate);
 // 강의 삭제

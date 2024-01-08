@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ImageUploadSection from '../components/ImageUploadSection';
 import LandingModal from '../components/maps/LandingModal';
+import MeetDetailMapSection from '../components/maps/MeetDetailMapSection';
 
 function Test() {
   const position = useSelector((state) => state.position);
@@ -63,6 +64,7 @@ function Test() {
       </h2>
       <ImageUploadSection userId={userInfo.userId} />
       <LandingModal />
+      <MeetDetailMapSection />
       {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
     </>
   );

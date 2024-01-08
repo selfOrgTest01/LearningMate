@@ -22,6 +22,8 @@ import WaitingMeets from './pages/mypage/WaitingMeets';
 import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
+import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
+import LectureDetail from './pages/lectures/LectureDetail';
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
           <Route path='/courses'>
             <Route index element={<Courses />} />
             <Route path='register' element={<RegisterLecturePage />}></Route>
+            {/* <Route path='update' element={<UpdateLecturePage />}></Route> */}
+            <Route path='detail/:courseid' element={<LectureDetail />}></Route>
           </Route>
           <Route path='/meets' element={<MeetList />} />
           <Route path='/detail/:id' element={<MeetDetail />} />
