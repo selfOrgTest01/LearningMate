@@ -1,11 +1,15 @@
-// 12.27 나현 추가
-
 const coursesDAO = require('../models/coursesDAO');
+const domain = require('../config/config.js');
+const videoUploadPath = `${domain.localDomain}/videos/courses`;
+const path = require('path')
 
 exports.courseInsert = async (req, res) => {
-  const courseData = req.body;
   try {
-    await coursesDAO.insert(courseData, (resp) => {
+    const courseData = JSON.parse(req.body.data);
+    const videoPath = req.file ? `${videoUploadPath}/${req.file.filename}`: '';
+    //path.parse().name으로 확장자를 제거한 데이터를 받는다
+    const videoName = req.file ? path.parse(req.file.originalname).name : '강의영상';
+    await coursesDAO.insert(courseData, videoPath, videoName, (resp) => {
       res.send(resp);
     });
   } catch (err) {

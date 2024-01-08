@@ -6,10 +6,11 @@ import ImageUploadSection from '../components/ImageUploadSection';
 import LandingModal from '../components/maps/LandingModal';
 
 function Test() {
+  const position = useSelector((state) => state.position);
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
   const [isloading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
-  console.log(auth);
+  const userInfo = useSelector((state) => state.userInfo);
   const localDomain = 'http://localhost:8000';
   const getData = useCallback(async () => {
     try {
@@ -52,8 +53,17 @@ function Test() {
         로그인상태:
         {auth.toString()}
       </h2>
-      <ImageUploadSection />
+      <h2>
+        유저ID:
+        {userInfo.userId}
+      </h2>
+      <h2>
+        유저닉네임:
+        {userInfo.nickname}
+      </h2>
+      <ImageUploadSection userId={userInfo.userId} />
       <LandingModal />
+      {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
     </>
   );
 }

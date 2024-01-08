@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 // 가져온 데이터들을 내용에 맞게 처리해주면 끝
 function CardForSwiper({ item }) {
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '24rem' }}>
       <Card.Img variant='top' src={item} style={{ maxWidth: '100%', maxHeight: '120px' }} />
       <Card.Body>
         <Card.Title>모임1</Card.Title>
