@@ -1,5 +1,3 @@
-// 12.27 나현 추가
-
 const db = require('../src/database');
 
 const sql = {
@@ -46,10 +44,10 @@ const coursesDAO = {
         }
     },
 
-    insert: async (item, callback) => {
+    insert: async (item, videoPath, videoName, callback) => { 
         console.log(item);
         try {
-            const resp = await db.query(sql.insert, [item.title, item.content, item.category, item.user_id, item.attach_file_path, item.attach_file_name]);
+            const resp = await db.query(sql.insert, [item.title, item.content, item.category, item.user_id, videoPath, videoName]);
             callback({ status: 200, message: '강의 생성 성공', data: resp });
         } catch (error) {
             console.error(error);

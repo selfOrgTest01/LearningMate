@@ -14,5 +14,7 @@ router.delete('/delete/:meet_id', meetsController.meetDelete);
 router.get('/meetList', meetsController.meetList);
 // 특정 모임 상세
 router.get('/meet/:meet_id', meetsController.meet);
+// 주변 모임 탐색
+// router.post('/find-nearby-meetup', meetsController.findNearbyMeetup);
 
 module.exports = router;

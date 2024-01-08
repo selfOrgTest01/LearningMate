@@ -23,7 +23,4 @@ constants: 상수를 저장
 
 # 12-31 front에만 eslint적용
 
-    airbnb-base로 변경하고
-
-  <br>
-    prettier설정하니까 잘되는것 같습니다
+# 2024-01-07 multer로 파일명이 한글이면 깨지는문제 발생 1.4.4버전으로 다운그레이드
