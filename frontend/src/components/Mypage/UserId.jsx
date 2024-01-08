@@ -1,6 +1,3 @@
-// 01.04 나현 추가
-// 01.05 나현 수정
-
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';

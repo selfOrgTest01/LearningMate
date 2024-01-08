@@ -1,5 +1,3 @@
-// 01.05 나현 추가
-
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import './styles/Sidebar.css';

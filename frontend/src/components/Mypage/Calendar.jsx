@@ -1,10 +1,7 @@
-// 01.03 나현 추가
-
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-// 달력
 function MyCalendar() {
   const [date, setDate] = useState(new Date());
 
