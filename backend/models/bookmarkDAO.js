@@ -1,5 +1,3 @@
-// 12.29 나현 추가
-
 const db = require('../src/database');
 
 class bookmarkDAO {

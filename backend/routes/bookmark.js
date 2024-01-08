@@ -1,5 +1,3 @@
-// 12.29 나현 추가
-
 const express = require('express');
 const router = express.Router();
 const bookmarkController = require('../controllers/bookmark');

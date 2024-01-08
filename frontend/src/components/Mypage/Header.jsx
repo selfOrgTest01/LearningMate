@@ -1,9 +1,15 @@
+import { useSelector } from 'react-redux';
 import { Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogoutFunction from '../../containers/Header/LogoutFunction';
 
 function Header() {
   const logoutUser = LogoutFunction();
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth.isAuth);
+  const handleLoginClick = () => {
+    navigate('/sign-in');
+  };
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
@@ -61,9 +67,16 @@ function Header() {
             </li>
           </ul>
           <form className='d-flex'>
-            <button className='btn btn-secondary my-2 my-sm-0' type='submit' onClick={logoutUser}>
-              logout
-            </button>
+            {!auth ? (
+              <button className='btn btn-secondary my-2 my-sm-0' type='button' onClick={handleLoginClick}>
+                로그인
+                <span className='visually-hidden'>(current)</span>
+              </button>
+            ) : (
+              <button className='btn btn-secondary my-2 my-sm-0' type='button' onClick={logoutUser}>
+                로그아웃
+              </button>
+            )}
           </form>
         </div>
       </div>
