@@ -14,11 +14,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { changeData, clearData, setDates } from '../../store/meetStore';
+import LandingModal from '../../components/maps/LandingModal';
 
 function MeetInsert() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userId, nickname } = useSelector((state) => state.userStore);
+  // 위치선택 버튼으로 선택한 위치는 position에 위도와 경도가 저장됩니다
+  // const position = useSelector((state) => state.position);
   const { meet } = useSelector((state) => state.meetStore);
   const { register } = useForm({ defaultValues: {}, mode: 'onBlur' });
 
@@ -142,7 +145,7 @@ function MeetInsert() {
                     {/* 이렇게 두면 닉네임 나오는지 꼭 확인하기 */}
                   </tr>
                   <tr>
-                    {/* 지도 입력하는 곳 */}
+                    <LandingModal />
                     <td>온오프라인</td>
                     <td>
                       <div className='form-check form-check-inline'>
@@ -241,6 +244,8 @@ function MeetInsert() {
               </table>
             </form>
           </div>
+          {/* 위치선택 테스트용 */}
+          {/* {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>} */}
         </div>
       </section>
     </main>

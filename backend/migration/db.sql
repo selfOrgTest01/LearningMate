@@ -1,4 +1,4 @@
-< < < < < < < HEAD -- Active: 1703034513814@@34.64.245.68@3306@learningmate
+-- Active: 1703657196229@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -124,7 +124,19 @@ SELECT
 FROM
     courses;
 
+SELECT * FROM comments;
+-- ALTER TABLE courses
+-- ADD COLUMN attach_image_path VARCHAR(255);
+
+-- ALTER TABLE courses
+-- MODIFY COLUMN attach_image_path VARCHAR(256);
 -- ALTER DATABASE learningmate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+DELETE FROM courses;
+ALTER TABLE meets
+ADD COLUMN longitude DECIMAL(9,6);
+
+SELECT * FROM meets;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;

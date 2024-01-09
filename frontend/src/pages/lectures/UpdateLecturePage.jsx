@@ -1,27 +1,56 @@
 // 따로 설정 안했는데 userid가 없어서 로그인 안하면 업로드가 안됨
 import axios from 'axios';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { localDomain } from '../../config/config';
 
-function RegisterLecturePage() {
+function UpdateLecturePage() {
   const inputRef = useRef();
   const imageRef = useRef();
   const navigate = useNavigate();
+  const course_id = useParams().courseid;
+  const [videoPath, setVideoPath] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [imagePath, setImagePath] = useState('');
+  const [category, setCategory] = useState('');
   // 로그인한 유저의 userId
   const userId = useSelector((state) => state.userInfo.userId);
   // input에서 선택한 파일의 이름
-  const [selectedVideoFileName, setSelectedVideoFileName] = useState('');
-  const [selectedImageFileName, setSelectedImageFileName] = useState('');
+  const [selectedVideoFileName, setSelectedVideoFileName] = useState();
+  const [selectedImageFileName, setSelectedImageFileName] = useState();
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ defaultValues: {}, mode: 'onBlur' });
+  } = useForm({
+    defaultValues: { title, category, content },
+    mode: 'onBlur',
+  });
+
+  const getLectureDetail = useCallback(async () => {
+    try {
+      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
+      // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
+      if (resp.data.status === 500) {
+        navigate('../');
+      } else {
+        const respData = resp.data.data[0];
+        console.log(respData);
+        setVideoPath(respData.attach_file_path);
+        setImagePath(respData.attach_image_path);
+        setTitle(respData.title);
+        setContent(respData.content);
+        setCategory(respData.category);
+      }
+    } catch (error) {
+      console.error('Error fetching lecture detail:', error);
+    }
+  }, [course_id]);
 
   const handleVideoFileChange = (event) => {
     if (event.target.files[0]) {
@@ -56,7 +85,7 @@ function RegisterLecturePage() {
     async (formSubmitData) => {
       console.log('등록됨');
       try {
-        const submitData = { ...formSubmitData, user_id: userId };
+        const submitData = { ...formSubmitData, course_id };
         const formData = new FormData();
         const { files: videoFiles } = document.querySelector('input[name="lectureVideo"]');
         const { files: imageFiles } = document.querySelector('input[name="lectureImage"]');
@@ -64,27 +93,33 @@ function RegisterLecturePage() {
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);
 
-        const resp = await axios.post(`${localDomain}/courses/insert`, formData, {
+        const resp = await axios.patch(`${localDomain}/courses/update`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-        console.log(resp.data.data);
-        // 강의 detail 만들어지면 그 url로 연결
-        // 백앤드에서 insert가 성공하면 저장된 강의의 id를 받아와야함
-        navigate(`../detail/${resp.data.data}`);
+        navigate(`../detail/${course_id}`);
       } catch (error) {
         console.log(error);
       }
     },
     [userId],
   );
+
+  useEffect(() => {
+    getLectureDetail();
+    setValue('title', title);
+    setValue('category', category);
+    setValue('content', content);
+    // setValue('lectureVideo', videoPath);
+    // setValue('lectureImage', imagePath);
+  }, [getLectureDetail, setValue, title, category, content, videoPath, imagePath]);
   return (
     <Container fluid style={{ height: '100vh' }}>
       <Row className='justify-content-md-center'>
         <Col md={4}>
           <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
-            강의 등록
+            강의 수정
           </h1>
           <form onSubmit={handleSubmit(onSubmitEvent)}>
             <label htmlFor='title'>제목</label>
@@ -93,15 +128,20 @@ function RegisterLecturePage() {
                 id='title'
                 name='title'
                 type='text'
+                // defaultValue={title}
                 placeholder='제목을 입력하세요'
                 {...register('title', { required: true, maxLength: 70 })}
-                defaultValue=''
               />
               {errors.title?.type === 'required' && '제목을 입력하세요'}
             </Form.Group>
             <label htmlFor='category'>카테고리</label>
             <Form.Group className='mb-3'>
-              <Form.Select id='category' name='category' {...register('category', { required: true })}>
+              <Form.Select
+                id='category'
+                name='category'
+                defaultValue={category}
+                {...register('category', { required: true })}
+              >
                 <option value=''>카테고리를 선택해주세요</option>
                 <option value='운동/건강'>운동/건강</option>
                 <option value='IT'>IT</option>
@@ -147,10 +187,6 @@ function RegisterLecturePage() {
               <br />
               {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'}
               <br />
-              {/* 밑에 코드가 안먹히는 이유를 모르겠음 input을 {required: true}로 설정한다음에 파일을 선택해도 errors가 true로 나옴 */}
-              {/* 해결: setValue로 이미지나 영상 파일이 선택되었다고 onChange이벤트에 따로 설정을 해줘야 값을 인식해서 errors가 false로 바뀐다 */}
-              {/* {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'} */}
-              {/* {!selectedVideoFileName && '업로드할 영상을 선택하지 않았습니다'} */}
             </div>
             <div className='col-sm-12 mb-3'>
               <label htmlFor='lectureVideo' className='form-label'>
@@ -182,17 +218,9 @@ function RegisterLecturePage() {
               )}
               {errors.lectureImage && <p>업로드할 썸네일을 선택하지 않았습니다</p>}
               <br />
-              {/* 밑에 코드가 안먹히는 이유를 모르겠음 input을 {required: true}로 설정한다음에 파일을 선택해도 errors가 true로 나옴 */}
-              {/* {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'} */}
-              {/* {!selectedImageFileName && '업로드할 썸네일을 선택하지 않았습니다'} */}
             </div>
             <Form.Group className='mb-3'>
-              <Button
-                variant='primary'
-                style={{ width: '100%' }}
-                type='submit'
-                // disabled={!(selectedVideoFileName && selectedImageFileName)}
-              >
+              <Button variant='primary' style={{ width: '100%' }} type='submit'>
                 등록
               </Button>
             </Form.Group>
@@ -202,4 +230,4 @@ function RegisterLecturePage() {
     </Container>
   );
 }
-export default RegisterLecturePage;
+export default UpdateLecturePage;

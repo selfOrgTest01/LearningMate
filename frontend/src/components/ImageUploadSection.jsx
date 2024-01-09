@@ -14,7 +14,7 @@ function ImageUploadSection({ userId }) {
       const newImage = resData.data.data[0].profile_name;
       return newImage;
     });
-  }, []);
+  }, [userId]);
 
   const uploadImage = useCallback((evt) => {
     const uploadFile = evt.target.files[0];

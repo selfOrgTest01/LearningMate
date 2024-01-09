@@ -59,59 +59,21 @@ function Header() {
                 <span className='visually-hidden'>(current)</span>
               </Link>
             </li>
-            {/* <li className='nav-item'>
-              <Link className='nav-link active' to='/about'>
-                About
-                <span className='visually-hidden'>(current)</span>
-              </Link>
-            </li> */}
-            <li className='nav-item'>
-              <Link className='nav-link' to='/sign-up'>
-                회원가입
-                <span className='visually-hidden'>(current)</span>
-              </Link>
-            </li>
-            {/* {!auth && (
+            {!auth ? (
               <li className='nav-item'>
-                <Link className='nav-link' to='/sign-in'>
-                  로그인
+                <Link className='nav-link' to='/sign-up'>
+                  회원가입
                   <span className='visually-hidden'>(current)</span>
                 </Link>
               </li>
-            )} */}
-            <li className='nav-item'>
-              <Link className='nav-link' to='/mypage'>
-                마이페이지
-                <span className='visually-hidden'>(current)</span>
-              </Link>
-            </li>
-            {/* <li className='nav-item dropdown'>
-              <a
-                className='nav-link dropdown-toggle'
-                data-bs-toggle='dropdown'
-                href='#'
-                role='button'
-                aria-haspopup='true'
-                aria-expanded='false'
-              >
-                Dropdown
-              </a>
-              <div className='dropdown-menu'>
-                <a className='dropdown-item' href='#'>
-                  Action
-                </a>
-                <a className='dropdown-item' href='#'>
-                  Another action
-                </a>
-                <a className='dropdown-item' href='#'>
-                  Something else here
-                </a>
-                <div className='dropdown-divider'></div>
-                <a className='dropdown-item' href='#'>
-                  Separated link
-                </a>
-              </div>
-            </li> */}
+            ) : (
+              <li className='nav-item'>
+                <Link className='nav-link' to='/mypage'>
+                  마이페이지
+                  <span className='visually-hidden'>(current)</span>
+                </Link>
+              </li>
+            )}
           </ul>
           <form className='d-flex'>
             {!auth ? (

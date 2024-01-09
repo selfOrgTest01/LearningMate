@@ -1,3 +1,4 @@
+// 이미지 취소 눌렀을때 처리 추가
 import axios from 'axios';
 import { useCallback, useRef, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
