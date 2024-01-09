@@ -56,7 +56,7 @@ function Courses() {
               <Table striped bordered hover variant='dark'>
                 <thead>
                   <tr>
-                    <th>강의id</th>
+                    {/* <th>강의id</th> */}
                     <th>썸네일</th>
                     <th>작성자</th>
                     <th>제목</th>
@@ -67,7 +67,7 @@ function Courses() {
                   {currentUsers.map((item) => (
                     // <Link to={`./detail/${item.course_id}`}>
                     <tr key={item.course_id} onClick={() => navigate(`./detail/${item.course_id}`)}>
-                      <td>{item.course_id}</td>
+                      {/* <td>{item.course_id}</td> */}
                       <td style={{ width: '10%' }}>
                         <img src={item.attach_image_path} style={{ width: '100%' }} alt='이미지.jpg'></img>
                       </td>
