@@ -1,4 +1,6 @@
-// 1. 라우팅가드 해야하나?
+// 개선사항
+// (1. 라우팅가드 해야하나?)
+// 2. 댓글, 조회수 추가
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';

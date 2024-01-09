@@ -137,6 +137,8 @@ ALTER TABLE meets
 ADD COLUMN longitude DECIMAL(9,6);
 
 SELECT * FROM meets;
+
+SELECT * FROM comments;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;
