@@ -14,6 +14,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
 import { getMeetAction } from '../../store/meetStore';
+import MeetDetailMapSection from '../../components/maps/MeetDetailMapSection';
 
 function MeetDetail() {
   const navigate = useNavigate();
@@ -158,7 +159,7 @@ function MeetDetail() {
             >
               <table>
                 <tbody>
-                  {/* 지도 들어가는 곳 */}
+                  <MeetDetailMapSection />
                   {meet.onoff === 0 && <img src='지도 이미지 주소' className='card-img-top' alt='지도' />}
 
                   <tr>
