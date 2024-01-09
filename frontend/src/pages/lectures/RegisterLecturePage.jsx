@@ -112,7 +112,7 @@ function RegisterLecturePage() {
                 id='lectureVideo'
                 name='lectureVideo'
                 accept='video/*'
-                {...register('lectureVideo')}
+                {...register('lectureVideo', { required: true })}
                 ref={inputRef}
                 style={{ display: 'none' }}
                 onChange={handleVideoFileChange}
@@ -120,6 +120,7 @@ function RegisterLecturePage() {
               <Button variant='success' size='sm' onClick={() => inputRef.current.click()}>
                 영상선택
               </Button>
+              {errors}
               {selectedVideoFileName && (
                 <p style={{ display: 'inline-block', marginLeft: '10px' }}>{selectedVideoFileName}</p>
               )}

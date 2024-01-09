@@ -63,6 +63,7 @@ function Test() {
         {userInfo.nickname}
       </h2>
       <ImageUploadSection userId={userInfo.userId} />
+      {/* 지도 클릭으로 위치정보 받기 */}
       <LandingModal />
       <MeetDetailMapSection />
       {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
