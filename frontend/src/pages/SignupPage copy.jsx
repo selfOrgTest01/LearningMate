@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import { serverDomain } from '../config/config';
 
 function SignUpPage() {
   const [data, setData] = useState({
@@ -20,7 +21,7 @@ function SignUpPage() {
   // 데이터를 읽어오는 함수
   const readData = useCallback(async () => {
     try {
-      const result = await axios.get('http://localhost:8000/users/check');
+      const result = await axios.get(`${serverDomain}/users/check`);
       console.log(result.data.data);
       return result;
     } catch (err) {
@@ -85,7 +86,7 @@ function SignUpPage() {
       const isDuplicateNickname = resdata.data.data.some((item) => item.nickname === data.nickname);
 
       if (!(isDuplicateEmail || isDuplicatePhone || isDuplicateNickname)) {
-        const result = await axios.post('http://localhost:8000/users/signup', data);
+        const result = await axios.post(`${serverDomain}/users/signup`, data);
         if (result.data.status === 500) {
           window.alert('등록되지 않았습니다 에러가 발생했어요');
         } else {

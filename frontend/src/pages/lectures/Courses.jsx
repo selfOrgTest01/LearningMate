@@ -1,24 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Col, Container, Pagination, Row, Table } from 'react-bootstrap';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 
 function Courses() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(10); // 페이지당 표시할 사용자 수
+  const [usersPerPage] = useState(10);
   const login = useSelector((state) => state.auth.isAuth);
-  // users 데이터베이스에서 user_id,email,phone_number,nickname을 읽어옵니다.
   const readCourses = useCallback(async () => {
     try {
       setLoading(true);
-      const resData = await axios.get(`${localDomain}/courses/courseList`);
-      console.log(resData);
+      const resData = await axios.get(`${serverDomain}/courses/courseList`);
       setCourses((currentCourses) => {
         currentCourses = resData.data.data;
         return currentCourses;

@@ -5,7 +5,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 
 function RegisterLecturePage() {
   const inputRef = useRef();
@@ -64,7 +64,7 @@ function RegisterLecturePage() {
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);
 
-        const resp = await axios.post(`${localDomain}/courses/insert`, formData, {
+        const resp = await axios.post(`${serverDomain}/courses/insert`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

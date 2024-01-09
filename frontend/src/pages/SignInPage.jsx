@@ -5,6 +5,7 @@ import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../store/auth';
 import { userInfoAction } from '../store/userInfo';
+import { serverDomain } from '../config/config';
 
 function Login() {
   const dispatch = useDispatch();
@@ -16,10 +17,8 @@ function Login() {
   const submitData = useCallback(
     async (evt) => {
       evt.preventDefault();
-      // 클라이언트 측에서 서버로 요청을 보낼 때, withCredentials: true 옵션을 설정해야 합니다.
-      // 이 옵션은 서버로부터 쿠키를 받아와서 저장할 수 있도록 해줍니다.
       try {
-        const result = await axios.post('http://localhost:8000/users/login', data, {
+        const result = await axios.post(`${serverDomain}/users/login`, data, {
           withCredentials: true,
         });
         if (result.data.status === 500) {

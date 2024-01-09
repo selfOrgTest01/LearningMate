@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { changeData, clearData, setDates } from '../../store/meetStore';
 import LandingModal from '../../components/maps/LandingModal';
+import { serverDomain } from '../../config/config';
 
 function MeetInsert() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function MeetInsert() {
         category: meet.category,
         approve: meet.approve,
       };
-      await axios.post('http://localhost:8000/meets/insert/', sendData);
+      await axios.post(`${serverDomain}/meets/insert/`, sendData);
       navigate('/meets');
     },
     [meet, userId, nickname, navigate],

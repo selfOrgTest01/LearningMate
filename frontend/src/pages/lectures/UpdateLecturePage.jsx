@@ -5,7 +5,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { localDomain } from '../../config/config';
+import { localDomain, serverDomain } from '../../config/config';
 
 function UpdateLecturePage() {
   const inputRef = useRef();
@@ -34,7 +34,7 @@ function UpdateLecturePage() {
 
   const getLectureDetail = useCallback(async () => {
     try {
-      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
+      const resp = await axios.get(`${serverDomain}/courses/course/${course_id}`);
       // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
       if (resp.data.status === 500) {
         navigate('../');
@@ -93,7 +93,7 @@ function UpdateLecturePage() {
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);
 
-        const resp = await axios.patch(`${localDomain}/courses/update`, formData, {
+        const resp = await axios.patch(`${serverDomain}/courses/update`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import { serverDomain } from '../config/config';
 
 function SignUpPage() {
   // useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
@@ -21,7 +22,7 @@ function SignUpPage() {
   // 데이터를 읽어오는 함수
   const readData = useCallback(async () => {
     try {
-      const result = await axios.get('http://localhost:8000/users/check');
+      const result = await axios.get(`${serverDomain}/users/check`);
       return result;
     } catch (error) {
       console.log('에러:', error);
@@ -58,7 +59,7 @@ function SignUpPage() {
         formData.append('data', JSON.stringify(formSubmitData));
         formData.append('profile', files[0]);
         // console.log(formData);
-        await axios.post('http://localhost:8000/users/signup', formData, {
+        await axios.post(`${serverDomain}/users/signup`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

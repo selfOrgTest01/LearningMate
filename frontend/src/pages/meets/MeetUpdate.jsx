@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { changeData, setDates } from '../../store/meetStore';
+import { serverDomain } from '../../config/config';
 
 function BoardUpdate() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function BoardUpdate() {
   const updateBoard = useCallback(
     async (evt) => {
       evt.preventDefault();
-      await axios.put('http://localhost:8000/boards/update/', meet);
+      await axios.put(`${serverDomain}/boards/update/`, meet);
       // console.log(resp.data);
       navigate('/meet');
     },

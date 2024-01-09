@@ -9,7 +9,6 @@ function SearchLocationSection() {
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('');
   const [markers, setMarkers] = useState([]);
-  // position을 axios통신으로 저장하시면 마우스로 찍은게 저장이됩니다.
   const position = useSelector((state) => state.position);
   const [map, setMap] = useState(false);
   const [info, setInfo] = useState(null);
@@ -49,17 +48,15 @@ function SearchLocationSection() {
   };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault(); // 기본 폼 제출 동작 막기
+    e.preventDefault();
     searchLocation();
   };
 
   const onClickHandlerMarker = (marker) => {
-    // 더블클릭하면 맵중앙으로 마커이동
     const moveLatLon = new window.kakao.maps.LatLng(marker.position.lat, marker.position.lng);
     map.panTo(moveLatLon);
 
-    setInfo(marker); // setInfo 함수 호출
-    // marker.position.lat이 숫자가아니기 때문에 toFixed(6)를 쓰기위해서는 숫자화를 해줘야함
+    setInfo(marker);
     dispatch(
       positionAction.setPosition({
         lat: Number(marker.position.lat).toFixed(6),
@@ -67,11 +64,7 @@ function SearchLocationSection() {
       }),
     );
   };
-  useEffect(() => {
-    console.log('내 위도:', reduxLat);
-    console.log('내 경도:', reduxLng);
-    console.log('저장할 위치정보:', position);
-  }, [reduxLat, reduxLng, position]);
+
   return (
     <Container>
       {/* mx-auto: 중앙정렬 */}

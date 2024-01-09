@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { serverDomain } from '../../config/config';
 
 function MeetList() {
   // 페이지 간 이동
@@ -24,7 +25,7 @@ function MeetList() {
     data: [],
   });
   const getMeetList = useCallback(async (no = 1, size = 10) => {
-    const resp = await axios.get('http://localhost:8000/meets/meetList', { params: { no, size } });
+    const resp = await axios.get(`${serverDomain}/meets/meetList`, { params: { no, size } });
     // console.log(resp.data);
     setMeetList(resp.data);
   }, []);

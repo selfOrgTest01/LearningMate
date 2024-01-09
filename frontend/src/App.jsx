@@ -11,7 +11,6 @@ import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
 import MeetUpdate from './pages/meets/MeetUpdate';
-// 나현
 import Mypage from './pages/mypage/Mypage';
 import MyInfo from './pages/mypage/MyInfo';
 import MyReviews from './pages/mypage/MyReviews';
@@ -21,11 +20,9 @@ import WaitingMeets from './pages/mypage/WaitingMeets';
 import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
-// 강의페이지
 import Courses from './pages/lectures/Courses';
 import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
 import LectureDetail from './pages/lectures/LectureDetail';
-// 챗봇페이지
 import ChatbotPage from './pages/chatbot/ChabotPage';
 
 function App() {
@@ -39,7 +36,6 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/test' element={<TestPage />} />
           <Route path='/user-list' element={<UserListPage />} />
-          {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
             <Route index element={<Courses />} />
             <Route path='register' element={<RegisterLecturePage />}></Route>

@@ -5,18 +5,17 @@ import axios from 'axios';
 import ImageUploadSection from '../components/ImageUploadSection';
 import LandingModal from '../components/maps/LandingModal';
 import MeetDetailMapSection from '../components/maps/MeetDetailMapSection';
+import { serverDomain } from '../config/config';
 
 function Test() {
   const position = useSelector((state) => state.position);
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
-  const [isloading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
   const userInfo = useSelector((state) => state.userInfo);
-  const localDomain = 'http://localhost:8000';
   const getData = useCallback(async () => {
     try {
-      // 데이터 get요청 withCredentials: true 옵션을 추가하면 세션 쿠키가 요청에 올바르게 포함되어 서버에 전달됩니다.
-      const resp = await axios.get(`${localDomain}/users/userinfo`, {
+      const resp = await axios.get(`${serverDomain}/users/userinfo`, {
         withCredentials: true,
       });
       if (resp.data.data === false) window.alert('불러오기 실패');
@@ -30,7 +29,7 @@ function Test() {
   useEffect(() => {
     getData();
   }, [getData]);
-  if (isloading) {
+  if (isLoading) {
     return <div>Loading....</div>;
   }
   return (

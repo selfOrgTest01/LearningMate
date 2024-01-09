@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 
 export default function LectureDetail() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function LectureDetail() {
 
   const getLectureDetail = useCallback(async () => {
     try {
-      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
+      const resp = await axios.get(`${serverDomain}/courses/course/${course_id}`);
       // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
       if (resp.data.status === 500) {
         navigate('../');
@@ -41,12 +41,12 @@ export default function LectureDetail() {
 
   const onDelete = useCallback(async () => {
     try {
-      await axios.delete(`${localDomain}/courses/delete/${course_id}`);
+      await axios.delete(`${serverDomain}/courses/delete/${course_id}`);
       navigate('../');
     } catch (error) {
       console.log(error);
     }
-  });
+  }, [course_id, navigate]);
   useEffect(() => {
     getLectureDetail();
   }, [getLectureDetail, course_id]);

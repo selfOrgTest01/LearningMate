@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 
 import { getMeetAction } from '../../store/meetStore';
 import MeetDetailMapSection from '../../components/maps/MeetDetailMapSection';
+import { serverDomain } from '../../config/config';
 
 function MeetDetail() {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ function MeetDetail() {
 
   const getMeetDetail = useCallback(async () => {
     try {
-      const resp = await axios.get(`http://localhost:8000/meets/meet/${id}`);
+      const resp = await axios.get(`${serverDomain}/meets/meet/${id}`);
       // console.log(resp.data);
 
       if (resp.data.data.length > 0) {
@@ -100,7 +101,7 @@ function MeetDetail() {
   const deleteMeet = useCallback(
     async (meetId) => {
       try {
-        await axios.delete(`http://localhost:8000/meets/delete/${meetId}`);
+        await axios.delete(`${serverDomain}/meets/delete/${meetId}`);
         navigate('/meets'); // 삭제 후 meets로 이동
       } catch (error) {
         // console.error('Error deleting meet:', error);
