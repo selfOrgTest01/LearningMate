@@ -1,3 +1,4 @@
+// 배포환경에서는 `${domain.deployDomain}/images/users/` 유저 이미지 저장경로와 같은 곳으로 저장해야 저장이됨
 const coursesDAO = require('../models/coursesDAO');
 const domain = require('../config/config.js');
 const videoUploadPath = `${domain.deployDomain}/images/users/`;
