@@ -142,6 +142,7 @@ function MeetInsert() {
                     {/* 이렇게 두면 닉네임 나오는지 꼭 확인하기 */}
                   </tr>
                   <tr>
+                    {/* 지도 입력하는 곳 */}
                     <td>온오프라인</td>
                     <td>
                       <div className='form-check form-check-inline'>
