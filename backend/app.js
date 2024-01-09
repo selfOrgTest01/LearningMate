@@ -10,15 +10,7 @@ const testRouter = require('./routes/test');
 const meetRouter = require('./routes/meets'); // 민경 추가
 const participantRouter = require('./routes/participants'); // 민경 추가
 const reviewRouter = require('./routes/reviews'); // 민경 추가
-<<<<<<< HEAD:learningmate-server/app.js
 
-const app = express();
-const session = require('express-session');
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-=======
 const app = express();
 const session = require('express-session');
 const courseRouter = require('./routes/courses'); // 나현 추가
@@ -28,23 +20,19 @@ const bookmarkRouter = require('./routes/bookmark'); // 나현 추가
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //정적경로를 public으로 설정
->>>>>>> 1b42eeed5b96900da7e62beb1862a35aeb2ccdae:backend/app.js
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //origin: 클라이언트의 주소 , 다른 포트로 쿠키를 보낼때는 cors 옵션에  credentials: true 추가해야함
-<<<<<<< HEAD:learningmate-server/app.js
 app.use(
     cors({
         origin: `https://web-learningmate-5r422alqajqbni.sel4.cloudtype.app`,
         credentials: true,
     })
 );
-=======
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
->>>>>>> 1b42eeed5b96900da7e62beb1862a35aeb2ccdae:backend/app.js
+
 //saveUninitialized는 세션이 초기화될 때(예: 사용자가 웹사이트에 처음 방문했을 때) 세션을 저장할지 여부를 결정합니다.
 //resave는 요청이 완료된 후(통신 후)에 세션을 저장할지 여부를 결정합니다.
 app.use(
