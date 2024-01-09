@@ -20,6 +20,7 @@ function RegisterLecturePage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ defaultValues: {}, mode: 'onBlur' });
 
@@ -145,7 +146,14 @@ function RegisterLecturePage() {
                 style={{ display: 'none' }}
                 onChange={handleImageFileChange}
               />
-              <Button variant='success' size='sm' onClick={() => imageRef.current.click()}>
+              <Button
+                variant='success'
+                size='sm'
+                onClick={() => {
+                  imageRef.current.click();
+                  setValue('lectureImage');
+                }}
+              >
                 이미지선택
               </Button>
               {selectedImageFileName && (
