@@ -3,8 +3,7 @@
 // 24.01.04 ~
 // - 다른 곳에서 사용한 모임 아니면 삭제 가능.. 이걸 어떻게 해야하지?
 // - 날짜 값 변경
-// - 하트 수 받기
-// - 참석 인원 수 받기...ㅜ
+// - 참석 인원 수 받기
 // - 사진 올라오게 하기
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -159,6 +158,7 @@ function MeetDetail() {
             >
               <table>
                 <tbody>
+                  {/* 지도 들어가는 곳 */}
                   {meet.onoff === 0 && <img src='지도 이미지 주소' className='card-img-top' alt='지도' />}
 
                   <tr>
