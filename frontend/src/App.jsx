@@ -6,7 +6,6 @@ import AboutPage from './pages/AboutPage';
 import TestPage from './pages/TestPage';
 import HomePage from './pages/HomePage';
 import UserListPage from './pages/UserListPage';
-import Courses from './pages/lectures/Courses';
 import RegisterLecturePage from './pages/lectures/RegisterLecturePage';
 import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
@@ -23,6 +22,7 @@ import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
 // 강의페이지
+import Courses from './pages/lectures/Courses';
 import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
 import LectureDetail from './pages/lectures/LectureDetail';
 // 챗봇페이지
@@ -43,7 +43,7 @@ function App() {
           <Route path='/courses'>
             <Route index element={<Courses />} />
             <Route path='register' element={<RegisterLecturePage />}></Route>
-            {/* <Route path='update' element={<UpdateLecturePage />}></Route> */}
+            <Route path='update/:courseid' element={<UpdateLecturePage />}></Route>
             <Route path='detail/:courseid' element={<LectureDetail />}></Route>
           </Route>
           <Route path='/meets' element={<MeetList />} />

@@ -13,7 +13,7 @@ export default function MeetDetailMapSection() {
     window.open(`https://map.kakao.com/link/map/모임위치,${reduxLat},${reduxLng}`);
   };
   return (
-    <Container>
+    <Container style={{ height: '8rem' }}>
       <Map
         center={{
           // 지도의 중심좌표
@@ -22,8 +22,8 @@ export default function MeetDetailMapSection() {
           lng: reduxLng,
         }}
         style={{
-          width: '50%',
-          height: '450px',
+          width: '100%',
+          height: '100%',
         }}
         level={4}
       >

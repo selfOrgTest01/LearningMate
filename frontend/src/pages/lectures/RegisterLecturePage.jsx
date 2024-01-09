@@ -1,5 +1,4 @@
 // 따로 설정 안했는데 userid가 없어서 로그인 안하면 업로드가 안됨
-// 영상, 이미지 취소 눌렀을때 처리 추가
 import axios from 'axios';
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
@@ -24,14 +23,34 @@ function RegisterLecturePage() {
     formState: { errors },
   } = useForm({ defaultValues: {}, mode: 'onBlur' });
 
-  const handleVideoFileChange = (e) => {
-    const fileName = e.target.files[0].name;
-    setSelectedVideoFileName(fileName);
+  const handleVideoFileChange = (event) => {
+    if (event.target.files[0]) {
+      const fileName = event.target.files[0].name;
+      setSelectedVideoFileName(fileName);
+    } else {
+      const fileName = '';
+      setSelectedVideoFileName(fileName);
+    }
+    setValue('lectureVideo', event.target.files[0], {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
   };
 
-  const handleImageFileChange = (e) => {
-    const fileName = e.target.files[0].name;
-    setSelectedImageFileName(fileName);
+  const handleImageFileChange = (event) => {
+    if (event.target.files[0]) {
+      const fileName = event.target.files[0].name;
+      setSelectedImageFileName(fileName);
+    } else {
+      const fileName = '';
+      setSelectedImageFileName(fileName);
+    }
+    setValue('lectureImage', event.target.files[0], {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
   };
   const onSubmitEvent = useCallback(
     async (formSubmitData) => {
@@ -121,14 +140,17 @@ function RegisterLecturePage() {
               <Button variant='success' size='sm' onClick={() => inputRef.current.click()}>
                 영상선택
               </Button>
-              {errors}
+
               {selectedVideoFileName && (
                 <p style={{ display: 'inline-block', marginLeft: '10px' }}>{selectedVideoFileName}</p>
               )}
               <br />
+              {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'}
+              <br />
               {/* 밑에 코드가 안먹히는 이유를 모르겠음 input을 {required: true}로 설정한다음에 파일을 선택해도 errors가 true로 나옴 */}
+              {/* 해결: setValue로 이미지나 영상 파일이 선택되었다고 onChange이벤트에 따로 설정을 해줘야 값을 인식해서 errors가 false로 바뀐다 */}
               {/* {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'} */}
-              {!selectedVideoFileName && '업로드할 영상을 선택하지 않았습니다'}
+              {/* {!selectedVideoFileName && '업로드할 영상을 선택하지 않았습니다'} */}
             </div>
             <div className='col-sm-12 mb-3'>
               <label htmlFor='lectureVideo' className='form-label'>
@@ -141,7 +163,7 @@ function RegisterLecturePage() {
                 id='lectureImage'
                 name='lectureImage'
                 accept='image/*'
-                {...register('lectureImage')}
+                {...register('lectureImage', { required: true })}
                 ref={imageRef}
                 style={{ display: 'none' }}
                 onChange={handleImageFileChange}
@@ -151,7 +173,6 @@ function RegisterLecturePage() {
                 size='sm'
                 onClick={() => {
                   imageRef.current.click();
-                  setValue('lectureImage');
                 }}
               >
                 이미지선택
@@ -159,17 +180,18 @@ function RegisterLecturePage() {
               {selectedImageFileName && (
                 <p style={{ display: 'inline-block', marginLeft: '10px' }}>{selectedImageFileName}</p>
               )}
+              {errors.lectureImage && <p>업로드할 썸네일을 선택하지 않았습니다</p>}
               <br />
               {/* 밑에 코드가 안먹히는 이유를 모르겠음 input을 {required: true}로 설정한다음에 파일을 선택해도 errors가 true로 나옴 */}
               {/* {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'} */}
-              {!selectedImageFileName && '업로드할 썸네일을 선택하지 않았습니다'}
+              {/* {!selectedImageFileName && '업로드할 썸네일을 선택하지 않았습니다'} */}
             </div>
             <Form.Group className='mb-3'>
               <Button
                 variant='primary'
                 style={{ width: '100%' }}
                 type='submit'
-                disabled={!(selectedVideoFileName && selectedImageFileName)}
+                // disabled={!(selectedVideoFileName && selectedImageFileName)}
               >
                 등록
               </Button>

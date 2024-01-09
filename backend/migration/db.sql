@@ -132,7 +132,11 @@ SELECT * FROM comments;
 -- MODIFY COLUMN attach_image_path VARCHAR(256);
 -- ALTER DATABASE learningmate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- DELETE FROM courses;
+DELETE FROM courses;
+ALTER TABLE meets
+ADD COLUMN longitude DECIMAL(9,6);
+
+SELECT * FROM meets;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;

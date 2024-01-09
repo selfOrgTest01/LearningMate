@@ -1,30 +1,50 @@
+// 1. 라우팅가드 해야하나?
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { Button, ButtonGroup, Container } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 import { localDomain } from '../../config/config';
 
 export default function LectureDetail() {
+  const navigate = useNavigate();
   const course_id = useParams().courseid;
+  const userInfo = useSelector((state) => state.userInfo);
   const [videoPath, setVideoPath] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState();
+  const [userNickname, setUserNickname] = useState('');
 
   const getLectureDetail = useCallback(async () => {
     try {
       const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
-      console.log(resp.data.data[0]);
-      setVideoPath(resp.data.data[0].attach_file_path);
-      setTitle(resp.data.data[0].title);
-      setContent(resp.data.data[0].content);
+      // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
+      if (resp.data.status === 500) {
+        navigate('../');
+      } else {
+        setVideoPath(resp.data.data[0].attach_file_path);
+        setTitle(resp.data.data[0].title);
+        setContent(resp.data.data[0].content);
+        setUserId(resp.data.data[0].user_id);
+        setUserNickname(resp.data.data[0].nickname);
+      }
     } catch (error) {
       console.error('Error fetching lecture detail:', error);
     } finally {
       setLoading(false);
     }
-  }, [course_id]);
+  }, [course_id, navigate]);
 
+  const onDelete = useCallback(async () => {
+    try {
+      await axios.delete(`${localDomain}/courses/delete/${course_id}`);
+      navigate('../');
+    } catch (error) {
+      console.log(error);
+    }
+  });
   useEffect(() => {
     getLectureDetail();
   }, [getLectureDetail, course_id]);
@@ -43,8 +63,19 @@ export default function LectureDetail() {
           <source src={videoPath} type='video/mp4' />
         </video>
         <Container style={{ width: '100%' }}>
+          <h3>작성자:{userNickname}</h3>
           <h2>{content}</h2>
         </Container>
+        {userInfo.userId === userId && (
+          <ButtonGroup>
+            <Button variant='primary' onClick={() => navigate(`../update/${course_id}`)}>
+              수정
+            </Button>
+            <Button variant='danger' onClick={onDelete}>
+              삭제
+            </Button>
+          </ButtonGroup>
+        )}
       </Container>
     </>
   );
