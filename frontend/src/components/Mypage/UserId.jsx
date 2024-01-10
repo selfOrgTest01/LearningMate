@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function UserId() {
-  const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
+  const [data, setData] = useState({ nickname: '' });
   const [isloading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
   console.log(auth);

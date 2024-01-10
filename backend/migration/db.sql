@@ -467,3 +467,15 @@ DELETE FROM
 WHERE
     review_id = 1
     AND user_id = 17;
+
+-- 나현
+-- 마이페이지 캘린더 DB 추가
+CREATE TABLE calendar (
+  calendar_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  date DATE,
+  content VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+INSERT INTO calendar (user_id, date, content) VALUES (70, '2024-01-10', '추가테스트1');
+SELECT * FROM calendar WHERE user_id = 70;

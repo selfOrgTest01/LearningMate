@@ -7,5 +7,5 @@ const pool = mysql.createPool({
     database: process.env.DB_USER_DATABASE,
     password: process.env.DB_USER_PASSWORD,
 });
-
+if(pool) console.log('database started...')
 module.exports = pool.promise();
