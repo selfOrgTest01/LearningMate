@@ -14,7 +14,7 @@ import LandingModal from '../../components/maps/LandingModal';
 function MeetUpdate() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { meet_id } = useParams(); // 사용자의 모임 ID를 가져옵니다.
+  const { meet_id } = useParams();
   const { meet } = useSelector((state) => state.meetStore);
   const userInfo = useSelector((state) => state.userInfo);
   const auth = useSelector((state) => state.auth.isAuth);
