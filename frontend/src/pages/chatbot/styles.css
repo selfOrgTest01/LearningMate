@@ -27,7 +27,7 @@
   margin-right: auto;
 }
 #chat-container {
-  width: 400px;
+  width: 600px;
   height: 600px;
   display: flex;
   flex-direction: column;

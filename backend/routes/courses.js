@@ -42,5 +42,7 @@ router.delete('/delete/:course_id', coursesController.courseDelete);
 router.get('/courseList', coursesController.courseList);
 // 강의 상세
 router.get('/course/:course_id', coursesController.course);
+// 강의 검색
+router.get('search', coursesController.search)
 
 module.exports = router;

@@ -6,9 +6,17 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 
 function ChatbotIcon({ onClick }) {
-  const tooltipContent = '안녕하세요 chatbot 나무늘보입니다';
+  const tooltipContent = '안녕하세요 chatbot 나무늘보입니다 뭐든 질문해주세요';
   return (
-    <Container>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        zIndex: '1000',
+        cursor: 'pointer',
+      }}
+    >
       <Row>
         <Col xs={4} md={4} onClick={onClick}>
           <OverlayTrigger placement='top' overlay={<Tooltip>{tooltipContent}</Tooltip>}>
@@ -22,7 +30,7 @@ function ChatbotIcon({ onClick }) {
           </OverlayTrigger>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }
 

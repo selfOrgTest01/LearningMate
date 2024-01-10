@@ -92,3 +92,7 @@ exports.course = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.search = async (req, res) =>{
+  
+};

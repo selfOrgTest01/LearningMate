@@ -12,6 +12,9 @@ const sql = {
   update:
     'UPDATE courses SET title = ?, content = ?, category = ?, attach_file_path = ?, attach_file_name = ?, attach_image_path = ? WHERE course_id = ?',
   delete: 'DELETE FROM courses WHERE course_id = ?',
+  search: `SELECT c.course_id, u.nickname, title, attach_image_path, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
+           FROM courses
+           WHERE title LIKE CONCAT('%', ?, '%');`,
 };
 
 const coursesDAO = {
