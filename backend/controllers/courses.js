@@ -1,3 +1,4 @@
+// 배포환경에서는 videoUploadPath 경로를 유저이미지 저장경로와 같게해야 저장됨
 const coursesDAO = require('../models/coursesDAO');
 const domain = require('../config/config.js');
 const videoUploadPath = `${domain.localDomain}/videos/courses`;
