@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialUserInfoState = {
   userId: 0,
   nickname: '',
+  email: '',
+  phone_number: '',
 };
 
 const userInfoSlice = createSlice({
@@ -12,6 +14,8 @@ const userInfoSlice = createSlice({
     insert(state, action) {
       state.userId = action.payload.userId;
       state.nickname = action.payload.nickname;
+      state.email = action.payload.email;
+      state.phone_number = action.payload.phone_number;
     },
     initialize() {
       return initialUserInfoState;

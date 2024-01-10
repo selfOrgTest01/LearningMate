@@ -26,7 +26,14 @@ function Login() {
           window.alert('잘못된 로그인 정보입니다');
         } else {
           dispatch(authAction.login());
-          dispatch(userInfoAction.insert({ userId: result.data.sessionData, nickname: result.data.data.nickname }));
+          dispatch(
+            userInfoAction.insert({
+              userId: result.data.sessionData,
+              nickname: result.data.data.nickname,
+              email: result.data.data.email,
+              phone_number: result.data.data.phone_number,
+            }),
+          );
           navigate('/test');
         }
       } catch (err) {
