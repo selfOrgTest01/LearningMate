@@ -85,8 +85,9 @@ exports.courseList = async (req, res) => {
 
 exports.course = async (req, res) => {
   const { course_id } = req.params;
+  const user_id = req.query.userId;
   try {
-    await coursesDAO.course(course_id, (resp) => {
+    await coursesDAO.course(course_id, user_id, (resp) => {
       res.send(resp);
     });
   } catch (error) {
@@ -96,7 +97,6 @@ exports.course = async (req, res) => {
 
 exports.search = async (req, res) => {
   const term = req.query.term;
-  console.log(term);
   try {
     await coursesDAO.search(term, (resp) => {
       res.send(resp);

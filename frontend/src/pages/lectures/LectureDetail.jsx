@@ -22,7 +22,9 @@ export default function LectureDetail() {
 
   const getLectureDetail = useCallback(async () => {
     try {
-      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
+      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`, {
+        params: { userId: userInfo.userId },
+      });
       // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
       if (resp.data.status === 500) {
         navigate('../');
@@ -32,14 +34,16 @@ export default function LectureDetail() {
         setContent(resp.data.data[0].content);
         setUserId(resp.data.data[0].user_id);
         setUserNickname(resp.data.data[0].nickname);
-        setViews(resp.data.data[0].view_cnt);
+        // 실제로는 통신할때 서버에서 1을 증가시키지만 가져오는 데이터는 게시글 조회전 조회수를 가져오기 때문에 게시글에 조회전 조회수가 나오고
+        // 게시글에서 나올때 조회수가 1증가 하는것처럼 보이는데 떄문에 애초에 게시글에 들어가면 보이는 조회수를 프론트에서 1증가한 값으로 출력해준다
+        setViews(resp.data.data[0].view_cnt + 1);
       }
     } catch (error) {
       console.error('Error fetching lecture detail:', error);
     } finally {
       setLoading(false);
     }
-  }, [course_id, navigate]);
+  }, [course_id, navigate, userInfo.userId]);
 
   const onDelete = useCallback(async () => {
     try {

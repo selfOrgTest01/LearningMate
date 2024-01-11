@@ -22,7 +22,6 @@ function CoursesSinglePage() {
       setLoading(true);
       const resData = await axios.get(`${localDomain}/courses/courseList`);
       dispatch(lectureAction.insert({ courses: resData.data.data }));
-      console.log(resData.data.data);
     } catch (err) {
       console.log('에러', err);
     } finally {
