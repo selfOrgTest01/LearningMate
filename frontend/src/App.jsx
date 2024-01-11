@@ -51,7 +51,7 @@ function App() {
             <Route path='search-result' element={<SearchedLecturePage />} />
           </Route>
           <Route path='/meets' element={<MeetList />} />
-          <Route path='/detail/:id' element={<MeetDetail />} />
+          <Route path='/detail/:meetid' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
           <Route path='/update' element={<MeetUpdate />} />
           <Route path='/chatbot' element={<ChatbotPage />} />
