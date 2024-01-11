@@ -1,5 +1,5 @@
 // 추가할 기능: 검색결과 ui목록 구현
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Container, Form, InputGroup } from 'react-bootstrap';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,11 +67,11 @@ function SearchLocationSection() {
       }),
     );
   };
-  useEffect(() => {
-    console.log('내 위도:', reduxLat);
-    console.log('내 경도:', reduxLng);
-    console.log('저장할 위치정보:', position);
-  }, [reduxLat, reduxLng, position]);
+  // useEffect(() => {
+  //   console.log('내 위도:', reduxLat);
+  //   console.log('내 경도:', reduxLng);
+  //   console.log('저장할 위치정보:', position);
+  // }, [reduxLat, reduxLng, position]);
   return (
     <Container>
       {/* mx-auto: 중앙정렬 */}
