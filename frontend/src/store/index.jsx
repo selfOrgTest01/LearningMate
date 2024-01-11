@@ -6,6 +6,7 @@ import { locationReducer, positionReducer } from './location';
 import userInfoReducer from './userInfo';
 import userStore from './userStore'; // 민경 추가
 import meetStore from './meetStore'; // 민경 추가
+import eventReducer from './eventStore'; // 나현 추가
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   userInfo: userInfoReducer,
   meetStore,
   userStore,
+  events: eventReducer,
 });
 // redux-persist사용
 const persistConfig = {

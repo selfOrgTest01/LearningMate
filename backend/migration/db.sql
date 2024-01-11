@@ -1,4 +1,4 @@
--- Active: 1703657196229@@34.64.245.68@3306@learningmate
+-- Active: 1703034958535@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -469,13 +469,15 @@ WHERE
     AND user_id = 17;
 
 -- 나현
--- 마이페이지 캘린더 DB 추가
-CREATE TABLE calendar (
-  calendar_id INT AUTO_INCREMENT PRIMARY KEY,
+-- 마이페이지 달력 일정 테이블 생성
+CREATE TABLE events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  date DATE,
-  content VARCHAR(255),
+  title VARCHAR(255),
+  start DATE,
+  end DATE,
+  memo VARCHAR(1024),
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
-INSERT INTO calendar (user_id, date, content) VALUES (70, '2024-01-10', '추가테스트1');
-SELECT * FROM calendar WHERE user_id = 70;
+INSERT INTO events (user_id, title, start, end, memo) VALUES (70, '테스트일정', '2024-01-15', '2024-01-16', '테스트이벤트에 대한 메모');
+SELECT * FROM events WHERE user_id = 70;

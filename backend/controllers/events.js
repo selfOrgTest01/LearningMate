@@ -1,9 +1,9 @@
-const calendarDAO = require('../models/calendarDAO');
+const eventsDAO = require('../models/eventsDAO');
 
 exports.getEvents = async (req, res) => {
   const { user_id } = req.params;
   try {
-    const resp = await calendarDAO.getEvents(user_id);
+    const resp = await eventsDAO.getEvents(user_id);
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
@@ -12,21 +12,21 @@ exports.getEvents = async (req, res) => {
 };
 
 exports.insertEvents = async (req, res) => {
-  const calendarData = req.body;
+  const { user_id, title, start, end, memo } = req.body;
   try {
-    const resp = await calendarDAO.insertEvents(calendarData);
+    const resp = await eventsDAO.insertEvents(user_id, title, start, end, memo);
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
-    res.status(500).send({ status: 500, message: '일정 생성 실패', error: error.message });
+    res.status(500).send({ status: 500, message: '일정 추가 실패', error: error.message });
   }
 };
 
 exports.updateEvents = async (req, res) => {
-  const { calendar_id } = req.params;
-  const updatedData = req.body;
+  const { id } = req.params;
+  const { title, start, end, memo } = req.body;
   try {
-    const resp = await calendarDAO.updateEvents(calendar_id, updatedData);
+    const resp = await eventsDAO.updateEvents(id, title, start, end, memo);
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
@@ -35,9 +35,9 @@ exports.updateEvents = async (req, res) => {
 };
 
 exports.deleteEvents = async (req, res) => {
-  const { calendar_id } = req.params;
+  const { id } = req.params;
   try {
-    const resp = await calendarDAO.deleteEvents(calendar_id);
+    const resp = await eventsDAO.deleteEvents(id);
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);

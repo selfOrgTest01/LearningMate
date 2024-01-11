@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import UserId from '../../components/Mypage/UserId';
-import Calendar from '../../components/Mypage/Calendar';
+import MyCalendar from '../../components/Mypage/Calendar';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
 import Footer from '../../components/Mypage/Footer';
@@ -19,7 +19,7 @@ function Mypage() {
           </Col>
           <Col xs={10} id='content'>
             <UserId />
-            <Calendar />
+            <MyCalendar />
           </Col>
         </Row>
       </Container>

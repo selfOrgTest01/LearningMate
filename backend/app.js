@@ -15,7 +15,7 @@ const session = require('express-session');
 const courseRouter = require('./routes/courses'); // 나현 추가
 const commentRouter = require('./routes/comments'); // 나현 추가
 const bookmarkRouter = require('./routes/bookmark'); // 나현 추가
-const calendarRouter = require('./routes/calendar'); // 나현 추가
+const eventRouter = require('./routes/events'); // 나현 추가
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -53,7 +53,7 @@ app.use('/reviews', reviewRouter); // 민경 추가
 app.use('/courses', courseRouter); // 나현 추가
 app.use('/comments', commentRouter); // 나현 추가
 app.use('/bookmark', bookmarkRouter); // 나현 추가
-app.use('/calendar', calendarRouter); // 나현 추가
+app.use('/events', eventRouter); // 나현 추가
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
