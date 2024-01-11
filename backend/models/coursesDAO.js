@@ -12,6 +12,9 @@ const sql = {
   update:
     'UPDATE courses SET title = ?, content = ?, category = ?, attach_file_path = ?, attach_file_name = ?, attach_image_path = ? WHERE course_id = ?',
   delete: 'DELETE FROM courses WHERE course_id = ?',
+  search: `SELECT c.course_id, u.nickname, title, attach_image_path, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
+           FROM users u INNER JOIN courses c ON u.user_id = c.user_id
+           WHERE title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%');`,
 };
 
 const coursesDAO = {
@@ -107,6 +110,16 @@ const coursesDAO = {
     } catch (error) {
       console.error(error);
       callback({ status: 500, message: '강의 삭제 실패', error: error });
+    }
+  },
+
+  search: async (term, callback) => {
+    try {
+      const [resp] = await db.query(sql.search, [term, term]);
+      callback({ status: 200, message: '검색성공', data: resp });
+    } catch (error) {
+      console.log(error);
+      callback({ status: 500, message: '검색실패', error: error });
     }
   },
 };
