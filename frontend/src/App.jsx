@@ -23,8 +23,10 @@ import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
 // 강의페이지
 import Courses from './pages/lectures/Courses';
+import CoursesSinglePage from './pages/lectures/CoursesSiglePage';
 import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
 import LectureDetail from './pages/lectures/LectureDetail';
+import SearchedLecturePage from './pages/lectures/SearchedLecturePage';
 // 챗봇페이지
 import ChatbotPage from './pages/chatbot/ChabotPage';
 
@@ -41,10 +43,12 @@ function App() {
           <Route path='/user-list' element={<UserListPage />} />
           {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
-            <Route index element={<Courses />} />
-            <Route path='register' element={<RegisterLecturePage />}></Route>
-            <Route path='update/:courseid' element={<UpdateLecturePage />}></Route>
-            <Route path='detail/:courseid' element={<LectureDetail />}></Route>
+            {/* <Route index element={<Courses />} /> */}
+            <Route index element={<CoursesSinglePage />} />
+            <Route path='register' element={<RegisterLecturePage />} />
+            <Route path='update/:courseid' element={<UpdateLecturePage />} />
+            <Route path='detail/:courseid' element={<LectureDetail />} />
+            <Route path='search-result' element={<SearchedLecturePage />} />
           </Route>
           <Route path='/meets' element={<MeetList />} />
           <Route path='/detail/:id' element={<MeetDetail />} />

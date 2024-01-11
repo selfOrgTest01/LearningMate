@@ -7,8 +7,9 @@ const staticPath = path.join(__dirname, '..', 'public');
 
 const uploadFile = multer({
   storage: multer.diskStorage({
+    // 파일이 저장될 경로를 설정합니다
     destination: (req, file, cb) =>
-      cb(null, path.join(staticPath, 'videos', 'courses')),
+      cb(null, path.join(staticPath, 'images', 'courses')),
     filename: (req, file, cb) =>
       //file.originalname: 업로드 파일 원본이름
       cb(null, `${Date.now()}_${file.originalname}`),
@@ -43,6 +44,6 @@ router.get('/courseList', coursesController.courseList);
 // 강의 상세
 router.get('/course/:course_id', coursesController.course);
 // 강의 검색
-router.get('search', coursesController.search)
+router.get('/search', coursesController.search);
 
 module.exports = router;

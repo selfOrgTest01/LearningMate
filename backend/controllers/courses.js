@@ -1,14 +1,15 @@
 // 배포환경에서는 videoUploadPath 경로를 유저이미지 저장경로와 같게해야 저장됨
 const coursesDAO = require('../models/coursesDAO');
 const domain = require('../config/config.js');
-const videoUploadPath = `${domain.localDomain}/videos/courses`;
+// db에 저장할 파일의 경로명을 변수로설정
+const videoUploadPath = `${domain.localDomain}/images/courses/`;
 const path = require('path');
 
 exports.courseInsert = async (req, res) => {
   try {
     const courseData = JSON.parse(req.body.data);
     const videoPath = req.files['lectureVideo'][0]
-      ? `${videoUploadPath}/${req.files['lectureVideo'][0].filename}`
+      ? `${videoUploadPath}${req.files['lectureVideo'][0].filename}`
       : '';
     //path.parse().name으로 확장자를 제거한 데이터를 받는다
     const videoName = req.files['lectureVideo'][0]
@@ -16,7 +17,7 @@ exports.courseInsert = async (req, res) => {
       : '강의영상';
 
     const imagePath = req.files['lectureImage'][0]
-      ? `${videoUploadPath}/${req.files['lectureImage'][0].filename}`
+      ? `${videoUploadPath}${req.files['lectureImage'][0].filename}`
       : '';
     await coursesDAO.insert(
       courseData,
@@ -55,8 +56,8 @@ exports.courseUpdate = async (req, res) => {
         res.send(resp);
       },
     );
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -66,8 +67,8 @@ exports.courseDelete = async (req, res) => {
     await coursesDAO.delete(course_id, (resp) => {
       res.send(resp);
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -77,8 +78,8 @@ exports.courseList = async (req, res) => {
     await coursesDAO.courseList((resp) => {
       res.send(resp);
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -88,11 +89,19 @@ exports.course = async (req, res) => {
     await coursesDAO.course(course_id, (resp) => {
       res.send(resp);
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
-exports.search = async (req, res) =>{
-  
+exports.search = async (req, res) => {
+  const term = req.query.term;
+  console.log(term);
+  try {
+    await coursesDAO.search(term, (resp) => {
+      res.send(resp);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
