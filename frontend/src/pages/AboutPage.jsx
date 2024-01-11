@@ -9,7 +9,6 @@ function About() {
         <h1>러닝메이트 개발팀</h1>
         <br />
         <AboutSwiper />
-        {/* <LandingPage /> */}
       </>
     </Page>
   );

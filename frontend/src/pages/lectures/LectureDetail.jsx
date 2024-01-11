@@ -1,12 +1,14 @@
-// 개선사항
-// (1. 라우팅가드 해야하나?)
-// 2. 댓글, 조회수 추가
+// 개선해야할사항
+// 댓글, state 리팩토링
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { localDomain } from '../../config/config';
+import LectureVideoSection from '../../components/LecturePage/LectureDetailPage/LectureVideoSection';
+import LectureDetailSection from '../../components/LecturePage/LectureDetailPage/LectureDetailSection';
+import LectureCommentSection from '../../components/LecturePage/LectureDetailPage/LectureCommentSection';
 
 export default function LectureDetail() {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export default function LectureDetail() {
   const [userId, setUserId] = useState();
   const [userNickname, setUserNickname] = useState('');
   const [views, setViews] = useState(0);
+  const lectureInfo = { title, views, userNickname, content };
 
   const getLectureDetail = useCallback(async () => {
     try {
@@ -52,7 +55,7 @@ export default function LectureDetail() {
     } catch (error) {
       console.log(error);
     }
-  });
+  }, [course_id, navigate]);
   useEffect(() => {
     getLectureDetail();
   }, [getLectureDetail, course_id]);
@@ -63,18 +66,9 @@ export default function LectureDetail() {
 
   return (
     <>
-      <Container style={{ width: '50%' }}>
-        <h1 className='display-1 text-center' style={{ marginTop: 50 }}>
-          {title}
-        </h1>
-        <video controls style={{ width: '100%' }}>
-          <source src={videoPath} type='video/mp4' />
-        </video>
-        <Container style={{ width: '100%' }}>
-          <h3>작성자:{userNickname}</h3>
-          <h3>조회수:{views}</h3>
-          <h2>{content}</h2>
-        </Container>
+      <Container style={{ width: '70%' }}>
+        <LectureVideoSection videoPath={videoPath} />
+        <LectureDetailSection lectureInfo={lectureInfo} />
         {userInfo.userId === userId && (
           <ButtonGroup>
             <Button variant='primary' onClick={() => navigate(`../update/${course_id}`)}>
@@ -85,6 +79,7 @@ export default function LectureDetail() {
             </Button>
           </ButtonGroup>
         )}
+        <LectureCommentSection />
       </Container>
     </>
   );

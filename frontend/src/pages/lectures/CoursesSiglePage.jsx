@@ -3,19 +3,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import { Button, Col, Container, Pagination, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { localDomain } from '../../config/config';
 import { lectureAction } from '../../store/lecture';
 import SearchBarSinglePage from '../../components/LecturePage/SearchBarSinglePage';
+import LectureTable from '../../components/LecturePage/LectureTable';
 
 function CoursesSinglePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.isAuth);
-  const courses = useSelector((state) => state.lecture.courses);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(10); // 페이지당 표시할 사용자 수
+
   // users 데이터베이스에서 user_id,email,phone_number,nickname을 읽어옵니다.
   const readCourses = useCallback(async () => {
     try {
@@ -33,15 +32,6 @@ function CoursesSinglePage() {
     readCourses();
   }, [readCourses]);
 
-  // 현재 페이지의 사용자 데이터 계산
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const coursesList = courses.slice(indexOfFirstUser, indexOfLastUser);
-
-  // 페이지 변경 핸들러
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
   return (
     <>
       <Container fluid>
@@ -50,43 +40,8 @@ function CoursesSinglePage() {
         ) : (
           <Row className='justify-content-md-center align-items-center'>
             <Col md={8}>
-              <h1 className='display-1 text-center'>강의</h1>
               <SearchBarSinglePage />
-              <Table striped bordered hover variant='dark'>
-                <thead>
-                  <tr>
-                    <th>썸네일</th>
-                    <th>작성자</th>
-                    <th>제목</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {coursesList.map((item) => (
-                    <tr key={item.course_id} onClick={() => navigate(`./detail/${item.course_id}`)}>
-                      <td style={{ width: '10%' }}>
-                        <img src={item.attach_image_path} style={{ width: '100%' }} alt='이미지.jpg'></img>
-                      </td>
-                      <td>{item.nickname}</td>
-                      <td>{item.title}</td>
-                      <td>{item.createdAt}</td>
-                      <td>{item.view_cnt}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Pagination>
-                {[...Array(Math.ceil(courses.length / usersPerPage))].map((_, index) => (
-                  <Pagination.Item
-                    key={index + 1}
-                    active={index + 1 === currentPage}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </Pagination.Item>
-                ))}
-              </Pagination>
+              <LectureTable />
               {login && <Button onClick={() => navigate('./register')}>강의 업로드</Button>}
             </Col>
           </Row>
