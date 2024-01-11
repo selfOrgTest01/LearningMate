@@ -18,6 +18,7 @@ export default function LectureDetail() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState();
   const [userNickname, setUserNickname] = useState('');
+  const [views, setViews] = useState(0);
 
   const getLectureDetail = useCallback(async () => {
     try {
@@ -31,6 +32,7 @@ export default function LectureDetail() {
         setContent(resp.data.data[0].content);
         setUserId(resp.data.data[0].user_id);
         setUserNickname(resp.data.data[0].nickname);
+        setViews(resp.data.data[0].view_cnt);
       }
     } catch (error) {
       console.error('Error fetching lecture detail:', error);
@@ -66,6 +68,7 @@ export default function LectureDetail() {
         </video>
         <Container style={{ width: '100%' }}>
           <h3>작성자:{userNickname}</h3>
+          <h3>조회수:{views}</h3>
           <h2>{content}</h2>
         </Container>
         {userInfo.userId === userId && (

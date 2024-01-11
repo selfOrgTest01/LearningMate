@@ -140,6 +140,8 @@ SELECT * FROM meets;
 
 SELECT * FROM comments;
 
+ALTER TABLE courses
+ADD COLUMN view_cnt INT DEFAULT 0;
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;

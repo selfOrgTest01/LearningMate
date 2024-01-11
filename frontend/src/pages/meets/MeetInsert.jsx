@@ -305,8 +305,6 @@ function MeetInsert() {
               </table>
             </form>
           </div>
-          {/* 위치선택 테스트용 */}
-          {/* {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>} */}
         </div>
       </section>
     </main>

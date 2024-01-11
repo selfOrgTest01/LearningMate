@@ -22,6 +22,7 @@ function CoursesSinglePage() {
       setLoading(true);
       const resData = await axios.get(`${localDomain}/courses/courseList`);
       dispatch(lectureAction.insert({ courses: resData.data.data }));
+      console.log(resData.data.data);
     } catch (err) {
       console.log('에러', err);
     } finally {
@@ -59,6 +60,7 @@ function CoursesSinglePage() {
                     <th>작성자</th>
                     <th>제목</th>
                     <th>작성일</th>
+                    <th>조회수</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -70,6 +72,7 @@ function CoursesSinglePage() {
                       <td>{item.nickname}</td>
                       <td>{item.title}</td>
                       <td>{item.createdAt}</td>
+                      <td>{item.view_cnt}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -22,11 +22,10 @@ import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
 // 강의페이지
-import Courses from './pages/lectures/Courses';
 import CoursesSinglePage from './pages/lectures/CoursesSiglePage';
 import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
 import LectureDetail from './pages/lectures/LectureDetail';
-import SearchedLecturePage from './pages/lectures/SearchedLecturePage';
+import SearchedLecturePage from './pages/lectures/back/SearchedLecturePage';
 // 챗봇페이지
 import ChatbotPage from './pages/chatbot/ChabotPage';
 
