@@ -44,6 +44,8 @@ function MeetDetail() {
     category: '',
     approve: false,
     createdAt: '',
+    latitude: '',
+    longitude: '',
   });
 
   const iconStyle = {
@@ -190,8 +192,11 @@ function MeetDetail() {
               <table>
                 <tbody>
                   {/* 지도 */}
-                  {meet.onoff === 0 && <MeetDetailMapSection />}
-
+                  <tr>
+                    <td>
+                      {meet.onoff === 0 && <MeetDetailMapSection latitude={meet.latitude} longitude={meet.longitude} />}
+                    </td>
+                  </tr>
                   <tr>
                     <td>{meet.onoff ? '온라인' : '오프라인'}</td>
                   </tr>

@@ -34,7 +34,8 @@ function Login() {
               phone_number: result.data.data.phone_number,
             }),
           );
-          navigate('/test');
+          // 홈으로 navigate
+          navigate('../');
         }
       } catch (err) {
         console.log(err);

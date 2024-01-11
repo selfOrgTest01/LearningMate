@@ -26,7 +26,7 @@ function MeetInsert() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // 위치선택 버튼으로 선택한 위치는 position에 위도와 경도가 저장됩니다
-  // const position = useSelector((state) => state.position);
+  const position = useSelector((state) => state.position);
   const { meet } = useSelector((state) => state.meetStore);
   const userInfo = useSelector((state) => state.userInfo);
   const auth = useSelector((state) => state.auth.isAuth);
@@ -77,6 +77,7 @@ function MeetInsert() {
         category: meet.category,
         approve: meet.approve === '승인 후 참가' ? 1 : 0,
         user_id: data.user_id,
+        position,
       };
       try {
         const response = await axios.post(`${localDomain}/meets/insert/`, sendData, { withCredentials: true });
