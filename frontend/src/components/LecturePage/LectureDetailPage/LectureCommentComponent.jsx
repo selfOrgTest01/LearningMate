@@ -1,16 +1,18 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-function LectureCommentComponent() {
+function LectureCommentComponent({ item }) {
+  console.log(item);
   return (
-    <Container>
-      <div class='d-flex align-items-center'>
-        <div class='flex-shrink-0'>
-          <img src={`${process.env.PUBLIC_URL}/img/default.png`} alt='...' style={{ width: '70px' }} />
+    <Container className='my-4'>
+      <div className='d-flex align-items-center'>
+        <div className='flex-shrink-0'>
+          <img src={item.profile_name} alt={`default.png`} style={{ width: '70px' }} />
         </div>
-        <div class='flex-grow-1 ms-3'>
-          <h4>Name</h4>
-          This is some content from a media component. You can replace this with any content and adjust it as needed.
+        <div className='flex-grow-1 ms-3'>
+          <h4>{item.nickname}</h4>
+          {item.content}
         </div>
       </div>
     </Container>

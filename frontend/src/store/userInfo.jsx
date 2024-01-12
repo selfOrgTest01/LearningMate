@@ -5,6 +5,7 @@ const initialUserInfoState = {
   nickname: '',
   email: '',
   phone_number: '',
+  profilePath: `${process.env.PUBLIC_URL}/img/default.png`,
 };
 
 const userInfoSlice = createSlice({
@@ -16,6 +17,7 @@ const userInfoSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.email = action.payload.email;
       state.phone_number = action.payload.phone_number;
+      state.profilePath = action.payload.profilePath;
     },
     initialize() {
       return initialUserInfoState;

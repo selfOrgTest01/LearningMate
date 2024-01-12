@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialLectureState = {
   term: '',
   courses: [],
+  courseId: 0,
 };
 
 const lectureSlice = createSlice({

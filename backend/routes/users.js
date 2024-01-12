@@ -38,6 +38,7 @@ router.post(
 router.get('/logout', usersController.logout);
 //사진업로드 테스트 single("name") name은 formdata의 이름
 router.post('/image/:id', uploadFile.single('image'), usersController.image);
+
 router.get('/imagetest/:id', usersController.imagetest);
 //마이리스트
 router.get('/userinfo', usersController.userInfo);
