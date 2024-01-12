@@ -8,7 +8,7 @@ const sql = {
     comment: `SELECT u.nickname, content, DATE_FORMAT(c.createdAt, '%Y-%m-%d') as createdAt
             FROM users u INNER JOIN comments c ON u.user_id = c.user_id
             WHERE c.comment_id = ?;`, // 특정 강의 댓글 상세조회
-    lectureCommentList: `SELECT c.content, u.nickname, u.profile_name, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
+    lectureCommentList: `SELECT c.comment_id, c.content, u.user_id, u.nickname, u.profile_name, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
             FROM users u INNER JOIN comments c ON u.user_id = c.user_id
             WHERE c.course_id = ?
             ORDER BY c.createdAt DESC;`,
@@ -59,7 +59,8 @@ const commentsDAO = {
     insert: async (item, callback) => {
         console.log(item);
         try {
-            const resp = await db.query(sql.insert, [item.comment, item.course_id, item.user_id]);
+            await db.query(sql.insert, [item.comment, item.course_id, item.user_id]);
+            const [resp] = await db.query(sql.lectureCommentList,[item.course_id]);
             callback({ status: 200, message: '댓글 생성 성공', data: resp });
         } catch (error) {
             console.error(error);

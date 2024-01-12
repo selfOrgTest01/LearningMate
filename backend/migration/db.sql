@@ -157,6 +157,19 @@ ALTER TABLE
 ADD
     COLUMN view_cnt INT DEFAULT 0;
 
+ALTER TABLE
+    comments DROP FOREIGN KEY comments_course_id_fk;
+
+SHOW CREATE TABLE comments;
+
+ALTER TABLE
+    comments DROP FOREIGN KEY course_comments_course_id_fk;
+
+ALTER TABLE
+    comments
+ADD
+    CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;
