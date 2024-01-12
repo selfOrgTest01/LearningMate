@@ -68,7 +68,7 @@ function SignUpPage() {
   );
 
   return (
-    <Container fluid style={{ backgroundColor: '#95a5a6', height: '100vh' }}>
+    <Container fluid style={{ height: '100vh' }}>
       <Row className='justify-content-md-center'>
         <Col md={4}>
           <h1 className='display-1 text-center' style={{ marginTop: 100 }}>

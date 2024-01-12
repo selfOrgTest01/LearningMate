@@ -62,10 +62,10 @@ WHERE channel_id = 2;
 
 -- sender_user_id가 15인 사람의 channel_id가 1번인 경우에 대한 chat_history 데이터 삽입
 INSERT INTO chat_history (channel_id, sender_user_id, content, sent_time)
-VALUES (6, 16, '안녕하세요. 이곳은 질문게시판입니다.', NOW());
+VALUES (1, 71, 'ㅋㅋㅋ', NOW());
 
 UPDATE chat_history
-SET content = '이곳은 공지사항 방입니다. 저는 user_id 15번 입니다.'
+SET content = '하하하'
 WHERE channel_id = 1;
 
 SELECT cr.meet_id, cr.channel_id, mp.participant_id, u.nickname 
@@ -186,3 +186,108 @@ SELECT
 
 INSERT INTO meet_participants (meet_id, user_id, manager, status)
 VALUES (19, 49, 0, 1);
+
+SELECT 
+    m.title, 
+    cr.channel_id, 
+    cr.description AS channel_description, 
+    u.nickname AS user_nickname,
+    u.profile_name,  
+    ch.content AS chat_content, 
+    ch.sender_user_id AS chat_sender_user_id, 
+    ch.sent_time AS chat_sent_time
+  FROM chat_room cr
+  JOIN meet_participants mp ON cr.meet_id = mp.meet_id
+  JOIN users u ON mp.user_id = u.user_id
+  JOIN meets m ON cr.meet_id = m.meet_id
+  LEFT JOIN chat_history ch ON cr.channel_id = ch.channel_id
+  WHERE cr.description = '공지사항' AND mp.meet_id = 19 AND mp.status = 1
+  ORDER BY ch.sent_time ASC;
+
+  SELECT 
+      u.nickname AS user_nickname,
+      u.profile_name,
+      ch.content AS chat_content, 
+      ch.sent_time AS chat_sent_time
+    FROM chat_room cr
+    JOIN meet_participants mp ON cr.meet_id = mp.meet_id
+    JOIN users u ON mp.user_id = u.user_id
+    JOIN chat_history ch ON cr.channel_id = ch.channel_id
+    WHERE cr.meet_id = 19 
+     AND cr.description = '공지사항'
+     and ch.channel_id = 1
+    ORDER BY ch.sent_time ASC;
+  `,
+
+SELECT * FROM users;
+SELECT * FROM chat_room;
+SELECT * FROM chat_history;
+SELECT * FROM meet_participants;
+
+SELECT ump.user_id, ump.meet_id, ump.status, ch.content, ch.sent_time
+FROM chat_room cr
+  JOIN chat_history ch on cr.channel_id = ch.channel_id 
+  JOIN (SELECT u.user_id, u.profile_name, u.nickname, mp.meet_id, mp.status
+        FROM users u 
+          JOIN meet_participants mp ON mp.user_id = u.user_id) ump
+WHERE ch.channel_id = 1 AND ump.status = 1 AND ump.meet_id = 19;
+  
+
+
+SELECT * 
+FROM chat_room cr
+  JOIN chat_history ch on cr.channel_id = ch.channel_id
+WHERE ch.channel_id = 1;
+
+SELECT sender_user_id 
+FROM chat_history
+GROUP BY sender_user_id;
+
+-- USER INFO CHECK
+SELECT *
+FROM chat_room cr
+  JOIN chat_history ch on cr.channel_id = ch.channel_id
+  JOIN users u on u.user_id = ch.sender_user_id
+WHERE ch.channel_id = 1;
+
+
+SELECT * 
+FROM chat_room cr
+  JOIN chat_history ch on cr.channel_id = ch.channel_id
+  JOIN users u
+WHERE ch.channel_id = 1;
+
+
+SELECT  *
+FROM users u 
+  JOIN meet_participants mp ON mp.user_id = u.user_id AND mp.status = 1;
+
+SELECT u.user_id, u.profile_name, u.nickname, mp.meet_id, mp.status
+        FROM users u 
+          JOIN meet_participants mp ON mp.user_id = u.user_id) u ON ch.meet_id = 19
+
+
+
+  SELECT 
+    m.title, 
+    cr.channel_id, 
+    cr.description AS channel_description, 
+    u.nickname AS user_nickname,
+    u.profile_name,  
+    ch.content AS chat_content, 
+    ch.sender_user_id AS chat_sender_user_id, 
+    ch.sent_time AS chat_sent_time
+  FROM chat_room cr
+  JOIN meet_participants mp ON cr.meet_id = mp.meet_id
+  JOIN users u ON mp.user_id = u.user_id
+  JOIN meets m ON cr.meet_id = m.meet_id
+  LEFT JOIN chat_history ch ON cr.channel_id = ch.channel_id
+  WHERE cr.description like concat('%', ? , '%') AND mp.meet_id = 19 AND mp.status = 1
+  ORDER BY ch.sent_time ASC;
+
+
+SELECT *
+  FROM chat_room cr
+    JOIN chat_history ch on cr.channel_id = ch.channel_id
+    JOIN users u on u.user_id = ch.sender_user_id
+  WHERE ch.channel_id = 2;

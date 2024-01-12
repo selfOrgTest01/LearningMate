@@ -5,7 +5,7 @@ export const RightMenu = styled.div`
 `;
 
 export const Header = styled.header`
-  height: 38px;
+  height: 45px;
   background: #46c4ee;
   color: #ffffff;
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
@@ -17,8 +17,8 @@ export const ProfileImg = styled.img`
   width: 28px;
   height: 28px;
   position: absolute;
-  top: 5px;
-  right: 16px;
+  top: 87px;
+  right: 20px;
 `;
 
 export const ProfileModal = styled.div`
@@ -49,7 +49,7 @@ export const ProfileModal = styled.div`
 export const LogOutButton = styled.button`
   border: none;
   width: 100%;
-  border-top: 1px solid rgb(29, 28, 29); 
+  border-top: 1px solid rgb(29, 28, 29);
   background: transparent;
   display: block;
   height: 33px;
@@ -69,23 +69,21 @@ export const Workspaces = styled.div`
   flex-direction: column;
   align-items: center;
   background: #46c4ee;
-  border-top: 1px solid rgb(255, 255, 255);
-  border-right: 1px solid rgb(255, 255, 255);
   vertical-align: top;
   text-align: center;
   padding: 15px 0 0;
 `;
 
 export const Channels = styled.nav`
-  width: 260px;
-  display: inline-flex;
+  width: 180px;
+  display: flex;
   flex-direction: column;
   background: #46c4ee;
   color: rgb(255, 255, 255);
   vertical-align: top;
 
   & a {
-    padding-left: 36px;
+    padding-left: 52px;
     color: inherit;
     text-decoration: none;
     height: 28px;
@@ -175,6 +173,8 @@ export const WorkspaceModal = styled.div`
 
 export const Chats = styled.div`
   flex: 1;
+  padding-left: 20px;
+  margin-top: 10px;
 `;
 
 export const AddButton = styled.button`
@@ -201,4 +201,3 @@ export const WorkspaceButton = styled.button`
   color: black;
   cursor: pointer;
 `;
-

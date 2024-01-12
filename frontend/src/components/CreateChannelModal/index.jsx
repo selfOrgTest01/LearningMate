@@ -10,10 +10,10 @@ import fetcher from '../../utils/fetcher';
 
 const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }) => {
   const params = useParams();
-  const { workspace } = params;
+  const { meetId } = params;
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
   const { data: userData } = useSWR('/api/users', fetcher);
-  const { revalidate: revalidateChannel } = useSWR(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
+  const { revalidate: revalidateChannel } = useSWR(userData ? `/chat/chatRoom/${meetId}/channels` : null, fetcher);
 
   const onCreateChannel = useCallback(
     (e) => {
@@ -22,7 +22,7 @@ const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }) =
         return;
       }
       axios
-        .post(`/api/workspaces/${workspace}/channels`, {
+        .post(`/api/workspaces/${meetId}/channels`, {
           name: newChannel,
         })
         .then(() => {

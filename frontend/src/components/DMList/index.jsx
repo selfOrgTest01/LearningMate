@@ -3,11 +3,11 @@ import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import useSocket from '../../hooks/useSocket';
-import { CollapseButton } from './style';
+import CollapseButton from './style';
 import fetcher from '../../utils/fetcher';
 
 const DMList = () => {
-  const { workspace } = useParams();
+  const { meetId } = useParams();
   const {
     data: userData,
     error,
@@ -16,8 +16,9 @@ const DMList = () => {
   } = useSWR('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
-  const { data: memberData } = useSWR(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
-  const [socket] = useSocket(workspace);
+  const { data: memberData } = useSWR(userData ? `http://localhost:8000/users/userinfo` : null, fetcher);
+  const members = Array.isArray(memberData) ? memberData : [];
+  const [socket] = useSocket(meetId);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [countList, setCountList] = useState({});
   const [onlineList, setOnlineList] = useState([]);
@@ -49,10 +50,10 @@ const DMList = () => {
   };
 
   useEffect(() => {
-    console.log('DMList: workspace 바꼈다', workspace);
+    console.log('DMList: workspace 바꼈다', meetId);
     setOnlineList([]);
     setCountList({});
-  }, [workspace]);
+  }, [meetId]);
 
   useEffect(() => {
     socket?.on('onlineList', (data) => {
@@ -81,14 +82,14 @@ const DMList = () => {
       </h2>
       <div>
         {!channelCollapse &&
-          memberData?.map((member) => {
+          members?.map((member) => {
             const isOnline = onlineList.includes(member.id);
             const count = countList[member.id] || 0;
             return (
               <NavLink
                 key={member.id}
                 activeClassName='selected'
-                to={`/workspace/${workspace}/dm/${member.id}`}
+                to={`/workspace/${meetId}/dm/${member.id}`}
                 onClick={resetCount(member.id)}
               >
                 <i

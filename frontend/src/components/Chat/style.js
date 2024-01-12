@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ChatWrapper = styled.div`
+const ChatWrapper = styled.div`
   display: flex;
   padding: 8px 20px;
 
@@ -49,3 +49,4 @@ export const ChatWrapper = styled.div`
     color: deepskyblue;
   }
 `;
+export default ChatWrapper;

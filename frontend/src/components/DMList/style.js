@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const CollapseButton = styled.button`
+const CollapseButton = styled.button`
   background: transparent;
   border: none;
   width: 26px;
@@ -20,3 +20,5 @@ export const CollapseButton = styled.button`
     }
   `};
 `;
+
+export default CollapseButton;

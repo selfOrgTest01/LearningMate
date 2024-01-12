@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
-import Chat from './Chat'; // Chat 컴포넌트의 경로에 맞게 수정하세요
+import { useNavigate } from 'react-router-dom';
+import ChatRoom from '../layouts/chatroomlayout/index';
 
 function ParentComponent() {
-  const [dynamicValue, setDynamicValue] = useState(/* 초기값 */);
+  const navigate = useNavigate();
+  const [meetId, setDynamicValue] = useState(null);
+
+  const handleButtonClick = () => {
+    // 원하는 meetId 값을 전달하도록 수정
+    const newMeetId = 19; // 예시로 19로 설정했지만 원하는 meetId 값을 넣어주세요.
+    setDynamicValue(newMeetId);
+
+    // meetId를 가지고 ChatRoom 페이지로 동적으로 이동
+    navigate(`/chat/chatRoom/${newMeetId}`);
+  };
 
   return (
     <div>
-      <button onClick={() => setDynamicValue(19)}>Set Dynamic Value</button>
-      <Chat dynamicValue={dynamicValue} />
+      <button onClick={handleButtonClick}>채팅방 참여하기</button>
+      {meetId && <ChatRoom meetId={meetId} />}
     </div>
   );
 }

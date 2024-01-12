@@ -44,7 +44,7 @@ const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }) =
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onInviteMember}>
         <Label id='member-label'>
-          <span>채널 멤버 초대</span>
+          <span> 멤버 초대</span>
           <Input id='member' value={newMember} onChange={onChangeNewMember} />
         </Label>
         <Button type='submit'>초대하기</Button>

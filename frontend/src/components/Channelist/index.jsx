@@ -1,23 +1,27 @@
-// 채팅방 정보를 가져오고 해당 정보를 활용하여 채널 목록을 표시하는 역할을 함.
-/* eslint-disable no-console */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
-import useSWR from 'swr';
-import { CollapseButton } from '../DMList/style';
-import useSocket from '../../hooks/useSocket';
-import fetcher from '../../utils/fetcher';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
+import axios from 'axios';
+import CollapseButton from '../DMList/style';
 
-const ChannelList = () => {
-  const { workspace } = useParams();
+const ChannelList = (props) => {
+  const { roomData, setRoomData, onChannelClick, getChatData } = props;
+
+  const { meetId } = useParams();
   const location = useLocation();
-  const { data: userData } = useSWR('/api/users', fetcher, {
-    dedupingInterval: 2000, // 2초
-  });
-  const [socket] = useSocket(workspace);
+
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [countList, setCountList] = useState({});
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
+
+  const getRoomData = useCallback(async () => {
+    try {
+      const resp = await axios.get(`http://localhost:8000/chat/chatRoom/${meetId}`);
+      console.log('aaa', resp.data.data.initialRoom);
+      setRoomData(resp.data.data.initialRoom);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [meetId, setRoomData]);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
@@ -25,65 +29,65 @@ const ChannelList = () => {
 
   const resetCount = useCallback(
     (id) => () => {
-      setCountList((list) => {
-        return {
-          ...list,
-          [id]: undefined,
-        };
-      });
+      setCountList((list) => ({
+        ...list,
+        [id]: undefined,
+      }));
     },
     [],
   );
 
   useEffect(() => {
-    console.log('ChannelList: workspace 바꼈다', workspace, location.pathname);
-    setCountList({});
-  }, [workspace, location]);
+    getRoomData();
+  }, [getRoomData]);
+
+  useEffect(() => {
+    if (meetId && location.pathname) {
+      console.log('ChannelList: channelId 바꼈다 meetId:', meetId, location.pathname);
+      setCountList({});
+    }
+  }, [meetId, location]);
 
   const onMessage = (data) => {
     console.log('message 왔다', data);
-    const mentions = data.content.match(/@\[(.+?)]\((\d)\)/g);
-    if (mentions?.find((v) => v.match(/@\[(.+?)]\((\d)\)/)[2] === userData?.id.toString())) {
-      setCountList((list) => ({
-        ...list,
-        [`c-${data.ChannelId}`]: (list[`c-${data.ChannelId}`] || 0) + 1,
-      }));
-    } else {
-      setCountList((list) => ({
-        ...list,
-        [`c-${data.ChannelId}`]: list[`c-${data.ChannelId}`] || 0,
-      }));
-    }
+    // 새로운 메시지가 도착할 때 화면을 갱신하는 로직 추가
+    getChatData();
   };
 
-  useEffect(() => {
-    socket?.on('message', onMessage);
-    console.log('socket on message', socket?.hasListeners('message'));
-    return () => {
-      socket?.off('message', onMessage);
-      console.log('socket off message', socket?.hasListeners('message'));
-    };
-  }, [socket]);
-
-  // Function to fetch chat room information from the server
-  const fetchChatRoomInfo = async () => {
+  const fetchChannelList = async () => {
     try {
-      const response = await fetch(`/api/participants/chatroom-info/${workspace}`);
+      const response = await fetch(`http://localhost:8000/chat/channels/${meetId}`);
       const data = await response.json();
       if (response.ok) {
         setChatRoomInfo(data.data);
       } else {
-        console.error('Failed to fetch chat room information:', data.message);
+        console.error('Failed to fetch channel list:', data.message);
       }
     } catch (error) {
-      console.error('Error fetching chat room information:', error.message);
+      console.error('Error fetching channel list:', error.message);
     }
   };
 
+  const handleChannelClick = useCallback(
+    async (channel) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/chat/chatRoom/${meetId}/channels/${channel.channel_id}}`,
+        );
+        const chatRoomData = response.data.data.channelRoom;
+        console.log('ddddd', chatRoomData);
+        setRoomData(chatRoomData);
+        onChannelClick(channel);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [meetId, setRoomData, onChannelClick],
+  );
+
   useEffect(() => {
-    // Fetch chat room information when the component mounts
-    fetchChatRoomInfo();
-  }, [workspace]);
+    fetchChannelList();
+  }, [meetId]);
 
   return (
     <>
@@ -100,24 +104,26 @@ const ChannelList = () => {
       <div>
         {!channelCollapse &&
           chatRoomInfo?.channelList?.map((channel) => {
-            const count = countList[`c-${channel.channel_id}`];
+            const count = countList[`c-${channel.channel_description}`];
             return (
-              <NavLink
-                key={channel.channel_id}
-                activeClassName='selected'
-                to={`/workspace/${workspace}/channel/${channel.channel_description}`}
-                onClick={resetCount(`c-${channel.channel_id}`)}
-              >
-                <span className={count !== undefined && count >= 0 ? 'bold' : undefined}>
-                  # {channel.channel_description}
-                </span>
-                {count !== undefined && count > 0 && <span className='count'>{count}</span>}
-              </NavLink>
+              <React.Fragment key={channel.channel_id}>
+                <NavLink
+                  to={`/chat/chatRoom/${meetId}/channels/${channel.channel_id}`}
+                  onClick={() => {
+                    resetCount(`c-${channel.channel_id}`)();
+                    onChannelClick(channel);
+                  }}
+                >
+                  <span className={count !== undefined && count >= 0 ? 'bold' : undefined}>
+                    # {channel.channel_description}
+                  </span>
+                  {count !== undefined && count > 0 && <span className='count'>{count}</span>}
+                </NavLink>
+              </React.Fragment>
             );
           })}
       </div>
     </>
   );
 };
-
 export default ChannelList;

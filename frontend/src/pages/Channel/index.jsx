@@ -28,52 +28,55 @@ const scrollToBottomIfNeeded = (scrollbarRef) => {
 
 const handleApiError = (error) => {
   console.error('API Error:', error);
-  // 필요한 오류 처리 로직을 추가하세요.
+  // 필요한 오류 처리 로직을 추가
 };
 
 const Channel = () => {
-  const { workspace, channel } = useParams();
-  const [socket] = useSocket(workspace);
-  const { data: userData } = useSWR('/api/users', fetcher);
-  const { data: channelsData } = useSWR(`/api/workspaces/${workspace}/channels`, fetcher);
-  const channelData = channelsData?.find((v) => v.name === channel);
+  // URL 파라미터에서 meetId와 channelId 추출
+  const { meetId, channelId } = useParams();
+
+  // 소켓 및 사용자 정보 불러오기
+  const [socket] = useSocket(meetId);
+  const { data: userData } = useSWR(`http://localhost:8000/users/list`, fetcher);
+
+  // 채널 및 참가자 정보 불러오기
+  const { data: channelsData } = useSWR(`http://localhost:8000/chat/channels/${meetId}`, fetcher);
+  const { data: channelMembersData } = useSWR(
+    userData ? `http://localhost:8000/chat/chatRoom/${meetId}` : null,
+    fetcher,
+  );
+  const participantList = channelMembersData.data.participantList || [];
+
+  // 채팅 데이터 불러오기 및 관련 상태 및 함수 정의
   const {
     data: chatData,
     mutate: mutateChat,
     setSize,
   } = useSWRInfinite(
-    (index) => `/api/workspaces/${workspace}/channels/${channel}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
-    fetcher,
-  );
-  const { data: channelMembersData } = useSWR(
-    userData ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
+    (index) => `http://localhost:8000/chat/chatRoom/${meetId}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
     fetcher,
   );
   const [chat, onChangeChat, setChat] = useInput('');
+
+  // 기타 상태 및 함수 정의
   const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
   const scrollbarRef = useRef(null);
 
-  const isEmpty = chatData?.[0]?.length === 0;
-  const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < PAGE_SIZE);
-
-  const onCloseModal = useCallback(() => {
-    setShowInviteChannelModal(false);
-  }, []);
-
+  // 채팅 전송 폼 제출 이벤트 핸들러
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      if (chat?.trim() && chatData && channelData && userData) {
+      if (chat?.trim() && chatData && channelsData && userData) {
         const savedChat = chat;
         mutateChat((prevChatData) => {
           prevChatData?.[0].unshift({
-            id: (chatData[0][0]?.id || 0) + 1,
+            id: (chatData[0][0]?.user_id || 0) + 1,
             content: savedChat,
-            UserId: userData.id,
+            UserId: userData.user_id,
             User: userData,
             createdAt: new Date(),
-            ChannelId: channelData.id,
-            Channel: channelData,
+            ChannelId: channelsData.channel_id,
+            Channel: channelsData.channel_description,
           });
           return prevChatData;
         }, false).then(() => {
@@ -81,17 +84,18 @@ const Channel = () => {
           scrollToBottomIfNeeded(scrollbarRef);
         });
         axios
-          .post(`/api/workspaces/${workspace}/channels/${channel}/chats`, {
+          .post(`localhost:8000/chat/sendMessage/${meetId}`, {
             content: savedChat,
           })
           .catch(handleApiError);
       }
     },
-    [chat, workspace, channel, channelData, userData, chatData],
+    [chat, channelId, channelsData, userData, chatData],
   );
 
+  // 새 메시지 도착 시 이벤트 핸들러
   const onMessage = (data) => {
-    if (data.Channel.name === channel && data.UserId !== userData?.id) {
+    if (data.Channel.description === channelId && data.user_id !== userData?.id) {
       mutateChat((newchatData) => {
         newchatData?.[0].unshift(data);
         return newchatData;
@@ -101,6 +105,7 @@ const Channel = () => {
     }
   };
 
+  // 소켓 이벤트 등록 및 해제
   useEffect(() => {
     socket?.on('message', onMessage);
     return () => {
@@ -108,6 +113,7 @@ const Channel = () => {
     };
   }, [socket, userData]);
 
+  // 채팅 데이터 로드 완료 시 하단으로 스크롤 이동
   useEffect(() => {
     if (chatData?.length === 1) {
       console.log('toBottomWhenLoaded', chatData, scrollbarRef.current?.getValues());
@@ -115,59 +121,16 @@ const Channel = () => {
     }
   }, [chatData]);
 
+  // 초대 모달 열기 이벤트 핸들러
   const onClickInviteChannel = useCallback(() => {
     setShowInviteChannelModal(true);
   }, []);
 
-  if (channelsData && !channelData) {
-    return <Navigate to={`/workspace/${workspace}/channel/일반`} replace />;
-  }
+  // 필요한 로직 추가
+  // ...
 
-  const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
-
-  console.log('channelsData:', channelsData);
-  console.log('channelData:', channelData);
-
-  return (
-    <Container>
-      <Header>
-        <span>#{channel}</span>
-        <div style={{ display: 'flex', flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-          <span>{channelMembersData?.length}</span>
-          <button
-            onClick={onClickInviteChannel}
-            className='c-button-unstyled p-ia__view_header__button'
-            aria-label='Add people to #react-native'
-            data-sk='tooltip_parent'
-            type='button'
-          >
-            <i className='c-icon p-ia__view_header__button_icon c-icon--add-user' aria-hidden='true' />
-          </button>
-        </div>
-      </Header>
-      {/* Layout 제거 */}
-      <ChatList
-        scrollbarRef={scrollbarRef}
-        isReachingEnd={isReachingEnd}
-        isEmpty={isEmpty}
-        chatSections={chatSections}
-        setSize={setSize}
-      />
-      <ChatBox
-        onSubmitForm={onSubmitForm}
-        chat={chat}
-        onChangeChat={onChangeChat}
-        placeholder={`Message #${channel}`}
-        data={channelMembersData}
-      />
-      <InviteChannelModal
-        show={showInviteChannelModal}
-        onCloseModal={onCloseModal}
-        setShowInviteChannelModal={setShowInviteChannelModal}
-      />
-      <ToastContainer position='bottom-center' />
-    </Container>
-  );
+  // 컴포넌트 JSX 반환
+  return <Container>{/* 필요한 JSX 구조 추가 */}</Container>;
 };
 
 export default Channel;

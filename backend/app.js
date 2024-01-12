@@ -4,18 +4,21 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const http = require('http'); // 소영 추가
+const socketIO = require('socket.io'); // 소영 추가
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test');
-const meetRouter = require('./routes/meets'); // 민경 추가
-const participantRouter = require('./routes/participants'); // 민경 추가
-const reviewRouter = require('./routes/reviews'); // 민경 추가
+const meetRouter = require('./routes/meets');
+const participantRouter = require('./routes/participants');
+const reviewRouter = require('./routes/reviews');
 const app = express();
 const session = require('express-session');
-const courseRouter = require('./routes/courses'); // 나현 추가
-const commentRouter = require('./routes/comments'); // 나현 추가
-const bookmarkRouter = require('./routes/bookmark'); // 나현 추가
+const courseRouter = require('./routes/courses');
+const commentRouter = require('./routes/comments');
+const bookmarkRouter = require('./routes/bookmark');
 const chatRoutes = require('./routes/chatRoom'); // 소영 추가
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -26,7 +29,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 //origin: 클라이언트의 주소 , 다른 포트로 쿠키를 보낼때는 cors 옵션에  credentials: true 추가해야함
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(
+  cors({
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    credentials: true,
+  })
+);
 //saveUninitialized는 세션이 초기화될 때(예: 사용자가 웹사이트에 처음 방문했을 때) 세션을 저장할지 여부를 결정합니다.
 //resave는 요청이 완료된 후(통신 후)에 세션을 저장할지 여부를 결정합니다.
 app.use(
@@ -41,6 +49,7 @@ app.use(
     },
   })
 );
+
 //라우터
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -55,6 +64,18 @@ app.use('/comments', commentRouter); // 나현 추가
 app.use('/bookmark', bookmarkRouter); // 나현 추가
 
 app.use('/chat', chatRoutes); // 소영 추가
+
+// Express 애플리케이션에 HTTP 서버를 연결
+const httpServer = http.createServer(app); // http.createServer로 서버 생성
+const io = socketIO(httpServer); // socket.io를 생성한 서버에 바인딩
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+}); // 소영 추가
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

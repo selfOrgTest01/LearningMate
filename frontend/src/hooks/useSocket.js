@@ -1,27 +1,31 @@
 import { useCallback } from 'react';
 import io from 'socket.io-client';
 
-const backUrl = process.env.NODE_ENV === 'production' ? 'https://sleact.nodebird.com' : 'http://localhost:3095';
+const backUrl = 'http://localhost:3000'; // process.env.NODE_ENV === 'production' ? 'https://sleact.nodebird.com' : 'http://localhost:3001';
 
 const sockets = {};
-const useSocket = (workspace) => {
+
+const useSocket = (meetId) => {
   const disconnect = useCallback(() => {
-    if (workspace && sockets[workspace]) {
-      sockets[workspace].disconnect();
-      delete sockets[workspace];
+    if (meetId && sockets[meetId]) {
+      sockets[meetId].disconnect();
+      delete sockets[meetId];
     }
-  }, [workspace]);
-  if (!workspace) {
+  }, [meetId]);
+
+  if (!meetId) {
     return [undefined, disconnect];
   }
-  if (!sockets[workspace]) {
-    sockets[workspace] = io.connect(`${backUrl}/ws-${workspace}`, {
+
+  if (!sockets[meetId]) {
+    sockets[meetId] = io.connect(`${backUrl}`, {
+      path: `/ws-chatRoom/${meetId}`, // 서버의 네임스페이스 설정
       transports: ['websocket'],
     });
-    console.info('create socket', workspace, sockets[workspace]);
+    console.info('create socket', meetId, sockets[meetId]);
   }
 
-  return [sockets[workspace], disconnect];
+  return [sockets[meetId], disconnect];
 };
 
 export default useSocket;

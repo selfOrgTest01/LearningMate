@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 
 export const Header = styled.header`
   text-align: center;
-  font-family: Slack-Larsseit, Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
+  font-family:
+    Slack-Larsseit,
+    Helvetica Neue,
+    Helvetica,
+    Segoe UI,
+    Tahoma,
+    Arial,
+    sans-serif;
   font-weight: 700;
   font-size: 48px;
   line-height: 46px;
@@ -35,7 +42,9 @@ export const Input = styled.input`
   border-radius: 4px;
   --saf-0: rgba(var(--sk_foreground_high_solid, 134, 134, 134), 1);
   border: 1px solid var(--saf-0);
-  transition: border 80ms ease-out, box-shadow 80ms ease-out;
+  transition:
+    border 80ms ease-out,
+    box-shadow 80ms ease-out;
   box-sizing: border-box;
   margin: 0 0 20px;
   width: 100%;
@@ -50,7 +59,9 @@ export const Input = styled.input`
 
   &:focus {
     --saf-0: rgba(var(--sk_highlight, 18, 100, 163), 1);
-    box-shadow: 0 0 0 1px var(--saf-0), 0 0 0 5px rgba(29, 155, 209, 0.3);
+    box-shadow:
+      0 0 0 1px var(--saf-0),
+      0 0 0 5px rgba(29, 155, 209, 0.3);
   }
 `;
 
@@ -79,7 +90,9 @@ export const Button = styled.button`
   }
   &:focus {
     --saf-0: rgba(var(--sk_highlight, 18, 100, 163), 1);
-    box-shadow: 0 0 0 1px var(--saf-0), 0 0 0 5px rgba(29, 155, 209, 0.3);
+    box-shadow:
+      0 0 0 1px var(--saf-0),
+      0 0 0 5px rgba(29, 155, 209, 0.3);
   }
 `;
 
