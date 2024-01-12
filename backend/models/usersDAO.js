@@ -3,7 +3,7 @@ const db = require('../src/database');
 
 const sql = {
   sql_login:
-    'SELECT user_id,email,password_hash,nickname,phone_number FROM users WHERE email = ?',
+    'SELECT user_id,email,password_hash,nickname,phone_number,profile_name FROM users WHERE email = ?',
   sql_signUp:
     'INSERT INTO users(email,phone_number, password_hash,nickname,profile_name,profile_nickname) VALUES (?,?,?,?,?,?)', //회원가입
   sql_userList:

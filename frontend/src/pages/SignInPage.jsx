@@ -32,6 +32,7 @@ function Login() {
               nickname: result.data.data.nickname,
               email: result.data.data.email,
               phone_number: result.data.data.phone_number,
+              profilePath: result.data.data.profile_name,
             }),
           );
           // 홈으로 navigate
