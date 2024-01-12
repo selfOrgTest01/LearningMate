@@ -47,6 +47,18 @@ exports.userInfo = async (req, res) => {
   }
 };
 
+exports.updateUserInfo = async (req, res) => {
+  const { id } = req.params;
+  const { nickname, phone_number, email } = req.body;
+  try {
+    const resp = await usersDAO.updateUserInfo(id, nickname, phone_number, email);
+    res.status(resp.status).send(resp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ status: 500, message: '유저정보 수정 실패', error: error.message });
+  }
+};
+
 exports.logout = async (req, res) => {
   try {
     req.session.destroy();

@@ -11,7 +11,9 @@ const sql = {
   sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
   sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
   sql_userInfo:
-    'SELECT email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
+    'SELECT email, phone_number, nickname FROM users WHERE user_id = ?', //마이페이지 회원정보
+  sql_updateUserInfo:
+    'UPDATE users SET nickname = ?, phone_number = ?, email = ? WHERE user_id = ?', //마이페이지 회원정보 수정
   sql_image:
     'UPDATE users SET profile_name=?,profile_nickname = ? WHERE user_id = ?', //이미지
   sql_imagetest: 'SELECT profile_name FROM users WHERE user_id=?',
@@ -83,7 +85,7 @@ const usersDao = {
       fn_callback({ status: 500, message: '등록실패' });
     }
   },
-  //마이리스트 유저정보 호출
+  //마이페이지 유저정보 호출
   userInfo: async function (userId, fn_callback) {
     try {
       const [resdata] = await db.query(sql.sql_userInfo, [userId]);
@@ -92,6 +94,16 @@ const usersDao = {
     } catch (err) {
       console.log(err);
       fn_callback({ status: 500, message: '읽기실패' });
+    }
+  },
+  //마이페이지 유저정보 수정
+  updateUserInfo: async function (userId, nickname, phone_number, email, fn_callback) {
+    try {
+      const [resdata] = await db.query(sql.sql_updateUserInfo, [nickname, phone_number, email, userId]);
+      fn_callback({ status: 200, message: '수정성공', data: resdata });
+    } catch (err) {
+      console.log(err);
+      fn_callback({ status: 500, message: '수정실패' });
     }
   },
   //유저 리스트 모델
