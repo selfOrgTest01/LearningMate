@@ -4,14 +4,16 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { localDomain } from '../../config/config';
 import LectureVideoSection from '../../components/LecturePage/LectureDetailPage/LectureVideoSection';
 import LectureDetailSection from '../../components/LecturePage/LectureDetailPage/LectureDetailSection';
 import LectureCommentSection from '../../components/LecturePage/LectureDetailPage/LectureCommentSection';
+import { lectureAction } from '../../store/lecture';
 
 export default function LectureDetail() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const course_id = useParams().courseid;
   const userInfo = useSelector((state) => state.userInfo);
   const [videoPath, setVideoPath] = useState('');
@@ -51,14 +53,15 @@ export default function LectureDetail() {
   const onDelete = useCallback(async () => {
     try {
       await axios.delete(`${localDomain}/courses/delete/${course_id}`);
+      dispatch(lectureAction.delete({ courseId: course_id }));
       navigate('../');
     } catch (error) {
       console.log(error);
     }
-  }, [course_id, navigate]);
+  }, [course_id, navigate, dispatch]);
   useEffect(() => {
     getLectureDetail();
-  }, [getLectureDetail, course_id]);
+  }, [getLectureDetail]);
 
   if (loading) {
     return <p>Loading...</p>;

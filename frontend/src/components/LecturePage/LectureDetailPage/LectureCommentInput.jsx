@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import { Button, Container, InputGroup } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import { commentAction } from '../../../store/comment';
 
 function LectureCommentInput() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -18,15 +20,18 @@ function LectureCommentInput() {
     async (formData) => {
       try {
         const submitData = { comment: formData.comment, user_id: userInfo.userId, course_id };
-        console.log(submitData);
-        await axios.post('http://localhost:8000/comments/insert', submitData);
+        const result = await axios.post('http://localhost:8000/comments/insert', submitData);
+        dispatch(
+          commentAction.insert({
+            commentList: result.data.data,
+          }),
+        );
         setValue('comment', ''); // 입력창 초기화
-        window.location.reload(); // 입력후 페이지 새로고침
       } catch (error) {
         console.log(error);
       }
     },
-    [course_id, setValue, userInfo.userId],
+    [course_id, setValue, userInfo.userId, dispatch],
   );
   return (
     <Container>
