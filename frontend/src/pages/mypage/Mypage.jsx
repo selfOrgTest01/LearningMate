@@ -4,7 +4,7 @@ import UserId from '../../components/Mypage/UserId';
 import MyCalendar from '../../components/Mypage/Calendar';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
-import Footer from '../../components/Mypage/Footer';
+import Footer from '../../components/Footer';
 import '../../components/Mypage/styles/Title.css';
 
 function Mypage() {

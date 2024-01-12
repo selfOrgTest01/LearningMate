@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import UserProfile from '../../components/Mypage/UserProfile';
 import Sidebar from '../../components/Mypage/Sidebar';
 import Header from '../../components/Mypage/Header';
-import Footer from '../../components/Mypage/Footer';
+import Footer from '../../components/Footer';
 import MyInfoEdit from '../../components/Mypage/MyInfoEdit';
 import '../../components/Mypage/styles/Title.css';
 

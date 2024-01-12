@@ -3,13 +3,17 @@ import { Navbar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutFunction from '../../containers/Header/LogoutFunction';
 
+// 마이페이지 Header
 function Header() {
   const logoutUser = LogoutFunction();
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth.isAuth);
-  const handleLoginClick = () => {
+
+  const handleLogoutClick = () => {
+    logoutUser();
     navigate('/sign-in');
   };
+
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
@@ -67,15 +71,15 @@ function Header() {
             </li>
           </ul>
           <form className='d-flex'>
-            {!auth ? (
-              <button className='btn btn-secondary my-2 my-sm-0' type='button' onClick={handleLoginClick}>
-                로그인
-                <span className='visually-hidden'>(current)</span>
-              </button>
-            ) : (
-              <button className='btn btn-secondary my-2 my-sm-0' type='button' onClick={logoutUser}>
+            {auth ? (
+              <button className='btn btn-secondary my-2 my-sm-0' type='button' onClick={handleLogoutClick}>
                 로그아웃
               </button>
+            ) : (
+              <Link className='nav-link' to='/mypage'>
+                마이페이지
+                <span className='visually-hidden'>(current)</span>
+              </Link>
             )}
           </form>
         </div>
