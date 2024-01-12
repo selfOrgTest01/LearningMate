@@ -1,5 +1,5 @@
 // 개선해야할사항
-// 댓글, state 리팩토링
+// state 리팩토링
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';

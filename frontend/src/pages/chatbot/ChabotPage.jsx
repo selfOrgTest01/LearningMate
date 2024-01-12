@@ -20,9 +20,21 @@ function ChatbotPage() {
     async (submitData) => {
       try {
         setChatMessage((currentMessage) => [{ type: 'user', message: submitData.userInput }, ...currentMessage]);
+        // setChatMessage((currentMessage) => [{ type: 'user', message: submitData.userInput }, ...currentMessage]);
         setValue('userInput', '');
+
+        setChatMessage((currentMessage) => [
+          { type: 'chatbot', message: '나무늘보라 생각이 느려요...' },
+          ...currentMessage,
+        ]);
+
         const chatbotResponse = await fetchAIResponse(submitData.userInput);
-        setChatMessage((currentMessage) => [{ type: 'chatbot', message: chatbotResponse }, ...currentMessage]);
+        // 앞에서 chatMessage에 넣은 사용자 입력과 대기중메시지 객체 두개 빼고 새로운 배열을 만들어야함 앞에서 입력한 사용자 입력을 다시 넣고 답변을 넣는다
+        setChatMessage((currentMessage) => [
+          { type: 'chatbot', message: chatbotResponse },
+          { type: 'user', message: submitData.userInput },
+          ...currentMessage.slice(2), // Remove the "waiting" message
+        ]);
       } catch (error) {
         console.log(error);
       }

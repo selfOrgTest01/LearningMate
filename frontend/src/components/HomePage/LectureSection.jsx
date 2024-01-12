@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unresolved */
+// 홈페이지에 강의정보를 swiper로 띄우는 컴포넌트
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
