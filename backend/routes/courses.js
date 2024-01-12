@@ -41,6 +41,8 @@ router.patch(
 router.delete('/delete/:course_id', coursesController.courseDelete);
 // 전체 강의 조회
 router.get('/courseList', coursesController.courseList);
+
+router.get('/main-course-list', coursesController.mainCourseList);
 // 강의 상세
 router.get('/course/:course_id', coursesController.course);
 // 강의 검색

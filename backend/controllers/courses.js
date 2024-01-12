@@ -83,6 +83,17 @@ exports.courseList = async (req, res) => {
   }
 };
 
+exports.mainCourseList = async (req, res) => {
+  // const course_list = req.query;
+  try {
+    await coursesDAO.mainCourseList((resp) => {
+      res.send(resp);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.course = async (req, res) => {
   const { course_id } = req.params;
   const user_id = req.query.userId;

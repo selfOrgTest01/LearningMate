@@ -4,17 +4,28 @@ const sql = {
   courseList: `SELECT c.course_id, u.nickname, title, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
                FROM users u INNER JOIN courses c ON u.user_id = c.user_id
                ORDER BY c.course_id DESC;`, // 강의번호로 내림차순 (GROUP BY c.course_id 해야하나?)
+
+  mainCourseList: `SELECT c.course_id, u.nickname, title, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
+                FROM users u INNER JOIN courses c ON u.user_id = c.user_id
+                ORDER BY c.course_id DESC
+                LIMIT 9;`,
+
   course: `SELECT c.user_id, c.course_id, u.nickname, title, content, category, attach_file_path, attach_file_name, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d') as createdAt
             FROM users u INNER JOIN courses c ON u.user_id = c.user_id
             WHERE c.course_id = ?;`, // 특정 강의 상세조회
+
   insert: `INSERT INTO courses(title, content, category, user_id, attach_file_path, attach_file_name, attach_image_path) 
              VALUES(?, ?, ?, ?, ?, ?, ?)`,
+
   update:
     'UPDATE courses SET title = ?, content = ?, category = ?, attach_file_path = ?, attach_file_name = ?, attach_image_path = ? WHERE course_id = ?',
+
   delete: 'DELETE FROM courses WHERE course_id = ?',
+
   search: `SELECT c.course_id, u.nickname, title, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
            FROM users u INNER JOIN courses c ON u.user_id = c.user_id
            WHERE title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%');`,
+
   increase_view: `UPDATE courses SET view_cnt = view_cnt + 1 WHERE course_id = ?`,
 };
 
@@ -22,6 +33,20 @@ const coursesDAO = {
   courseList: async (callback) => {
     try {
       const [resdata] = await db.query(sql.courseList);
+      callback({
+        status: 200,
+        message: '강의 리스트 조회 성공',
+        data: resdata,
+      });
+    } catch (error) {
+      console.error(error);
+      callback({ status: 500, message: '강의 리스트 조회 실패', error: error });
+    }
+  },
+
+  mainCourseList: async (callback) => {
+    try {
+      const [resdata] = await db.query(sql.mainCourseList);
       callback({
         status: 200,
         message: '강의 리스트 조회 성공',
