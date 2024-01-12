@@ -2,50 +2,48 @@ import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import useSWR from 'swr';
 import Modal from '../Modal/index';
 import useInput from '../../hooks/useInput';
 import { Button, Input, Label } from './style';
 import fetcher from '../../utils/fetcher';
 
-const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }) => {
-  const params = useParams();
-  const { meetId } = params;
+const CreateChannelModal = ({ show, onCloseModal, onChannelCreated }) => {
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
-  const { data: userData } = useSWR('/api/users', fetcher);
-  const { revalidate: revalidateChannel } = useSWR(userData ? `/chat/chatRoom/${meetId}/channels` : null, fetcher);
 
   const onCreateChannel = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (!newChannel || !newChannel.trim()) {
+        toast.error('채널 이름을 입력하세요.', { position: 'bottom-center' });
         return;
       }
-      axios
-        .post(`/api/workspaces/${meetId}/channels`, {
+
+      try {
+        // 여기서 axios.post로 새로운 채널을 추가하는 API 호출을 합니다.
+        const response = await axios.post(`http://localhost:8000/chat/chatRoom/channels`, {
           name: newChannel,
-        })
-        .then(() => {
-          revalidateChannel();
-          setShowCreateChannelModal(false);
-          setNewChannel('');
-        })
-        .catch((error) => {
-          console.dir(error);
-          toast.error(error.response?.data, { position: 'bottom-center' });
         });
+
+        // 모달 닫기, 입력 값 초기화 및 부모 컴포넌트에게 채널 추가 알림
+        onCloseModal();
+        setNewChannel('');
+        onChannelCreated(response.data.data); // 부모 컴포넌트에게 새로운 채널 정보 전달
+      } catch (error) {
+        console.error('채널 추가 실패:', error.message);
+        toast.error('채널 추가에 실패했습니다.', { position: 'bottom-center' });
+      }
     },
-    [newChannel],
+    [newChannel, onCloseModal, setNewChannel, onChannelCreated],
   );
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onCreateChannel}>
-        <Label id='channel-label'>
+        <Label id='channel-label' style={{ color: 'gray' }}>
           <span>채널 이름</span>
           <Input id='channel' value={newChannel} onChange={onChangeNewChannel} />
         </Label>
-        <Button>생성하기</Button>
+        <Button type='submit'>생성하기</Button>
       </form>
     </Modal>
   );

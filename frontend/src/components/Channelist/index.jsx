@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import CollapseButton from '../DMList/style';
+import CreateChannelModal from '../CreateChannelModal/index';
 
 const ChannelList = (props) => {
   const { roomData, setRoomData, onChannelClick, getChatData } = props;
@@ -12,6 +13,7 @@ const ChannelList = (props) => {
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [countList, setCountList] = useState({});
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
 
   const getRoomData = useCallback(async () => {
     try {
@@ -36,6 +38,14 @@ const ChannelList = (props) => {
     },
     [],
   );
+
+  const openCreateChannelModal = useCallback(() => {
+    setShowCreateChannelModal(true);
+  }, []);
+
+  const closeCreateChannelModal = useCallback(() => {
+    setShowCreateChannelModal(false);
+  }, []);
 
   useEffect(() => {
     getRoomData();
@@ -100,6 +110,19 @@ const ChannelList = (props) => {
           />
         </CollapseButton>
         <span>Channels</span>
+        <button
+          onClick={openCreateChannelModal}
+          style={{
+            border: '1px solid #ccc',
+            borderRadius: '1px',
+            padding: '2px 8px',
+            background: '#1d9bc8',
+            color: '#fff',
+            cursor: 'pointer',
+          }}
+        >
+          +
+        </button>
       </h2>
       <div>
         {!channelCollapse &&
@@ -122,8 +145,20 @@ const ChannelList = (props) => {
               </React.Fragment>
             );
           })}
+
+        <CreateChannelModal
+          show={showCreateChannelModal}
+          onCloseModal={closeCreateChannelModal}
+          onChannelCreated={(newChannel) => {
+            // Handle the creation of the new channel, if needed
+            // For example, you can update the channel list or perform other actions
+            console.log('New Channel Created:', newChannel);
+            closeCreateChannelModal();
+          }}
+        />
       </div>
     </>
   );
 };
+
 export default ChannelList;

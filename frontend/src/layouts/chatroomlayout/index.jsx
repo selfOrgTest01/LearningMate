@@ -47,10 +47,11 @@ const ChatRoom = () => {
   const [roomData, setRoomData] = useState([]); // 채팅 방에 대한 정보를 저장하는 상태
   const [chatData, setChatData] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState(null);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
+  const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
-  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [newWorkspace, setNewWorkspace] = useInput('');
