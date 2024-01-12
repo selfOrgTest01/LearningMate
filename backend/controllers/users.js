@@ -47,15 +47,27 @@ exports.userInfo = async (req, res) => {
   }
 };
 
-exports.updateUserInfo = async (req, res) => {
-  const { id } = req.params;
-  const { nickname, phone_number, email } = req.body;
+exports.getUserProfile = async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const resp = await usersDAO.updateUserInfo(id, nickname, phone_number, email);
+    const resp = await usersDao.getUserProfile(user_id);
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
-    res.status(500).send({ status: 500, message: '유저정보 수정 실패', error: error.message });
+    res.status(500).send({ status: 500, message: '유저 프로필 조회 실패', error: error.message });
+  }
+};
+
+exports.updateUserProfile = async (req, res) => {
+  const { user_id } = req.params;
+  const { nickname, phone_number, email } = req.body;
+  try {
+    const resp = await usersDao.updateUserProfile(user_id, nickname, phone_number, email, (resp) => {
+      res.send(resp);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ status: 500, message: '유저 프로필 수정 실패', error: error.message });
   }
 };
 

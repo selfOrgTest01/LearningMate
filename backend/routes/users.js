@@ -39,10 +39,12 @@ router.get('/logout', usersController.logout);
 //사진업로드 테스트 single("name") name은 formdata의 이름
 router.post('/image/:id', uploadFile.single('image'), usersController.image);
 router.get('/imagetest/:id', usersController.imagetest);
-//회원정보
+//마이리스트
 router.get('/userinfo', usersController.userInfo);
-//회원정보 수정
-router.put('/update/:id', usersController.updateUserInfo);
+//회원 프로필 불러오기
+router.get('/getuserprofile/:user_id', usersController.getUserProfile);
+//회원 프로필 수정사기
+router.put('/updateuserprofile/:user_id', usersController.updateUserProfile);
 //회원리스트
 router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색
