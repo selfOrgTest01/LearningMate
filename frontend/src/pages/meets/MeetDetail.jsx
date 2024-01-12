@@ -1,27 +1,36 @@
+/* eslint-disable no-console */
 // 모임 디테일
 // 24.01.03 - 데이터 나오는데 화면에 안 나옴 - 해결
 // 24.01.04 ~
 // - 다른 곳에서 사용한 모임 아니면 삭제 가능.. 이걸 어떻게 해야하지?
-// - 날짜 값 변경
-// - 하트 수 받기
-// - 참석 인원 수 받기...ㅜ
+// - 날짜 값 변경 - 완료
+// - 참석 인원 수 받기
 // - 사진 올라오게 하기
+// 24.01.08 ~
+// - 리뷰 기능 - 완료
+// - 지도 기능
+// - 참여 버튼 누르면 관리자에게 요청
+// - 내가 이 모임에 status가 1인 경우 리뷰 작성 버튼
+// - 관리자만 수정, 삭제 가능 (meet_id의 작성자와 비교) - 완료
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-
-import { useDispatch } from 'react-redux';
-
-import { getMeetAction } from '../../store/meetStore';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Button, Modal } from 'react-bootstrap';
+import { localDomain } from '../../config/config';
+import ReviewForm from './MeetReviewForm';
+import MeetDetailMapSection from '../../components/maps/MeetDetailMapSection';
 
 function MeetDetail() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const meet_id = useParams().meetid;
+  const userInfo = useSelector((state) => state.userInfo);
+  const [reviews, setReviews] = useState([]);
+  const [reviewModalContent, setReviewModalContent] = useState(null);
 
-  const { id } = useParams();
-  const [meet, setmeet] = useState({
+  const [meet, setMeet] = useState({
     meet_id: '',
     nickname: '',
     email: '',
@@ -35,6 +44,8 @@ function MeetDetail() {
     category: '',
     approve: false,
     createdAt: '',
+    latitude: '',
+    longitude: '',
   });
 
   const iconStyle = {
@@ -68,6 +79,7 @@ function MeetDetail() {
     // console.log('Meet 참여 버튼 클릭');
   };
 
+  // 참가자 수(status=1) 가져와야함
   // const [participantCount, setParticipantCount] = useState(0);
 
   // useEffect(() => {
@@ -83,35 +95,51 @@ function MeetDetail() {
   //   fetchParticipantCount();
   // }, [id]);
 
-  const getMeetDetail = useCallback(async () => {
+  const getMeetDetailAndReviews = useCallback(async () => {
     try {
-      const resp = await axios.get(`http://localhost:8000/meets/meet/${id}`);
-      // console.log(resp.data);
+      const [meetResp, reviewResp] = await Promise.all([
+        axios.get(`${localDomain}/meets/meet/${meet_id}`),
+        axios.get(`${localDomain}/reviews/detail/${meet_id}/reviewList`),
+      ]);
 
-      if (resp.data.data.length > 0) {
-        setmeet(resp.data.data[0]);
-        dispatch(getMeetAction(resp.data.data[0]));
+      // Meet 정보 설정
+      if (meetResp.data.data.length > 0) {
+        setMeet(meetResp.data.data[0]);
       }
+
+      // 리뷰 정보 설정
+      setReviews(reviewResp.data.data);
     } catch (error) {
-      // console.error('Error fetching meet details:', error);
+      console.error(error);
     }
-  }, [dispatch, setmeet, id]);
+  }, [meet_id]);
 
-  const deleteMeet = useCallback(
-    async (meetId) => {
-      try {
-        await axios.delete(`http://localhost:8000/meets/delete/${meetId}`);
-        navigate('/meets'); // 삭제 후 meets로 이동
-      } catch (error) {
-        // console.error('Error deleting meet:', error);
-      }
-    },
-    [navigate],
-  );
+  const openReviewModal = () => {
+    setReviewModalContent(
+      <ReviewForm
+        meet_id={meet_id}
+        getMeetDetailAndReviews={getMeetDetailAndReviews}
+        handleClose={() => setReviewModalContent(null)}
+      />,
+    );
+  };
+
+  const deleteMeet = useCallback(async () => {
+    try {
+      await axios.delete(`${localDomain}/meets/delete/${meet_id}`);
+      navigate('/meets'); // 삭제 후 meets로 이동
+    } catch (error) {
+      console.error(error);
+    }
+  }, [meet_id, navigate]);
 
   useEffect(() => {
-    getMeetDetail();
-  }, [getMeetDetail]);
+    getMeetDetailAndReviews();
+  }, [getMeetDetailAndReviews]);
+
+  useEffect(() => {}, [meet.meet_id]);
+
+  useEffect(() => {}, [reviews]);
 
   return (
     <main id='main' style={{ background: 'white' }}>
@@ -142,12 +170,16 @@ function MeetDetail() {
                       <button className='btn btn-primary btn-sm' onClick={() => navigate('/meets')}>
                         리스트
                       </button>{' '}
-                      <button className='btn btn-warning btn-sm' onClick={() => navigate('/update')}>
-                        수정
-                      </button>{' '}
-                      <button className='btn btn-danger btn-sm' onClick={() => deleteMeet(meet.meet_id)}>
-                        삭제
-                      </button>
+                      {userInfo.nickname === meet.nickname && (
+                        <>
+                          <button className='btn btn-warning btn-sm' onClick={() => navigate('/update')}>
+                            수정
+                          </button>{' '}
+                          <button className='btn btn-danger btn-sm' onClick={() => deleteMeet(meet.meet_id)}>
+                            삭제
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 </tbody>
@@ -155,12 +187,16 @@ function MeetDetail() {
             </div>
             <div
               className='card p-3'
-              style={{ width: '25rem', height: '15rem', marginTop: '95px', marginLeft: '40px' }}
+              style={{ width: '25rem', height: '20rem', marginTop: '95px', marginLeft: '40px' }}
             >
               <table>
                 <tbody>
-                  {meet.onoff === 0 && <img src='지도 이미지 주소' className='card-img-top' alt='지도' />}
-
+                  {/* 지도 */}
+                  <tr>
+                    <td>
+                      {meet.onoff === 0 && <MeetDetailMapSection latitude={meet.latitude} longitude={meet.longitude} />}
+                    </td>
+                  </tr>
                   <tr>
                     <td>{meet.onoff ? '온라인' : '오프라인'}</td>
                   </tr>
@@ -185,11 +221,16 @@ function MeetDetail() {
                       {meet.approve ? '자유 참가' : '관리자 승인 후 참가'}
                     </td>
                   </tr>
-                  {/* <tr>
+                  <tr>
                     <td className='icon-only' style={iconStyle}>
-                      참여자 수: {participantCount}
+                      작성자: {meet.nickname}
                     </td>
-                  </tr> */}
+                  </tr>
+                  <tr>
+                    <td className='icon-only' style={iconStyle}>
+                      참여자 수: {0}/{meet.max_num}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div className='d-flex justify-content-end' style={{ marginTop: '130px' }}>
@@ -202,6 +243,34 @@ function MeetDetail() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+        {/* 리뷰 리스트 */}
+        <div className='m-4'>
+          <Button size='sm' variant='primary' onClick={openReviewModal}>
+            리뷰 작성하기
+          </Button>
+          {/* 모달로 띄우기 */}
+          <Modal show={reviewModalContent !== null} onHide={() => setReviewModalContent(null)}>
+            <Modal.Header closeButton>
+              <Modal.Title>리뷰 작성하기</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{reviewModalContent}</Modal.Body>
+          </Modal>{' '}
+          <div className='col'>
+            <h3>리뷰</h3>
+            {reviews.length > 0 ? (
+              <ul>
+                {reviews.map((review) => (
+                  <li key={review.review_id}>
+                    <p>{review.content}</p>
+                    <p>작성자: {review.nickname}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>리뷰가 없습니다.</p>
+            )}
           </div>
         </div>
       </section>

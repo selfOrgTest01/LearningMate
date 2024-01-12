@@ -1,4 +1,4 @@
-< < < < < < < HEAD -- Active: 1703034513814@@34.64.245.68@3306@learningmate
+-- Active: 1703034513814@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -124,7 +124,52 @@ SELECT
 FROM
     courses;
 
+SELECT
+    *
+FROM
+    comments;
+
+-- ALTER TABLE courses
+-- ADD COLUMN attach_image_path VARCHAR(255);
+-- ALTER TABLE courses
+-- MODIFY COLUMN attach_image_path VARCHAR(256);
 -- ALTER DATABASE learningmate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+DELETE FROM
+    courses;
+
+ALTER TABLE
+    meets
+ADD
+    COLUMN longitude DECIMAL(9, 6);
+
+SELECT
+    *
+FROM
+    meets;
+
+SELECT
+    *
+FROM
+    comments;
+
+ALTER TABLE
+    courses
+ADD
+    COLUMN view_cnt INT DEFAULT 0;
+
+ALTER TABLE
+    comments DROP FOREIGN KEY comments_course_id_fk;
+
+SHOW CREATE TABLE comments;
+
+ALTER TABLE
+    comments DROP FOREIGN KEY course_comments_course_id_fk;
+
+ALTER TABLE
+    comments
+ADD
+    CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;
@@ -190,16 +235,16 @@ VALUES
     -- ('요리 강연', '맛있는 음식 만들기에 관한 강연', '2024-02-01', '2024-02-28', 20, 1, '/images/cooking_event.jpg', '요리', 1, 42),
     -- ('피아노 연주회', '클래식 음악 감상 및 연주', '2024-03-15', '2024-03-20', 30, 0, '/images/piano_concert.jpg', '음악', 0, 43),
     (
-        '제목',
-        '내용',
-        '2024-04-15',
+        '왜 안 돼',
+        '왜 안 되나요',
         '2024-04-20',
+        '2024-04-30',
         35,
         0,
-        '/public/images/users/1704238664418_you.jpg',
+        '',
         '취미',
         0,
-        44
+        40
     );
 
 -- READ 읽기
@@ -306,8 +351,8 @@ WHERE
 INSERT INTO
     meet_participants (meet_id, user_id)
 VALUES
-    (19, 45),
-    (19, 46);
+    (19, 70),
+    (19, 71);
 
 -- READ 모든 참가자 조회
 SELECT
@@ -351,7 +396,7 @@ UPDATE
 SET
     status = 1
 WHERE
-    participant_id = 3;
+    participant_id = 71;
 
 -- DELETE FROM meet_participants WHERE participant_id = 9;
 -- 특정 참여자 삭제 (관리자만 가능 - 기능 둬야하나)
@@ -390,7 +435,6 @@ CREATE TABLE meet_reviews (
     user_id INT,
     CONSTRAINT meet_reviews_review_id_pk PRIMARY KEY(review_id),
     CONSTRAINT meet_reviews_meet_id_fk FOREIGN KEY(meet_id) REFERENCES meets(meet_id),
-    -- meet 테이블의 meet_id를 참조
     CONSTRAINT meet_reviews_user_id_fk FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
@@ -401,15 +445,12 @@ FROM
 
 ---- TEST
 -- CREATE 리뷰 추가
--- inner join 사용? status
+-- inner join 사용? status=1인 사람만
 INSERT INTO
-    meet_reviews (review_id, meet_id, user_id, content)
+    meet_reviews (meet_id, user_id, content)
 VALUES
-    (1, 1, 17, '리뷰 내용 1'),
-    (2, 1, 19, '리뷰 내용 2'),
-    (3, 1, 20, '리뷰 내용 3');
-
--- READ 읽기
+    (19, 70, '리뷰 내용 1'),
+    (19, 71, '리뷰 내용 2') -- READ 읽기
 SELECT
     *
 FROM

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ImageUploadSection from '../components/ImageUploadSection';
 import LandingModal from '../components/maps/LandingModal';
+import MeetDetailMapSection from '../components/maps/MeetDetailMapSection';
 
 function Test() {
   const position = useSelector((state) => state.position);
@@ -36,18 +37,17 @@ function Test() {
     <>
       <h1>test</h1>
       <h2>Sever Data:</h2>
-      <h2>테스트용입니다~!!</h2>
       <h2>
         email:
-        {data.email}
+        {userInfo.email}
       </h2>
       <h2>
         휴대폰번호:
-        {data.phone_number}
+        {userInfo.phone_number}
       </h2>
       <h2>
         nickname:
-        {data.nickname}
+        {userInfo.nickname}
       </h2>
       <h2>
         로그인상태:
@@ -62,7 +62,9 @@ function Test() {
         {userInfo.nickname}
       </h2>
       <ImageUploadSection userId={userInfo.userId} />
+      {/* 지도 클릭으로 위치정보 받기 */}
       <LandingModal />
+      <MeetDetailMapSection />
       {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
     </>
   );
