@@ -124,21 +124,51 @@ SELECT
 FROM
     courses;
 
-SELECT * FROM comments;
+SELECT
+    *
+FROM
+    comments;
+
 -- ALTER TABLE courses
 -- ADD COLUMN attach_image_path VARCHAR(255);
-
 -- ALTER TABLE courses
 -- MODIFY COLUMN attach_image_path VARCHAR(256);
 -- ALTER DATABASE learningmate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+DELETE FROM
+    courses;
 
-DELETE FROM courses;
-ALTER TABLE meets
-ADD COLUMN longitude DECIMAL(9,6);
+ALTER TABLE
+    meets
+ADD
+    COLUMN longitude DECIMAL(9, 6);
 
-SELECT * FROM meets;
+SELECT
+    *
+FROM
+    meets;
 
-SELECT * FROM comments;
+SELECT
+    *
+FROM
+    comments;
+
+ALTER TABLE
+    courses
+ADD
+    COLUMN view_cnt INT DEFAULT 0;
+
+ALTER TABLE
+    comments DROP FOREIGN KEY comments_course_id_fk;
+
+SHOW CREATE TABLE comments;
+
+ALTER TABLE
+    comments DROP FOREIGN KEY course_comments_course_id_fk;
+
+ALTER TABLE
+    comments
+ADD
+    CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ----------------- 민경 -----------------
 -------- meet table ------
@@ -420,9 +450,7 @@ INSERT INTO
     meet_reviews (meet_id, user_id, content)
 VALUES
     (19, 70, '리뷰 내용 1'),
-    (19, 71, '리뷰 내용 2')
-
--- READ 읽기
+    (19, 71, '리뷰 내용 2') -- READ 읽기
 SELECT
     *
 FROM

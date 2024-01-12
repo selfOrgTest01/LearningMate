@@ -28,7 +28,7 @@ function SearchBarSinglePage() {
 
   return (
     <>
-      <div className='container-fluid mb-4 d-flex justify-content-center align-items-center'>
+      <div className='container-fluid mb-4 d-flex justify-content-center align-items-center mt-4'>
         <form
           onSubmit={handleSubmit(fetchSearchTerm)}
           className='d-flex'

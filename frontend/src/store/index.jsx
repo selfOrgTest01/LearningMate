@@ -3,6 +3,7 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import storageSession from 'redux-persist/lib/storage/session';
 import authReducer from './auth';
 import lectureReducer from './lecture';
+import commentReducer from './comment';
 import { locationReducer, positionReducer } from './location';
 import userInfoReducer from './userInfo';
 import userStore from './userStore'; // 민경 추가
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   position: positionReducer,
   userInfo: userInfoReducer,
   lecture: lectureReducer,
+  comment: commentReducer,
   meetStore,
   userStore,
   events: eventReducer,

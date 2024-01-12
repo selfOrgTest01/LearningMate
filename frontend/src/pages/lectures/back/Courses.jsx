@@ -1,43 +1,37 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { Button, Col, Container, Pagination, Row, Table } from 'react-bootstrap';
-import { localDomain } from '../../config/config';
-import SearchedPageSearchBar from '../../components/LecturePage/SearchedPageSearchBar';
+import { localDomain } from '../../../config/config';
+import SearchBar from '../../../components/LecturePage/SearchBar';
 
-function SearchedLecturePage() {
+function Courses() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10); // 페이지당 표시할 사용자 수
   const login = useSelector((state) => state.auth.isAuth);
   // users 데이터베이스에서 user_id,email,phone_number,nickname을 읽어옵니다.
-  const fetchSearchTerm = useCallback(async () => {
-    const searchQuery = new URLSearchParams(location.search).get('search_query');
+  const readCourses = useCallback(async () => {
     try {
       setLoading(true);
-      const result = await axios.get(`${localDomain}/courses/search`, {
-        params: {
-          term: searchQuery,
-        },
-      });
+      const resData = await axios.get(`${localDomain}/courses/courseList`);
       setCourses((currentCourses) => {
-        currentCourses = result.data.data;
+        currentCourses = resData.data.data;
         return currentCourses;
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log('에러', err);
     } finally {
       setLoading(false);
     }
-  }, [location.search]);
+  }, []);
   // 처음 렌더링때 한번 호출,함수가 변할때 호출
   useEffect(() => {
-    fetchSearchTerm();
-  }, [fetchSearchTerm]);
+    readCourses();
+  }, [readCourses]);
 
   // 현재 페이지의 사용자 데이터 계산
   const indexOfLastUser = currentPage * usersPerPage;
@@ -57,11 +51,10 @@ function SearchedLecturePage() {
           <Row className='justify-content-md-center align-items-center'>
             <Col md={8}>
               <h1 className='display-1 text-center'>강의</h1>
-              <SearchedPageSearchBar />
+              <SearchBar />
               <Table striped bordered hover variant='dark'>
                 <thead>
                   <tr>
-                    {/* <th>강의id</th> */}
                     <th>썸네일</th>
                     <th>작성자</th>
                     <th>제목</th>
@@ -70,7 +63,7 @@ function SearchedLecturePage() {
                 </thead>
                 <tbody>
                   {coursesList.map((item) => (
-                    <tr key={item.course_id} onClick={() => navigate(`../detail/${item.course_id}`)}>
+                    <tr key={item.course_id} onClick={() => navigate(`./detail/${item.course_id}`)}>
                       <td style={{ width: '10%' }}>
                         <img src={item.attach_image_path} style={{ width: '100%' }} alt='이미지.jpg'></img>
                       </td>
@@ -92,7 +85,7 @@ function SearchedLecturePage() {
                   </Pagination.Item>
                 ))}
               </Pagination>
-              {login && <Button onClick={() => navigate('../register')}>강의 업로드</Button>}
+              {login && <Button onClick={() => navigate('./register')}>강의 업로드</Button>}
             </Col>
           </Row>
         )}
@@ -100,4 +93,4 @@ function SearchedLecturePage() {
     </>
   );
 }
-export default SearchedLecturePage;
+export default Courses;
