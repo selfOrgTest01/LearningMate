@@ -1,6 +1,6 @@
 // 따로 설정 안했는데 userid가 없어서 로그인 안하면 업로드가 안됨
 import axios from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';

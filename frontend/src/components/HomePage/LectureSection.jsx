@@ -19,7 +19,6 @@ export default function CourseSection() {
     try {
       // 메인페이지 강의정보에서 카드로 띄울 데이터를 9개만 가져오는 api
       const resp = await axios.get(`${localDomain}/courses/main-course-list`);
-      console.log(resp.data.data);
       setDataList(resp.data.data);
     } catch (error) {
       console.log(error);

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { lectureAction } from '../../store/lecture';
 import { localDomain } from '../../config/config';
 
-function SearchBarSinglePage() {
+function SearchBarSection() {
   const dispatch = useDispatch();
   const {
     register,
@@ -51,4 +51,4 @@ function SearchBarSinglePage() {
   );
 }
 
-export default SearchBarSinglePage;
+export default SearchBarSection;
