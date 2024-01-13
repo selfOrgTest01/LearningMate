@@ -98,23 +98,23 @@ const usersDao = {
     }
   },
   //마이페이지 유저 프로필 불러오기
-  getUserProfile: async function (userId, fn_callback) {
+  getUserProfile: async (user_id) => {
     try {
-      const [resdata] = await db.query(sql.sql_getUserProfile, [userId]);
-      fn_callback({ status: 200, message: '불러오기 성공', data: resdata });
+      const [resdata] = await db.query(sql.sql_getUserProfile, [user_id]);
+      return { status: 200, message: '불러오기 성공', data: resdata };
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '불러오기 실패' });
+      return { status: 500, message: '불러오기 실패' };
     }
   },
   //마이페이지 유저 프로필 수정하기
-  updateUserProfile: async function (userId, nickname, phone_number, email, fn_callback) {
+  updateUserProfile: async (user_id, nickname, phone_number, email,) => {
     try {
-      const [resdata] = await db.query(sql.sql_updateUserProfile, [nickname, phone_number, email, userId]);
-      fn_callback({ status: 200, message: '수정 성공', data: resdata });
+      const [resdata] = await db.query(sql.sql_updateUserProfile, [nickname, phone_number, email, user_id]);
+      return { status: 200, message: '수정 성공', data: resdata };
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '수정 실패' });
+      return { status: 500, message: '수정 실패' };
     }
   },
   //유저 리스트 모델

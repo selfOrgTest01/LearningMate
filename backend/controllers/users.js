@@ -62,9 +62,8 @@ exports.updateUserProfile = async (req, res) => {
   const { user_id } = req.params;
   const { nickname, phone_number, email } = req.body;
   try {
-    const resp = await usersDao.updateUserProfile(user_id, nickname, phone_number, email, (resp) => {
-      res.send(resp);
-    });
+    const resp = await usersDao.updateUserProfile(user_id, nickname, phone_number, email);
+    res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
     res.status(500).send({ status: 500, message: '유저 프로필 수정 실패', error: error.message });

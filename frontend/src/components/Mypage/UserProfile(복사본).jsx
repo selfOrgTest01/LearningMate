@@ -24,15 +24,6 @@ const UserProfile = () => {
   const handleSaveEdit = async (editedData) => {
     try {
       // 수정된 데이터를 서버에 전송하는 API 호출
-      // dispatch(
-      //   userInfoAction.insert({
-      //     nickname: editedData.nickname,
-      //     email: editedData.email,
-      //     phone_number: editedData.phone_number,
-      //   }),
-      // );
-      await axios.patch(`${localDomain}/users/updateuserprofile/${userInfo.userId}`, editedData);
-      // 수정이 성공하면 새로운 데이터로 상태 업데이트
       dispatch(
         userInfoAction.insert({
           nickname: editedData.nickname,
@@ -40,6 +31,15 @@ const UserProfile = () => {
           phone_number: editedData.phone_number,
         }),
       );
+      await axios.put(`${localDomain}/users/updateuserprofile/${userInfo.userId}`, editedData);
+      // 수정이 성공하면 새로운 데이터로 상태 업데이트
+      // dispatch(
+      //   userInfoAction.insert({
+      //     nickname: editedData.nickname,
+      //     email: editedData.email,
+      //     phone_number: editedData.phone_number,
+      //   }),
+      // );
       setIsEditMode(false);
     } catch (error) {
       console.error('데이터 업데이트 중 에러 발생:', error);

@@ -15,6 +15,11 @@ function MyProfileEdit({ initialData, onSave, onCancel }) {
     }));
   };
 
+  const handleSave = () => {
+    navigate('/sign-in');
+    onSave(editedData);
+  };
+
   const handleCancel = () => {
     // 취소 버튼 클릭 시 '내 정보 조회하기' 페이지로 이동
     navigate('/my-info');
@@ -37,7 +42,7 @@ function MyProfileEdit({ initialData, onSave, onCancel }) {
           <Form.Label>이메일</Form.Label>
           <Form.Control type='email' name='email' value={editedData.email} onChange={handleChange} />
         </Form.Group>
-        <Button variant='primary' onClick={() => onSave(editedData)}>
+        <Button variant='primary' onClick={handleSave}>
           저장
         </Button>
         <Button variant='secondary' onClick={handleCancel}>
