@@ -37,7 +37,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
       if (!e.shiftKey) {
         e.preventDefault();
 
-        const senderUserId = userData && userData.nickname ? userData.nickname : 15; // 임의로 15로 해놓았는데 로그인한 사람으로 바꿔야함
+        const senderUserId = userData && userData.nickname ? userData.nickname : 45; // 임의로 45로 해놓았는데 로그인한 사람으로 바꿔야함
 
         try {
           console.log('Sending data to the server:', {
@@ -70,7 +70,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
             value={chatValue}
             onChange={chatHandler}
             onKeyDown={onKeydownChat}
-            placeholder={placeholder}
+            placeholder={'내용을 입력한 뒤 enter을 눌러주세요'}
             style={{
               flex: '1',
               border: 'none',

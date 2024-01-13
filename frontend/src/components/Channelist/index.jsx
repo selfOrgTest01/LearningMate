@@ -113,10 +113,10 @@ const ChannelList = (props) => {
         <button
           onClick={openCreateChannelModal}
           style={{
-            border: '1px solid #ccc',
+            border: 'none',
             borderRadius: '1px',
             padding: '2px 8px',
-            background: '#1d9bc8',
+            background: 'transparent', // 배경을 투명하게
             color: '#fff',
             cursor: 'pointer',
           }}

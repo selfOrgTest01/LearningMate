@@ -3,22 +3,24 @@ const participantsDAO = require('./participantsDAO');
 
 const sql = {
   initialRoom: `
-    SELECT 
-    m.title, 
-    cr.channel_id, 
-    cr.description AS channel_description, 
-    u.nickname AS user_nickname,
-    u.profile_name,  
-    ch.content AS chat_content, 
-    ch.sender_user_id AS chat_sender_user_id, 
-    ch.sent_time AS chat_sent_time
-  FROM chat_room cr
-  JOIN meet_participants mp ON cr.meet_id = mp.meet_id
-  JOIN users u ON mp.user_id = u.user_id
-  JOIN meets m ON cr.meet_id = m.meet_id
-  LEFT JOIN chat_history ch ON cr.channel_id = ch.channel_id
-  WHERE cr.description = '공지사항' AND mp.meet_id = ? AND mp.status = 1
-  ORDER BY ch.sent_time ASC;`,
+  SELECT DISTINCT
+  m.title AS meets_title,
+  u.nickname AS users_nickname,
+  u.profile_name,
+  cr.channel_id,
+  cr.description
+FROM
+  meets m
+JOIN
+  meet_participants mp ON m.meet_id = mp.meet_id
+JOIN
+  chat_room cr ON m.meet_id = cr.meet_id
+JOIN
+  chat_history ch ON cr.channel_id = ch.channel_id
+JOIN
+  users u ON ch.sender_user_id = u.user_id
+WHERE
+  m.meet_id = ?`,
 
   channelChatRoom: `
   SELECT *

@@ -291,3 +291,22 @@ SELECT *
     JOIN chat_history ch on cr.channel_id = ch.channel_id
     JOIN users u on u.user_id = ch.sender_user_id
   WHERE ch.channel_id = 2;
+
+SELECT DISTINCT
+  m.title AS meets_title,
+  u.nickname AS users_nickname,
+  u.profile_name,
+  cr.channel_id,
+  cr.description
+FROM
+  meets m
+JOIN
+  meet_participants mp ON m.meet_id = mp.meet_id
+JOIN
+  chat_room cr ON m.meet_id = cr.meet_id
+JOIN
+  chat_history ch ON cr.channel_id = ch.channel_id
+JOIN
+  users u ON ch.sender_user_id = u.user_id
+WHERE
+  m.meet_id = 19;
