@@ -9,21 +9,22 @@ import { localDomain } from '../../config/config';
 import LectureVideoSection from '../../components/LecturePage/LectureDetailPage/LectureVideoSection';
 import LectureDetailSection from '../../components/LecturePage/LectureDetailPage/LectureDetailSection';
 import LectureCommentSection from '../../components/LecturePage/LectureDetailPage/LectureCommentSection';
-import { lectureAction } from '../../store/lecture';
+import { lectureAction, lectureDetailAction } from '../../store/lecture';
 
-export default function LectureDetail() {
+export default function LectureMainPageDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const course_id = useParams().courseid;
   const userInfo = useSelector((state) => state.userInfo);
-  const [videoPath, setVideoPath] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState();
-  const [userNickname, setUserNickname] = useState('');
+  const lectureDetail = useSelector((state) => state.lectureDetail);
+  // const [videoPath, setVideoPath] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [content, setContent] = useState('');
+  // const [userId, setUserId] = useState();
+  // const [userNickname, setUserNickname] = useState('');
   const [views, setViews] = useState(0);
-  const lectureInfo = { title, views, userNickname, content };
+  const [loading, setLoading] = useState(true);
+  const lectureInfo = { views };
 
   const getLectureDetail = useCallback(async () => {
     try {
@@ -34,11 +35,21 @@ export default function LectureDetail() {
       if (resp.data.status === 500) {
         navigate('../');
       } else {
-        setVideoPath(resp.data.data[0].attach_file_path);
-        setTitle(resp.data.data[0].title);
-        setContent(resp.data.data[0].content);
-        setUserId(resp.data.data[0].user_id);
-        setUserNickname(resp.data.data[0].nickname);
+        dispatch(
+          lectureDetailAction.insert({
+            title: resp.data.data[0].title,
+            content: resp.data.data[0].content,
+            userId: resp.data.data[0].user_id,
+            registerNickname: resp.data.data[0].nickname,
+            videoPath: resp.data.data[0].attach_file_path,
+            category: resp.data.data[0].category,
+          }),
+        );
+        // setVideoPath(resp.data.data[0].attach_file_path);
+        // setTitle(resp.data.data[0].title);
+        // setContent(resp.data.data[0].content);
+        // setUserId(resp.data.data[0].user_id);
+        // setUserNickname(resp.data.data[0].nickname);
         // 실제로는 통신할때 서버에서 1을 증가시키지만 가져오는 데이터는 게시글 조회전 조회수를 가져오기 때문에 게시글에 조회전 조회수가 나오고
         // 게시글에서 나올때 조회수가 1증가 하는것처럼 보이는데 떄문에 애초에 게시글에 들어가면 보이는 조회수를 프론트에서 1증가한 값으로 출력해준다
         if (userInfo.nickname !== resp.data.data[0].nickname) {
@@ -52,7 +63,7 @@ export default function LectureDetail() {
     } finally {
       setLoading(false);
     }
-  }, [course_id, navigate, userInfo.userId]);
+  }, [course_id, navigate, userInfo.userId, userInfo.nickname, dispatch]);
 
   const onDelete = useCallback(async () => {
     try {
@@ -74,9 +85,9 @@ export default function LectureDetail() {
   return (
     <>
       <Container style={{ width: '70%' }}>
-        <LectureVideoSection videoPath={videoPath} />
+        <LectureVideoSection videoPath={lectureDetail.videoPath} />
         <LectureDetailSection lectureInfo={lectureInfo} />
-        {userInfo.userId === userId && (
+        {userInfo.userId === lectureDetail.userId && (
           <ButtonGroup>
             <Button variant='primary' onClick={() => navigate(`../update/${course_id}`)}>
               수정

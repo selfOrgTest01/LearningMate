@@ -16,10 +16,36 @@ const lectureSlice = createSlice({
     },
     delete(state, action) {
       const courseIdToDelete = action.payload.courseId;
-      state.courses = state.courses.filter((comment) => comment.course_id !== courseIdToDelete);
+      state.courses = state.courses.filter((course) => course.course_id !== courseIdToDelete);
+    },
+  },
+});
+
+const initialLectureDetailState = {
+  title: '',
+  content: '',
+  userId: 0,
+  registerNickname: '',
+  videoPath: '',
+  category: '',
+};
+
+const lectureDetailSlice = createSlice({
+  name: 'lectureDetail',
+  initialState: initialLectureDetailState,
+  reducers: {
+    insert(state, action) {
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.userId = action.payload.userId;
+      state.registerNickname = action.payload.registerNickname;
+      state.videoPath = action.payload.videoPath;
+      state.category = action.payload.category;
     },
   },
 });
 
 export const lectureAction = lectureSlice.actions;
-export default lectureSlice.reducer;
+export const lectureDetailAction = lectureDetailSlice.actions;
+export const lectureReducer = lectureSlice.reducer;
+export const lectureDetailReducer = lectureDetailSlice.reducer;

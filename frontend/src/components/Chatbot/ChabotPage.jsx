@@ -2,8 +2,8 @@ import { Container } from 'react-bootstrap';
 import './styles.css';
 import { useForm } from 'react-hook-form';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import fetchAIResponse from '../../containers/Chatbot/FetchAIResponse';
-import TypingEffect from '../../components/HomePage/ChatBot/TypingEffect';
+import fetchAIResponse from '../../containers/Chatbot/fetchAIResponse';
+import TypingEffect from './TypingEffect';
 
 function ChatbotPage() {
   const [chatMessage, setChatMessage] = useState([]);

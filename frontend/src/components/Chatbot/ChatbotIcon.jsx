@@ -1,7 +1,6 @@
 // 아이콘이 자동으로 말풍선을 출력하게
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 

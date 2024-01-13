@@ -9,7 +9,7 @@ import { lectureAction } from '../../store/lecture';
 import SearchBarSinglePage from '../../components/LecturePage/SearchBarSinglePage';
 import LectureTable from '../../components/LecturePage/LectureTable';
 
-function CoursesSinglePage() {
+function LectureMainPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const login = useSelector((state) => state.auth.isAuth);
@@ -21,6 +21,7 @@ function CoursesSinglePage() {
       setLoading(true);
       const resData = await axios.get(`${localDomain}/courses/courseList`);
       dispatch(lectureAction.insert({ courses: resData.data.data }));
+      console.log();
     } catch (err) {
       console.log('에러', err);
     } finally {
@@ -50,4 +51,4 @@ function CoursesSinglePage() {
     </>
   );
 }
-export default CoursesSinglePage;
+export default LectureMainPage;

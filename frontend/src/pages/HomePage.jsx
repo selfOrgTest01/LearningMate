@@ -3,8 +3,7 @@ import GetLocation from '../containers/pages/HomePage/GetLocation';
 import HomeSwiper from '../components/HomePage/HomeSwiper';
 import MeetSection from '../components/HomePage/MeetSection';
 import CourseSection from '../components/HomePage/LectureSection';
-import ChatbotIcon from './chatbot/ChatbotIcon';
-import ChatbotModal from './chatbot/ChatbotModal';
+import ChatbotModal, { ChatbotIcon } from '../components/Chatbot';
 
 function Home() {
   GetLocation();

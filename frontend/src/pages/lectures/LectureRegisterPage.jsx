@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { localDomain } from '../../config/config';
 
-function RegisterLecturePage() {
+function LectureRegisterPage() {
   const inputRef = useRef();
   const imageRef = useRef();
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ function RegisterLecturePage() {
         console.log(error);
       }
     },
-    [userId],
+    [userId, navigate],
   );
   return (
     <Container fluid style={{ height: '100vh' }}>
@@ -194,4 +194,4 @@ function RegisterLecturePage() {
     </Container>
   );
 }
-export default RegisterLecturePage;
+export default LectureRegisterPage;

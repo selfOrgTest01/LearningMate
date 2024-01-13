@@ -15,7 +15,6 @@ import { localDomain } from '../../config/config';
 export default function CourseSection() {
   const [dataList, setDataList] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  // const img = `${process.env.PUBLIC_URL}/img/lectureImg.jpg`;
   const fetchData = useCallback(async () => {
     try {
       // 메인페이지 강의정보에서 카드로 띄울 데이터를 9개만 가져오는 api

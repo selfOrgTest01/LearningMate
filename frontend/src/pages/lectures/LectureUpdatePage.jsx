@@ -7,16 +7,17 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { localDomain } from '../../config/config';
 
-function UpdateLecturePage() {
+function LectureUpdatePage() {
   const inputRef = useRef();
   const imageRef = useRef();
   const navigate = useNavigate();
   const course_id = useParams().courseid;
-  const [videoPath, setVideoPath] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imagePath, setImagePath] = useState('');
-  const [category, setCategory] = useState('');
+  const lectureDetail = useSelector((state) => state.lectureDetail);
+  // const [videoPath, setVideoPath] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [content, setContent] = useState('');
+  // const [imagePath, setImagePath] = useState('');
+  // const [category, setCategory] = useState('');
   // 로그인한 유저의 userId
   const userId = useSelector((state) => state.userInfo.userId);
   // input에서 선택한 파일의 이름
@@ -28,28 +29,28 @@ function UpdateLecturePage() {
     setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: { title, category, content },
+    defaultValues: { title: lectureDetail.title, category: lectureDetail.category, content: lectureDetail.content },
     mode: 'onBlur',
   });
 
-  const getLectureDetail = useCallback(async () => {
-    try {
-      const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
-      // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
-      if (resp.data.status === 500) {
-        navigate('../');
-      } else {
-        const respData = resp.data.data[0];
-        setVideoPath(respData.attach_file_path);
-        setImagePath(respData.attach_image_path);
-        setTitle(respData.title);
-        setContent(respData.content);
-        setCategory(respData.category);
-      }
-    } catch (error) {
-      console.error('Error fetching lecture detail:', error);
-    }
-  }, [course_id, navigate]);
+  // const getLectureDetail = useCallback(async () => {
+  //   try {
+  //     const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
+  //     // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
+  //     if (resp.data.status === 500) {
+  //       navigate('../');
+  //     } else {
+  //       const respData = resp.data.data[0];
+  //       setVideoPath(respData.attach_file_path);
+  //       setImagePath(respData.attach_image_path);
+  //       setTitle(respData.title);
+  //       setContent(respData.content);
+  //       setCategory(respData.category);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching lecture detail:', error);
+  //   }
+  // }, [course_id, navigate]);
 
   const handleVideoFileChange = (event) => {
     if (event.target.files[0]) {
@@ -104,14 +105,14 @@ function UpdateLecturePage() {
     [navigate, course_id],
   );
 
-  useEffect(() => {
-    getLectureDetail();
-    setValue('title', title);
-    setValue('category', category);
-    setValue('content', content);
-    // setValue('lectureVideo', videoPath);
-    // setValue('lectureImage', imagePath);
-  }, [getLectureDetail, setValue, title, category, content, videoPath, imagePath]);
+  // useEffect(() => {
+  //   // getLectureDetail();
+  //   // setValue('title', title);
+  //   // setValue('category', category);
+  //   // setValue('content', content);
+  //   // setValue('lectureVideo', videoPath);
+  //   // setValue('lectureImage', imagePath);
+  // }, [getLectureDetail, setValue, title, category, content, videoPath, imagePath]);
   return (
     <Container fluid style={{ height: '100vh' }}>
       <Row className='justify-content-md-center'>
@@ -134,12 +135,7 @@ function UpdateLecturePage() {
             </Form.Group>
             <label htmlFor='category'>카테고리</label>
             <Form.Group className='mb-3'>
-              <Form.Select
-                id='category'
-                name='category'
-                defaultValue={category}
-                {...register('category', { required: true })}
-              >
+              <Form.Select id='category' name='category' {...register('category', { required: true })}>
                 <option value=''>카테고리를 선택해주세요</option>
                 <option value='운동/건강'>운동/건강</option>
                 <option value='IT'>IT</option>
@@ -228,4 +224,4 @@ function UpdateLecturePage() {
     </Container>
   );
 }
-export default UpdateLecturePage;
+export default LectureUpdatePage;
