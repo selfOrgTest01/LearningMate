@@ -28,6 +28,9 @@ import LectureDetail from './pages/lectures/LectureDetail';
 import SearchedLecturePage from './pages/lectures/back/SearchedLecturePage';
 // 챗봇페이지
 import ChatbotPage from './pages/chatbot/ChabotPage';
+// 채팅방페이지
+import ChatRoom from './layouts/chatroomlayout/index';
+import ParentComponent from './utils/ParentComponent';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/test' element={<TestPage />} />
           <Route path='/user-list' element={<UserListPage />} />
+          <Route path='/chat/chatRoom/:meetId/' element={<ChatRoom />} />
+          <Route path='/chat/chatRoom/:meetId/channels/:channelId' element={<ChatRoom />} />
+          <Route path='/parentcomponent' element={<ParentComponent />} />
           {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
             {/* <Route index element={<Courses />} /> */}

@@ -16,7 +16,7 @@ function MyProfileEdit({ initialData, onSave, onCancel }) {
   };
 
   const handleSave = () => {
-    navigate('/sign-in');
+    navigate('/my-info');
     onSave(editedData);
   };
 

@@ -24,7 +24,7 @@ function SignUpPage() {
       const result = await axios.get('http://localhost:8000/users/check');
       return result;
     } catch (error) {
-      console.log('에러:', error);
+      // console.log('에러:', error);
       return error;
     }
   }, []);
