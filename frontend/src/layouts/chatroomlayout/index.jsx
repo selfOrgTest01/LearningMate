@@ -4,7 +4,7 @@ import gravatar from 'gravatar';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Link, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import ChannelList from '../../components/Channelist/index';
 import CreateChannelModal from '../../components/CreateChannelModal/index';
@@ -41,7 +41,6 @@ const ChatRoom = () => {
   const navigate = useNavigate();
 
   // redux meet 정보
-  const { userId, nickname: userNickname, email } = useSelector((state) => state.userStore);
 
   const [userData, setUserData] = useState(); // 사용자 정보 저장, 현재 로그인한 사용자의 닉네임, 이메일 등과 같은 정보를 담고 있음
   const [roomData, setRoomData] = useState([]); // 채팅 방에 대한 정보를 저장하는 상태
