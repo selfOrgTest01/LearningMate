@@ -20,7 +20,6 @@ function ChatbotPage() {
     async (submitData) => {
       try {
         setChatMessage((currentMessage) => [{ type: 'user', message: submitData.userInput }, ...currentMessage]);
-        // setChatMessage((currentMessage) => [{ type: 'user', message: submitData.userInput }, ...currentMessage]);
         setValue('userInput', '');
 
         setChatMessage((currentMessage) => [
@@ -33,7 +32,7 @@ function ChatbotPage() {
         setChatMessage((currentMessage) => [
           { type: 'chatbot', message: chatbotResponse },
           { type: 'user', message: submitData.userInput },
-          ...currentMessage.slice(2), // Remove the "waiting" message
+          ...currentMessage.slice(2), // 입력대기 메시지와 유저의 질문 메시지를 삭제해주는 코드 그래야 카톡처럼 화면구성이 된다
         ]);
       } catch (error) {
         console.log(error);
