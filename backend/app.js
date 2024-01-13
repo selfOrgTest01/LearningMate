@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const http = require('http'); // 소영 추가
-const socketIO = require('socket.io'); // 소영 추가
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test');
@@ -64,18 +63,6 @@ app.use('/comments', commentRouter); // 나현 추가
 app.use('/bookmark', bookmarkRouter); // 나현 추가
 
 app.use('/chat', chatRoutes); // 소영 추가
-
-// Express 애플리케이션에 HTTP 서버를 연결
-const httpServer = http.createServer(app); // http.createServer로 서버 생성
-const io = socketIO(httpServer); // socket.io를 생성한 서버에 바인딩
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-}); // 소영 추가
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

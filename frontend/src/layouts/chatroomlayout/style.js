@@ -5,20 +5,21 @@ export const RightMenu = styled.div`
 `;
 
 export const Header = styled.header`
-  height: 45px;
+  height: 70px;
   background: #46c4ee;
   color: #ffffff;
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
   padding: 5px;
   text-align: center;
+  width: 100%;
 `;
 
 export const ProfileImg = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 35px;
+  height: 35px;
   position: absolute;
-  top: 87px;
-  right: 20px;
+  top: 120px;
+  right: 50px;
 `;
 
 export const ProfileModal = styled.div`

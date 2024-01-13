@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../store/auth';
+import { userInfoAction } from '../store/userInfo';
 
 function Login() {
   const dispatch = useDispatch();
@@ -21,12 +22,21 @@ function Login() {
         const result = await axios.post('http://localhost:8000/users/login', data, {
           withCredentials: true,
         });
-        console.log(result.data);
         if (result.data.status === 500) {
           window.alert('잘못된 로그인 정보입니다');
         } else {
           dispatch(authAction.login());
-          navigate('/test');
+          dispatch(
+            userInfoAction.insert({
+              userId: result.data.sessionData,
+              nickname: result.data.data.nickname,
+              email: result.data.data.email,
+              phone_number: result.data.data.phone_number,
+              profilePath: result.data.data.profile_name,
+            }),
+          );
+          // 홈으로 navigate
+          navigate('../');
         }
       } catch (err) {
         console.log(err);

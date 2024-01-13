@@ -25,7 +25,7 @@ exports.participantUpdate = async (req, res) => {
 };
 
 exports.participantDelete = async (req, res) => {
-  const { meet_id, participant_id } = req.params;
+  const {meet_id, participant_id} = req.params;
   try {
     await participantsDAO.participantDelete(meet_id, participant_id, (resp) => {
       res.send(resp);
@@ -36,12 +36,25 @@ exports.participantDelete = async (req, res) => {
 };
 
 exports.participantList = async (req, res) => {
-  const { meet_id } = req.params;
+  const {meet_id} = req.params;
   try {
     await participantsDAO.participantList(meet_id, (resp) => {
       res.send(resp);
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.getParticipantCount = async (req, res) => {
+  const {meet_id} = req.params;
+
+  try {
+    await participantsDAO.getParticipantCount(meet_id, (resp) => {
+      res.send({resp});
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({error: 'Internal Server Error'});
   }
 };

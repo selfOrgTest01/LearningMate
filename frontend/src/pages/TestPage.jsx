@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ImageUploadSection from '../components/ImageUploadSection';
 import LandingModal from '../components/maps/LandingModal';
+import MeetDetailMapSection from '../components/maps/MeetDetailMapSection';
 
 function Test() {
+  const position = useSelector((state) => state.position);
   const [data, setData] = useState({ email: '', phone_number: '', nickname: '' });
   const [isloading, setLoading] = useState(true);
   const auth = useSelector((state) => state.auth.isAuth);
-  // console.log(auth);
+  const userInfo = useSelector((state) => state.userInfo);
   const localDomain = 'http://localhost:8000';
   const getData = useCallback(async () => {
     try {
@@ -35,25 +37,35 @@ function Test() {
     <>
       <h1>test</h1>
       <h2>Sever Data:</h2>
-      <h2>테스트용입니다~!!</h2>
       <h2>
         email:
-        {data.email}
+        {userInfo.email}
       </h2>
       <h2>
         휴대폰번호:
-        {data.phone_number}
+        {userInfo.phone_number}
       </h2>
       <h2>
         nickname:
-        {data.nickname}
+        {userInfo.nickname}
       </h2>
       <h2>
         로그인상태:
         {auth.toString()}
       </h2>
-      <ImageUploadSection />
+      <h2>
+        유저ID:
+        {userInfo.userId}
+      </h2>
+      <h2>
+        유저닉네임:
+        {userInfo.nickname}
+      </h2>
+      <ImageUploadSection userId={userInfo.userId} />
+      {/* 지도 클릭으로 위치정보 받기 */}
       <LandingModal />
+      <MeetDetailMapSection />
+      {position && <h1>{`모달창에서 읽어온값:${position.lat},${position.lng}`}</h1>}
     </>
   );
 }
