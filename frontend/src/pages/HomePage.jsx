@@ -1,12 +1,26 @@
+import { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import GetLocation from '../containers/pages/HomePage/GetLocation';
 import HomeSwiper from '../components/HomePage/HomeSwiper';
 import MeetSection from '../components/HomePage/MeetSection';
 import CourseSection from '../components/HomePage/LectureSection';
-import ChatbotModal, { ChatbotIcon } from '../components/Chatbot';
+import ChatbotModal from '../components/Chatbot';
+import { locationAction } from '../store/location';
 
 function Home() {
-  GetLocation();
+  const dispatch = useDispatch();
+  const fetchLocation = useCallback(async () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      dispatch(locationAction.setLocation({ lat, lng }));
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchLocation();
+  }, [fetchLocation]);
+
   return (
     <>
       <Container className='mt-5'>
