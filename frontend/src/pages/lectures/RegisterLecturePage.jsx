@@ -1,4 +1,5 @@
-// 따로 설정 안했는데 userid가 없어서 로그인 안하면 업로드가 안됨
+// 개선해야할 사항
+// 1.강의설명 줄바꿈이 안되는 문제 해결
 import axios from 'axios';
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
@@ -56,6 +57,7 @@ function RegisterLecturePage() {
     async (formSubmitData) => {
       try {
         const submitData = { ...formSubmitData, user_id: userId };
+        console.log(submitData);
         const formData = new FormData();
         const { files: videoFiles } = document.querySelector('input[name="lectureVideo"]');
         const { files: imageFiles } = document.querySelector('input[name="lectureImage"]');
@@ -180,17 +182,9 @@ function RegisterLecturePage() {
               )}
               {errors.lectureImage && <p>업로드할 썸네일을 선택하지 않았습니다</p>}
               <br />
-              {/* 밑에 코드가 안먹히는 이유를 모르겠음 input을 {required: true}로 설정한다음에 파일을 선택해도 errors가 true로 나옴 */}
-              {/* {errors.lectureVideo && '업로드할 영상을 선택하지 않았습니다'} */}
-              {/* {!selectedImageFileName && '업로드할 썸네일을 선택하지 않았습니다'} */}
             </div>
             <Form.Group className='mb-3'>
-              <Button
-                variant='primary'
-                style={{ width: '100%' }}
-                type='submit'
-                // disabled={!(selectedVideoFileName && selectedImageFileName)}
-              >
+              <Button variant='primary' style={{ width: '100%' }} type='submit'>
                 등록
               </Button>
             </Form.Group>
