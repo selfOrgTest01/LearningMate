@@ -36,6 +36,8 @@ export default function LectureMainPageDetail() {
             registerNickname: resp.data.data[0].nickname,
             videoPath: resp.data.data[0].attach_file_path,
             category: resp.data.data[0].category,
+            createdAt: resp.data.data[0].createdAt,
+            registerProfile: resp.data.data[0].profile_name,
           }),
         );
         // 실제로는 통신할때 서버에서 1을 증가시키지만 가져오는 데이터는 게시글 조회전 조회수를 가져오기 때문에 게시글에 조회전 조회수가 나오고

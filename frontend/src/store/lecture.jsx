@@ -28,6 +28,8 @@ const initialLectureDetailState = {
   registerNickname: '',
   videoPath: '',
   category: '',
+  createdAt: '',
+  registerProfile: '',
 };
 
 const lectureDetailSlice = createSlice({
@@ -41,6 +43,8 @@ const lectureDetailSlice = createSlice({
       state.registerNickname = action.payload.registerNickname;
       state.videoPath = action.payload.videoPath;
       state.category = action.payload.category;
+      state.createdAt = action.payload.createdAt;
+      state.registerProfile = action.payload.registerProfile;
     },
   },
 });

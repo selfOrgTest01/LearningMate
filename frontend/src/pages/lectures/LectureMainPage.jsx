@@ -5,6 +5,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { lectureAction } from '../../store/lecture';
 import { SearchBarSection, LectureTable } from '../../components/LecturePage';
 import coursesApi from '../../services/courses';
+import LectureListContainer from '../../components/LecturePage/LectureListContainer';
 
 function LectureMainPage() {
   const navigate = useNavigate();
@@ -37,8 +38,10 @@ function LectureMainPage() {
           <Row className='justify-content-md-center align-items-center'>
             <Col md={8}>
               <SearchBarSection />
-              <LectureTable />
-              {login && <Button onClick={() => navigate('./register')}>강의 업로드</Button>}
+              <div className='d-flex justify-content-end'>
+                {login && <Button onClick={() => navigate('./register')}>강의 업로드</Button>}
+              </div>
+              <LectureListContainer />
             </Col>
           </Row>
         )}

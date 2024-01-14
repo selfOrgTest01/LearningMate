@@ -42,7 +42,7 @@ function LectureCommentSection() {
   return (
     <>
       {auth ? <LectureCommentInput /> : <h3>로그인을 해주세요</h3>}
-      <Container style={{ backgroundColor: '#ecf0f1', borderRadius: '15px' }}>
+      <Container className='mt-4' style={{ backgroundColor: '#ecf0f1', borderRadius: '15px' }}>
         {isLoading ? <h1>Loading...</h1> : renderCommentList()}
       </Container>
     </>
