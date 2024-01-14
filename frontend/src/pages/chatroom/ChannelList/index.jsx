@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-import CollapseButton from '../DMList/style';
+import CollapseButton from '../../../components/DMList/style';
 import CreateChannelModal from '../CreateChannelModal/index';
 
 const ChannelList = (props) => {

@@ -6,17 +6,17 @@ import { useNavigate, useParams } from 'react-router';
 import { Link, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
-import ChannelList from '../../components/Channelist/index';
-import CreateChannelModal from '../../components/CreateChannelModal/index';
+import ChannelList from './ChannelList/index';
+import CreateChannelModal from './CreateChannelModal/index';
 // import DMList from '../../components/DMList/index';
 import Menu from '../../components/Menu/index';
 import Modal from '../../components/Modal/index';
-import useInput from '../../hooks/useInput';
-import DirectMessage from '../../pages/DirectMessage';
+import useInput from './hooks/useInput';
+import DirectMessage from '../DirectMessage';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Input, Label } from './style2';
-import TypingChat from '../../pages/Channel/index';
-import ChatBox from '../../components/ChatBox/index';
+// import TypingChat from '../Channel/index';
+import ChatBox from './ChatBox/index';
 import { userInfoAction } from '../../store/userInfo';
 
 import {
@@ -34,7 +34,7 @@ import {
   WorkspaceName,
   Workspaces,
   WorkspaceWrapper,
-} from './style';
+} from './style1';
 
 const ChatRoom = () => {
   const { meetId, channelId } = useParams();

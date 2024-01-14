@@ -29,8 +29,8 @@ import SearchedLecturePage from './pages/lectures/back/SearchedLecturePage';
 // 챗봇페이지
 import ChatbotPage from './pages/chatbot/ChabotPage';
 // 채팅방페이지
-import ChatRoom from './layouts/chatroomlayout/index';
-import ParentComponent from './utils/ParentComponent';
+import ChatRoom from './pages/chatroom/index';
+import ParentComponent from './pages/chatroom/utils/ParentComponent';
 
 function App() {
   return (

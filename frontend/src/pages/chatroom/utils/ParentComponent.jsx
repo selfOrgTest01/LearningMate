@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ChatRoom from '../layouts/chatroomlayout/index';
+import ChatRoom from '../index';
 
 function ParentComponent() {
   const navigate = useNavigate();

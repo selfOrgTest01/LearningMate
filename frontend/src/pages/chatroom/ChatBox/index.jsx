@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import autosize from 'autosize';
 import { ChatArea, Form, SendButton, Toolbox } from './style';
-import { post, get } from '../../utils/fetcher';
-import useInput from '../../hooks/useInput';
+import { post, get } from '../utils/fetcher';
+import useInput from '../hooks/useInput';
 
 const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) => {
   const { meetId, channelId } = useParams();
