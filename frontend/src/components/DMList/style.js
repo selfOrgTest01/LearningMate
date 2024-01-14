@@ -9,9 +9,8 @@ const CollapseButton = styled.button`
   justify-content: center;
   align-items: center;
   color: white;
-  margin-left: 10px;
   cursor: pointer;
-  font-size: 16px; /* 아이콘 크기 설정 */
+  font-size: 20px; /* 아이콘 크기 설정 */
 
   ${({ collapse }) =>
     collapse &&

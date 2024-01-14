@@ -24,7 +24,7 @@ export const ProfileImg = styled.img`
 
 export const ProfileModal = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 15px;
 
   & img {
     display: flex;
@@ -57,6 +57,9 @@ export const LogOutButton = styled.button`
   padding: 5px 20px 5px;
   outline: none;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(143, 125, 125, 0.2);
+  }
 `;
 
 export const WorkspaceWrapper = styled.div`
@@ -76,7 +79,7 @@ export const Workspaces = styled.div`
 `;
 
 export const Channels = styled.nav`
-  width: 180px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   background: #46c4ee;
@@ -87,8 +90,11 @@ export const Channels = styled.nav`
     padding-left: 52px;
     color: inherit;
     text-decoration: none;
-    height: 28px;
-    line-height: 28px;
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+
     &.selected {
       color: white;
     }
@@ -114,6 +120,9 @@ export const Channels = styled.nav`
   }
 
   & h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 36px;
     line-height: 36px;
     margin: 0;
@@ -122,8 +131,12 @@ export const Channels = styled.nav`
     white-space: nowrap;
     font-size: 15px;
   }
-`;
 
+  & a:hover {
+    background-color: rgba(143, 125, 125, 0.2);
+    border-radius: 5px;
+  }
+`;
 export const WorkspaceName = styled.button`
   height: 64px;
   line-height: 64px;

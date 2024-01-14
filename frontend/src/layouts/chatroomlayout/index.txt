@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import ChannelList from '../../components/Channelist/index';
 import CreateChannelModal from '../../components/CreateChannelModal/index';
 // import DMList from '../../components/DMList/index';
+import InviteWorkspaceModal from '../../components/InviteChannelModal/index';
 import Menu from '../../components/Menu/index';
 import Modal from '../../components/Modal/index';
 import useInput from '../../hooks/useInput';
@@ -51,6 +52,7 @@ const ChatRoom = () => {
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [newWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, setNewUrl] = useInput('');
@@ -140,8 +142,22 @@ const ChatRoom = () => {
     setShowCreateChannelModal(true);
   }, []);
 
+  const onClickInviteWorkspace = useCallback(() => {
+    setShowInviteWorkspaceModal(true);
+  }, []);
+
+  const onCloseModal = useCallback(() => {
+    setShowCreateWorkspaceModal(false);
+    setShowCreateChannelModal(false);
+    setShowInviteWorkspaceModal(false);
+  }, []);
+
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
+  }, []);
+
+  const toggleWorkspaceModal = useCallback(() => {
+    setShowWorkspaceModal((prev) => !prev);
   }, []);
 
   return (
@@ -150,20 +166,12 @@ const ChatRoom = () => {
         {userinfo.nickname && (
           <RightMenu>
             <span onClick={onClickUserProfile}>
-              <ProfileImg
-                src={gravatar.url(userinfo.nickname, { s: '28px', d: 'retro' })}
-                alt={userinfo.nickname}
-                style={{ borderRadius: '20%', width: '40px', height: '40px' }}
-              />
+              <ProfileImg src={gravatar.url(userinfo.nickname, { s: '28px', d: 'retro' })} alt={userinfo.nickname} />
             </span>
             {showUserMenu && (
               <Menu style={{ right: 0, top: 38 }} show={showUserMenu} onCloseModal={onClickUserProfile}>
                 <ProfileModal>
-                  <img
-                    src={gravatar.url(userinfo.nickname, { s: '36px', d: 'retro' })}
-                    alt={userinfo.nickname}
-                    style={{ borderRadius: '20%', width: '40px', height: '40px' }}
-                  />
+                  <img src={gravatar.url(userinfo.nickname, { s: '36px', d: 'retro' })} alt={userinfo.nickname} />
                   <div>
                     <span id='profile-name'>{userinfo.nickname}</span>
                     <span id='profile-active'>Active</span>
@@ -202,30 +210,30 @@ const ChatRoom = () => {
               }).format(sentTime);
 
               return (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '23px' }}>
+                <div key={idx}>
                   {data.senderProfile && (
                     <img
                       src={data.senderProfile}
                       alt={`Profile of ${data.senderNickname}`}
-                      style={{ borderRadius: '20%', width: '40px', height: '40px' }}
+                      style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                     />
                   )}
                   {!data.senderProfile && (
                     <img
                       src={gravatar.url(data.senderNickname, { s: '40px', d: 'retro' })}
                       alt={`Profile of ${data.senderNickname}`}
-                      style={{ borderRadius: '20%', width: '40px', height: '40px' }}
+                      style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                     />
                   )}
-                  <div style={{ marginLeft: '7px', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <span style={{ fontSize: '16px', fontWeight: 'bold', marginRight: '7px' }}>
-                        {data.senderNickname}
-                      </span>
-                      <span style={{ color: 'lightgray', fontSize: '10px' }}>{formattedSentTime}</span>
-                    </div>
-                    <span>{data.content}</span>
-                  </div>
+                  <span style={{ fontSize: '16px', fontWeight: 'bold', paddingLeft: '7px' }}>
+                    {data.senderNickname}
+                  </span>
+                  <br />
+                  <span style={{ paddingLeft: '48px' }}>{data.content}</span>
+                  <br />
+                  <span style={{ paddingLeft: '48px', color: 'lightgray', fontSize: '10px' }}>{formattedSentTime}</span>
+                  <br />
+                  <br />
                 </div>
               );
             })}

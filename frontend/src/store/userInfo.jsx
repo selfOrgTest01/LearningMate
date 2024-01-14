@@ -27,3 +27,5 @@ const userInfoSlice = createSlice({
 
 export const userInfoAction = userInfoSlice.actions;
 export default userInfoSlice.reducer;
+
+// 제헌님꺼

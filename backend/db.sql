@@ -61,8 +61,8 @@ WHERE channel_id = 2;
 
 
 -- sender_user_id가 15인 사람의 channel_id가 1번인 경우에 대한 chat_history 데이터 삽입
-INSERT INTO chat_history (channel_id, sender_user_id, content, sent_time)
-VALUES (1, 71, 'ㅋㅋㅋ', NOW());
+INSERT INTO chat_room (meet_id, description)
+VALUES (19, '채널추가중');
 
 UPDATE chat_history
 SET content = '하하하'
@@ -310,3 +310,16 @@ JOIN
   users u ON ch.sender_user_id = u.user_id
 WHERE
   m.meet_id = 19;
+
+
+
+
+
+INSERT INTO chat_room (meet_id, description) VALUES (19, '채널추가중');
+
+INSERT INTO chat_room (channel_id, meet_id, description) VALUES
+  (4, 19, '채널추가중'),
+
+
+INSERT INTO chat_room (meet_id, description)
+VALUES (19, '채널추가중');

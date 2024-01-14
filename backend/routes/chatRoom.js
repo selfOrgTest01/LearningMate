@@ -6,5 +6,6 @@ router.get('/chatRoom/:meetId/channels/:channelId', chatRoomController.getChanne
 router.get('/chatRoom/:meetId', chatRoomController.getChatRoomInfo);
 router.get('/channels/:meetId', chatRoomController.getChannelList);
 router.post('/sendMessage/:meetId/:channelId', chatRoomController.sendMessage);
+router.post('/chatRoom/:meetId/channels', chatRoomController.createChannel);
 
 module.exports = router;

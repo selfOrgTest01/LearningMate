@@ -7,7 +7,7 @@ import useInput from '../../hooks/useInput';
 import { Button, Input, Label } from './style';
 import fetcher from '../../utils/fetcher';
 
-const CreateChannelModal = ({ show, onCloseModal, onChannelCreated }) => {
+const CreateChannelModal = ({ show, onCloseModal, onChannelCreated, meetId }) => {
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
 
   const onCreateChannel = useCallback(
@@ -20,14 +20,14 @@ const CreateChannelModal = ({ show, onCloseModal, onChannelCreated }) => {
 
       try {
         // 여기서 axios.post로 새로운 채널을 추가하는 API 호출을 합니다.
-        const response = await axios.post(`http://localhost:8000/chat/chatRoom/channels`, {
-          name: newChannel,
+        const response = await axios.post(`http://localhost:8000/chat/chatRoom/${meetId}/channels`, {
+          description: newChannel,
         });
 
         // 모달 닫기, 입력 값 초기화 및 부모 컴포넌트에게 채널 추가 알림
         onCloseModal();
         setNewChannel('');
-        onChannelCreated(response.data.data); // 부모 컴포넌트에게 새로운 채널 정보 전달
+        onChannelCreated(response.data); // 부모 컴포넌트에게 새로운 채널 정보 전달
       } catch (error) {
         console.error('채널 추가 실패:', error.message);
         toast.error('채널 추가에 실패했습니다.', { position: 'bottom-center' });

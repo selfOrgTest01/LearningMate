@@ -6,14 +6,12 @@ const sql = {
     'SELECT user_id,email,password_hash,nickname,phone_number,profile_name FROM users WHERE email = ?',
   sql_signUp:
     'INSERT INTO users(email,phone_number, password_hash,nickname,profile_name,profile_nickname) VALUES (?,?,?,?,?,?)', //회원가입
-  sql_userList:
-    'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
+  sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
   sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
   sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
   sql_userInfo:
-    'SELECT email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
-  sql_image:
-    'UPDATE users SET profile_name=?,profile_nickname = ? WHERE user_id = ?', //이미지
+    'SELECT user_id, profile_name, email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
+  sql_image: 'UPDATE users SET profile_name=?,profile_nickname = ? WHERE user_id = ?', //이미지
   sql_imagetest: 'SELECT profile_name FROM users WHERE user_id=?',
 };
 
@@ -21,7 +19,7 @@ const usersDao = {
   //로그인 모델
   login: async function (userData, fn_callback) {
     try {
-      const { email, password } = userData;
+      const {email, password} = userData;
       const [resdata] = await db.query(sql.sql_login, [email]);
       //아이디 입력이 틀렸거나 아이디가 존재하지 않는경우
       if (resdata.length === 0) {
@@ -60,13 +58,13 @@ const usersDao = {
       }
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '로그인 통신실패' });
+      fn_callback({status: 500, message: '로그인 통신실패'});
     }
   },
   //회원가입 모델
   signUp: async function (userData, imageName, imageNickname, fn_callback) {
     try {
-      const { email, phone_number, password, nickname } = userData;
+      const {email, phone_number, password, nickname} = userData;
       const passwordHash = await bcrypt.hash(password, 12);
       const [resdata] = await db.query(sql.sql_signUp, [
         email,
@@ -77,10 +75,10 @@ const usersDao = {
         imageNickname,
       ]);
       // console.log(resdata);
-      fn_callback({ status: 200, message: '등록됨' });
+      fn_callback({status: 200, message: '등록됨'});
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '등록실패' });
+      fn_callback({status: 500, message: '등록실패'});
     }
   },
   //마이리스트 유저정보 호출
@@ -88,10 +86,10 @@ const usersDao = {
     try {
       const [resdata] = await db.query(sql.sql_userInfo, [userId]);
       // console.log(resdata);
-      fn_callback({ status: 200, message: '읽기성공', data: resdata });
+      fn_callback({status: 200, message: '읽기성공', data: resdata});
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '읽기실패' });
+      fn_callback({status: 500, message: '읽기실패'});
     }
   },
   //유저 리스트 모델
@@ -106,7 +104,7 @@ const usersDao = {
       });
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: 'DB읽어오기 실패' });
+      fn_callback({status: 500, message: 'DB읽어오기 실패'});
     }
   },
   //회원가입 중복 체크 모델
@@ -120,40 +118,36 @@ const usersDao = {
       });
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: 'DB읽어오기 실패' });
+      fn_callback({status: 500, message: 'DB읽어오기 실패'});
     }
   },
   //유저리스트 유저정보 삭제 모델
   delete: async function (id, fn_callback) {
     try {
       const [resdata] = await db.query(sql.sql_userDelete, [Number(id)]);
-      fn_callback({ status: 200, message: '삭제 성공' });
+      fn_callback({status: 200, message: '삭제 성공'});
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '삭제 실패' });
+      fn_callback({status: 500, message: '삭제 실패'});
     }
   },
 
   image: async function (id, imageName, imagePath, fn_callback) {
     try {
-      const [resdata] = await db.query(sql.sql_image, [
-        imageName,
-        imagePath,
-        Number(id),
-      ]);
-      fn_callback({ status: 200, message: '등록됨' });
+      const [resdata] = await db.query(sql.sql_image, [imageName, imagePath, Number(id)]);
+      fn_callback({status: 200, message: '등록됨'});
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '등록실패' });
+      fn_callback({status: 500, message: '등록실패'});
     }
   },
   imagetest: async function (id, fn_callback) {
     try {
       const [result] = await db.query(sql.sql_imagetest, [Number(id)]);
-      fn_callback({ status: 200, message: '성공', data: result });
+      fn_callback({status: 200, message: '성공', data: result});
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '실패' });
+      fn_callback({status: 500, message: '실패'});
     }
   },
 };
