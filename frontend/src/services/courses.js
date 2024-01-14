@@ -22,10 +22,44 @@ const coursesApi = {
       return error;
     }
   },
+  getMainCourseList: async () => {
+    try {
+      const response = await axios.get(`${localDomain}/courses/main-course-list`);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
   // 강의 삭제 delete통신
   deleteCourse: async (course_id) => {
     try {
       const response = await axios.delete(`${localDomain}/courses/delete/${course_id}`);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  // 강의 등록 post통신
+  insertCourse: async (formData) => {
+    try {
+      const response = await axios.post(`${localDomain}/courses/insert`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  // 강의 업데이트 patch 통신
+  updateCourse: async (formData) => {
+    try {
+      const response = await axios.patch(`${localDomain}/courses/update`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response;
     } catch (error) {
       return error;

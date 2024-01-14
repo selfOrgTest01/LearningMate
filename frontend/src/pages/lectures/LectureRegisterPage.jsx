@@ -1,12 +1,11 @@
 // 개선해야할 사항
 // 1.강의설명 줄바꿈이 안되는 문제 해결
-import axios from 'axios';
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { localDomain } from '../../config/config';
+import coursesApi from '../../services/courses';
 
 function LectureRegisterPage() {
   const inputRef = useRef();
@@ -57,19 +56,14 @@ function LectureRegisterPage() {
     async (formSubmitData) => {
       try {
         const submitData = { ...formSubmitData, user_id: userId };
-        console.log(submitData);
         const formData = new FormData();
         const { files: videoFiles } = document.querySelector('input[name="lectureVideo"]');
         const { files: imageFiles } = document.querySelector('input[name="lectureImage"]');
         formData.append('data', JSON.stringify(submitData));
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);
+        const resp = await coursesApi.insertCourse(formData);
 
-        const resp = await axios.post(`${localDomain}/courses/insert`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
         navigate(`../detail/${resp.data.data}`);
       } catch (error) {
         console.log(error);

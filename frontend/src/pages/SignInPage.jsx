@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
@@ -7,7 +6,7 @@ import { authAction } from '../store/auth';
 import { userInfoAction } from '../store/userInfo';
 import usersApi from '../services/users';
 
-function Login() {
+function SignInPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState({ email: '', password: '' });
@@ -83,4 +82,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignInPage;

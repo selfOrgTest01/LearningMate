@@ -1,11 +1,10 @@
-// 따로 설정 안했는데 userid가 없어서 로그인 안하면 업로드가 안됨
-import axios from 'axios';
+// 삭제된 게시글에 url로 접근하려고하면 팅겨 내버리는것 구현
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { localDomain } from '../../config/config';
+import coursesApi from '../../services/courses';
 
 function LectureUpdatePage() {
   const inputRef = useRef();
@@ -13,13 +12,6 @@ function LectureUpdatePage() {
   const navigate = useNavigate();
   const course_id = useParams().courseid;
   const lectureDetail = useSelector((state) => state.lectureDetail);
-  // const [videoPath, setVideoPath] = useState('');
-  // const [title, setTitle] = useState('');
-  // const [content, setContent] = useState('');
-  // const [imagePath, setImagePath] = useState('');
-  // const [category, setCategory] = useState('');
-  // 로그인한 유저의 userId
-  const userId = useSelector((state) => state.userInfo.userId);
   // input에서 선택한 파일의 이름
   const [selectedVideoFileName, setSelectedVideoFileName] = useState();
   const [selectedImageFileName, setSelectedImageFileName] = useState();
@@ -32,25 +24,6 @@ function LectureUpdatePage() {
     defaultValues: { title: lectureDetail.title, category: lectureDetail.category, content: lectureDetail.content },
     mode: 'onBlur',
   });
-
-  // const getLectureDetail = useCallback(async () => {
-  //   try {
-  //     const resp = await axios.get(`${localDomain}/courses/course/${course_id}`);
-  //     // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
-  //     if (resp.data.status === 500) {
-  //       navigate('../');
-  //     } else {
-  //       const respData = resp.data.data[0];
-  //       setVideoPath(respData.attach_file_path);
-  //       setImagePath(respData.attach_image_path);
-  //       setTitle(respData.title);
-  //       setContent(respData.content);
-  //       setCategory(respData.category);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching lecture detail:', error);
-  //   }
-  // }, [course_id, navigate]);
 
   const handleVideoFileChange = (event) => {
     if (event.target.files[0]) {
@@ -81,6 +54,7 @@ function LectureUpdatePage() {
       shouldDirty: true,
     });
   };
+
   const onSubmitEvent = useCallback(
     async (formSubmitData) => {
       try {
@@ -92,11 +66,7 @@ function LectureUpdatePage() {
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);
 
-        const resp = await axios.patch(`${localDomain}/courses/update`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        await coursesApi.updateCourse(formData);
         navigate(`../detail/${course_id}`);
       } catch (error) {
         console.log(error);
@@ -105,14 +75,6 @@ function LectureUpdatePage() {
     [navigate, course_id],
   );
 
-  // useEffect(() => {
-  //   // getLectureDetail();
-  //   // setValue('title', title);
-  //   // setValue('category', category);
-  //   // setValue('content', content);
-  //   // setValue('lectureVideo', videoPath);
-  //   // setValue('lectureImage', imagePath);
-  // }, [getLectureDetail, setValue, title, category, content, videoPath, imagePath]);
   return (
     <Container fluid style={{ height: '100vh' }}>
       <Row className='justify-content-md-center'>

@@ -1,11 +1,9 @@
 // 개선해야할사항
-// state 리팩토링
+// 리팩토링
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-// import LectureVideoSection from '../../components/LecturePage/LectureDetailPage/LectureVideoSection';
-// import LectureDetailSection from '../../components/LecturePage/LectureDetailPage/LectureDetailSection';
 import LectureCommentSection, {
   LectureDetailSection,
   LectureVideoSection,

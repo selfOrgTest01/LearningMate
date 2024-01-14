@@ -2,11 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import axios from 'axios';
 import LectureCommentComponent from './LectureCommentComponent';
 import LectureCommentInput from './LectureCommentInput';
-import { localDomain } from '../../../config/config';
 import { commentAction } from '../../../store/comment';
+import commentsApi from '../../../services/comments';
 
 function LectureCommentSection() {
   const dispatch = useDispatch();
@@ -18,7 +17,7 @@ function LectureCommentSection() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const resp = await axios.get(`${localDomain}/comments/lecture-comment-list/${course_id}`);
+      const resp = await commentsApi.getCommentList(course_id);
       dispatch(
         commentAction.insert({
           commentList: resp.data.data,
