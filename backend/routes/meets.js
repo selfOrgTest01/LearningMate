@@ -26,7 +26,7 @@ const uploadFile = multer({
 router.post('/insert', uploadFile.single('meetImage'), meetsController.meetInsert);
 
 // 모임 수정
-router.patch('/update', uploadFile.single('meetImage'), meetsController.meetUpdate);
+router.patch('/update/:meet_id', uploadFile.single('meetImage'), meetsController.meetUpdate);
 
 // 특정 모임 삭제
 router.delete('/delete/:meet_id', meetsController.meetDelete);

@@ -98,8 +98,8 @@ function MeetUpdate() {
       const updatedMeet = {
         title: meet.title,
         content: meet.content,
-        start_date: meet.start_date,
-        end_date: meet.end_date,
+        start_date: moment(meet.start_date).format('YYYY-MM-DD HH:mm'),
+        end_date: moment(meet.end_date).format('YYYY-MM-DD HH:mm'),
         max_num: meet.max_num,
         onoff: meet.onoff === '온라인' ? 1 : 0,
         category: meet.category,
@@ -115,7 +115,7 @@ function MeetUpdate() {
       }
 
       try {
-        const response = await axios.patch(`${localDomain}/meets/update/`, updatedMeet, {
+        const response = await axios.patch(`${localDomain}/meets/update/${meet_id}`, updatedMeet, {
           withCredentials: true,
           headers: {
             'Content-Type': 'multipart/form-data',

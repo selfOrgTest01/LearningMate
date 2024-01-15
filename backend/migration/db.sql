@@ -200,11 +200,11 @@ ALTER TABLE
 
 -- Modify start_date column to DATETIME
 ALTER TABLE meets
-MODIFY start_date DATETIME NOT NULL;
+MODIFY start_date TIMESTAMP NOT NULL;
 
 -- Modify end_date column to DATETIME
 ALTER TABLE meets
-MODIFY end_date DATETIME;
+MODIFY end_date TIMESTAMP;
 
 
 ALTER TABLE meets

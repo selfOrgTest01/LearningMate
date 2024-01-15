@@ -27,12 +27,15 @@ exports.meetInsert = async (req, res) => {
 
 exports.meetUpdate = async (req, res) => {
   try {
+    const {meet_id} = req.params;
     const meetData = req.body;
     const image = req.file ? `${imageUploadPath}${req.file.filename}` : '';
 
     meetData.image = image;
 
-    const resp = await meetsDAO.update(meetData, image);
+    console.log(meet_id);
+    console.log(meetData);
+    const resp = await meetsDAO.update(meet_id, meetData, image);
     res.status(resp.status).json(resp);
   } catch (err) {
     console.error(err.message);

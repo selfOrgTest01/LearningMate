@@ -102,8 +102,9 @@ const meetsDAO = {
     }
   },
 
-  update: async (item, image) => {
+  update: async (meet_id, item, image) => {
     // data 들어온거 확인 완료!
+    console.log(meet_id);
     try {
       const resp = await db.query(sql.update, [
         item.title,
@@ -115,9 +116,9 @@ const meetsDAO = {
         image,
         item.category,
         item.approve,
-        item.meet_id,
         item.position.lat,
         item.position.lng,
+        Number(meet_id),
       ]);
       return {status: 200, message: '모임 수정 성공', data: resp};
     } catch (error) {
