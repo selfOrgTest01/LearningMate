@@ -20,8 +20,8 @@ function LectureCommentComponent({ item }) {
   return (
     <Container className='my-4'>
       <div className='d-flex align-items-center'>
-        <div className='flex-shrink-0'>
-          <img src={item.profile_name} alt={`default.png`} style={{ width: '70px' }} />
+        <div className='flex-shrink-0 my-2'>
+          <img src={item.profile_name} alt={`default.png`} style={{ width: '70px', maxHeight: '70px' }} />
         </div>
         <div className='flex-grow-1 ms-3'>
           <h4>{item.nickname}</h4>
