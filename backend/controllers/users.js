@@ -37,7 +37,7 @@ exports.signupUser = async (req, res) => {
 
 exports.userInfo = async (req, res) => {
   try {
-    // const userId = req.session.userId;
+    const userId = req.params.id
     await usersDao.userInfo(userId, (resp) => {
       res.send(resp);
     });

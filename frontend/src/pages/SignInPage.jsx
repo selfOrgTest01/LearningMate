@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../store/auth';
 import { userInfoAction } from '../store/userInfo';
 import usersApi from '../services/users';
+import ScrollToTop from '../helpers/scrollToTop';
 
 function SignInPage() {
   const dispatch = useDispatch();
@@ -40,8 +41,13 @@ function SignInPage() {
     },
     [data, navigate, dispatch],
   );
+  useEffect(() => {
+    // 페이지가 로드될 때 스크롤을 최상단으로 이동
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container fluid style={{ height: '100vh' }}>
+      <ScrollToTop />
       <Row className='justify-content-md-center'>
         <Col md={4}>
           <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
