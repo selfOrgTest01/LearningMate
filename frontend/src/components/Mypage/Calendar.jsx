@@ -1,19 +1,19 @@
-// import React, { useState } from 'react';
-// import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
-// function MyCalendar() {
-//   const [date, setDate] = useState(new Date());
+function MyCalendar() {
+  const [date, setDate] = useState(new Date());
 
-//   const onChange = (newDate) => {
-//     setDate(newDate);
-//   };
+  const onChange = (newDate) => {
+    setDate(newDate);
+  };
 
-//   return (
-//     <div>
-//       <Calendar onChange={onChange} value={date} />
-//     </div>
-//   );
-// }
+  return (
+    <div>
+      <Calendar onChange={onChange} value={date} />
+    </div>
+  );
+}
 
-// export default MyCalendar;
+export default MyCalendar;
