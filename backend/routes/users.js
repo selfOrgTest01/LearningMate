@@ -51,6 +51,6 @@ router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색
 router.get('/check', usersController.check);
 //회원삭제
-router.delete('/delete/:id', usersController.deleteUser);
+router.delete('/delete/:user_id', usersController.delete);
 
 module.exports = router;

@@ -510,3 +510,9 @@ CREATE TABLE events (
 );
 INSERT INTO events (user_id, title, start, end, memo) VALUES (70, '테스트일정', '2024-01-15', '2024-01-16', '테스트이벤트에 대한 메모');
 SELECT * FROM events WHERE user_id = 70;
+ALTER TABLE events
+DROP FOREIGN KEY events_ibfk_1;
+ALTER TABLE events
+ADD FOREIGN KEY (user_id)
+REFERENCES users(user_id)
+ON DELETE CASCADE;

@@ -8,7 +8,8 @@ const sql = {
     'INSERT INTO users(email,phone_number, password_hash,nickname,profile_name,profile_nickname) VALUES (?,?,?,?,?,?)', //회원가입
   sql_userList:
     'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
-  sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
+  sql_deleteInfo: 'SELECT user_id, email, password_hash FROM users WHERE user_id = ?',
+  sql_delete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
   sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
   sql_userInfo:
     'SELECT email, phone_number, nickname FROM users WHERE user_id = ?', //마이페이지 정보
@@ -147,16 +148,52 @@ const usersDao = {
     }
   },
   //유저리스트 유저정보 삭제 모델
-  delete: async function (id, fn_callback) {
+  // delete: async function (id, fn_callback) {
+  //   try {
+  //     const [resdata] = await db.query(sql.sql_userDelete, [Number(id)]);
+  //     fn_callback({ status: 200, message: '삭제 성공' });
+  //   } catch (err) {
+  //     console.log(err);
+  //     fn_callback({ status: 500, message: '삭제 실패' });
+  //   }
+  // },
+  delete: async function (user_id, userData, fn_callback) {
     try {
-      const [resdata] = await db.query(sql.sql_userDelete, [Number(id)]);
-      fn_callback({ status: 200, message: '삭제 성공' });
+      const { password } = userData;
+      const [resdata] = await db.query(sql.sql_deleteInfo, [Number(user_id)]);
+      if (resdata.length === 0) {
+        fn_callback({
+          status: 400,
+          message: '존재하지 않는 사용자입니다.',
+          errCode: 'idErr',
+        });
+      } else {
+        const password_hash = resdata[0].password_hash;
+        const passwordMatch = await bcrypt.compare(password, password_hash);
+        if (passwordMatch) {
+          console.log('비밀번호 일치');
+          await db.query(sql.sql_delete, [Number(user_id)]);
+          console.log(resdata);
+          fn_callback({
+            status: 200,
+            message: '탈퇴 성공',
+            sessionData: resdata[0].user_id,
+            data: resdata[0],
+          });
+        } else {
+          console.log('비밀번호 불일치');
+          fn_callback({
+            status: 400,
+            message: '탈퇴 실패',
+            errCode: 'pwdErr',
+          });
+        }
+      }
     } catch (err) {
       console.log(err);
-      fn_callback({ status: 500, message: '삭제 실패' });
+      fn_callback({ status: 500, message: '탈퇴 통신 실패' });
     }
   },
-
   image: async function (id, imageName, imagePath, fn_callback) {
     try {
       const [resdata] = await db.query(sql.sql_image, [

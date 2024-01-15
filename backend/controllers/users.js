@@ -91,14 +91,19 @@ exports.userList = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
-  const { id } = req.params;
+exports.delete = async (req, res) => {
+  const { user_id } = req.params;
+  const userData = req.body;
   try {
-    await usersDao.delete(id, (resp) => {
+    await usersDao.delete(user_id, userData, (resp) => {
+      if (resp.status === 200) {
+        req.session.userId = resp.sessionData;
+      }
       res.send(resp);
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send({ status: 500, message: '서버 오류' });
   }
 };
 //회원가입 중복검사
