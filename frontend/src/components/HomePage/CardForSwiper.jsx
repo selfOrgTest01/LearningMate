@@ -1,3 +1,4 @@
+// 홈페이지 강의 정보에 띄우는 카드 컴포넌트
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';

@@ -1,9 +1,8 @@
-// 이미지 취소 눌렀을때 처리 추가
-import axios from 'axios';
 import { useCallback, useRef, useState } from 'react';
 import { Form, Container, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import usersApi from '../services/users';
 
 function SignUpPage() {
   // useRef()훅을 이용하여 input을 inputRef에 저장한후 가져와서 사용합니다
@@ -18,51 +17,32 @@ function SignUpPage() {
   } = useForm({ defaultValues: {}, mode: 'onBlur' });
 
   const confirmPassword = watch('password', '');
-  // 데이터를 읽어오는 함수
-  const readData = useCallback(async () => {
-    try {
-      const result = await axios.get('http://localhost:8000/users/check');
-      return result;
-    } catch (error) {
-      // console.log('에러:', error);
-      return error;
-    }
-  }, []);
 
   // email중복확인
   // useCallback에서 의존성 배열에 명시하지 않으면 해당 함수는 초기 렌더링 때 한 번만 생성되고,
   // 이후에는 해당 함수가 참조하는 상태나 함수의 변경을 감지하지 않습니다. 즉, 초기 렌더링 시의 값들이 고정적으로 사용되게 됩니다.
-  const checkValue = useCallback(
-    async (name, value) => {
-      const result = await readData();
-      let isDuplicate = false;
-      // forEach 문에서는 return이나 break를 못쓴다 때문에 isDuplicate 변수를 따로 둬서 사용함
-      result.data.data.forEach((item) => {
-        if (item[name] === value) {
-          // 중복이 있을때만 설정한 변수를 true로 바꾼다
-          isDuplicate = true;
-        }
-      });
-      // 없는경우엔 그대로 false
-      return isDuplicate;
-    },
-    [readData],
-  );
+  const checkValue = useCallback(async (name, value) => {
+    const result = await usersApi.checkUser();
+    let isDuplicate = false;
+    // forEach 문에서는 return이나 break를 못쓴다 때문에 isDuplicate 변수를 따로 둬서 사용함
+    result.data.data.forEach((item) => {
+      if (item[name] === value) {
+        // 중복이 있을때만 설정한 변수를 true로 바꾼다
+        isDuplicate = true;
+      }
+    });
+    // 없는경우엔 그대로 false
+    return isDuplicate;
+  }, []);
 
   const submitEvent = useCallback(
     async (formSubmitData) => {
       try {
-        console.log(formSubmitData);
         const formData = new FormData();
         const { files } = document.querySelector('input[name="profile"]');
         formData.append('data', JSON.stringify(formSubmitData));
         formData.append('profile', files[0]);
-        // console.log(formData);
-        await axios.post('http://localhost:8000/users/signup', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        await usersApi.signUpUser(formData);
         navigate('/sign-in');
       } catch (error) {
         console.log(error);
@@ -102,13 +82,6 @@ function SignUpPage() {
                 {errors.email?.type === 'required' && '이메일을 입력해주세요'}
               </Form.Group>
             </InputGroup>
-            {/* <Button variant='primary' onClick={() => console.log('인증번호전송')}>
-              인증번호전송
-            </Button> */}
-
-            {/* <Form.Group className='mb-3'>
-              <Form.Control type='text' placeholder='이메일인증번호' />
-            </Form.Group> */}
             <Form.Group className='mb-3'>
               <Form.Control
                 type='text'

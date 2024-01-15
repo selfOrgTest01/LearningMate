@@ -94,6 +94,7 @@
       "no-param-reassign": "off",
       "react/jsx-props-no-spreading": "off",
       "no-unused-vars": "warn",
+      "no-restricted-exports": "off",
       "camelcase": "off"
     }
   },
