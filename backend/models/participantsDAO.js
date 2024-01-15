@@ -18,8 +18,6 @@ const sql = {
     'WHERE mp.meet_id = ?',
 };
 
-
-
 const participantsDAO = {
   participantList: async (meet_id, callback) => {
     // 데이터 들어갔는지 확인 완료!
@@ -127,12 +125,12 @@ const participantsDAO = {
       }
 
       const chatRoomInfo = await chatRoomDAO.getChatRoomInfo(meet_id);
-      callback({ status: 200, message: '채팅방으로 이동 성공', data: chatRoomInfo });
+      callback({status: 200, message: '채팅방으로 이동 성공', data: chatRoomInfo});
     } catch (error) {
       console.error(error);
       const status = error.statusCode || 500;
       const message = error.message || '채팅방으로 이동 실패';
-      callback({ status, message, error: error.toString() });
+      callback({status, message, error: error.toString()});
     }
   },
 };

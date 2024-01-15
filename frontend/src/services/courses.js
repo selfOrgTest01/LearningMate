@@ -62,6 +62,7 @@ const coursesApi = {
       });
       return response;
     } catch (error) {
+      console.log(error);
       return error;
     }
   },

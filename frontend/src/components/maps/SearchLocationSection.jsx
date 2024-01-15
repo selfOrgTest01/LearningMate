@@ -49,8 +49,7 @@ function SearchLocationSection() {
     });
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault(); // 기본 폼 제출 동작 막기
+  const handleFormSubmit = () => {
     searchLocation();
   };
 

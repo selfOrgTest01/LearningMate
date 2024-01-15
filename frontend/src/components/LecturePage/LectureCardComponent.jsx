@@ -11,7 +11,7 @@ function LectureCardComponent({ item }) {
         onClick={() => navigate(`./detail/${item.course_id}`)}
         style={{ cursor: 'pointer' }}
       >
-        <Card.Img variant='top' src={item.attach_image_path} style={{ maxWidth: '100%', maxHeight: '200px' }} />
+        <Card.Img variant='top' src={item.attach_image_path} style={{ maxWidth: '100%', height: '140px' }} />
         <Card.Body>
           <div className='d-flex align-items-start'>
             <div className='flex-shrink-0'>

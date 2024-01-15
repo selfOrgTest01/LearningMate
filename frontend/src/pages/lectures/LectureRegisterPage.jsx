@@ -59,6 +59,8 @@ function LectureRegisterPage() {
         const formData = new FormData();
         const { files: videoFiles } = document.querySelector('input[name="lectureVideo"]');
         const { files: imageFiles } = document.querySelector('input[name="lectureImage"]');
+        console.log('Selected video files:', videoFiles);
+        console.log('Selected image files:', imageFiles);
         formData.append('data', JSON.stringify(submitData));
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);

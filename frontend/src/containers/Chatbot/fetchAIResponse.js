@@ -4,7 +4,7 @@ const fetchAIResponse = async (prompt) => {
 
   const requestOptions = {
     method: 'POST',
-    // API 요청의 헤더를 설정
+    // API 요청의 헤더를 설정 파일명변경
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
