@@ -170,6 +170,9 @@ ALTER TABLE
 ADD
     CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+DELETE FROM
+    courses;
+
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;
