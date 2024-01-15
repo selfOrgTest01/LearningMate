@@ -39,7 +39,7 @@ function MeetInsert() {
 
   const getData = useCallback(async () => {
     try {
-      const resp = await axios.get(`${localDomain}/users/userinfo`, {
+      const resp = await axios.get(`${localDomain}/users/userinfo/${userInfo.userId}`, {
         withCredentials: true,
       });
       if (resp.data.data === false) {
