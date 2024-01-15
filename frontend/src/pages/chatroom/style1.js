@@ -12,14 +12,16 @@ export const Header = styled.header`
   padding: 5px;
   text-align: center;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 수정된 부분 */
 `;
 
 export const ProfileImg = styled.img`
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  top: 120px;
-  right: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20%;
+  margin-right: 20px;
 `;
 
 export const ProfileModal = styled.div`
@@ -188,7 +190,23 @@ export const WorkspaceModal = styled.div`
 export const Chats = styled.div`
   flex: 1;
   padding-left: 20px;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+`;
+
+export const ChannelTitleBox = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: gray;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+export const ChannelTitle = styled.div`
+  margin-top: 10px; /* 가로로 띄우기 위한 여백 */
 `;
 
 export const AddButton = styled.button`

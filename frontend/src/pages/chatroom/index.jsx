@@ -3,26 +3,24 @@ import axios from 'axios';
 import gravatar from 'gravatar';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { Link, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import ChannelList from './ChannelList/index';
-import CreateChannelModal from './CreateChannelModal/index';
-// import DMList from '../../components/DMList/index';
 import Menu from '../../components/Menu/index';
-import Modal from '../../components/Modal/index';
 import useInput from './hooks/useInput';
-import DirectMessage from '../DirectMessage';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Input, Label } from './style2';
-// import TypingChat from '../Channel/index';
 import ChatBox from './ChatBox/index';
 import { userInfoAction } from '../../store/userInfo';
+import makeSection from './utils/makeSection';
+import ChatList from './ChatList/index';
 
 import {
   AddButton,
   Channels,
   Chats,
+  ChannelTitleBox,
+  ChannelTitle,
   Header,
   LogOutButton,
   MenuScroll,
@@ -48,12 +46,8 @@ const ChatRoom = () => {
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
-
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
-  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
-  const [newWorkspace, setNewWorkspace] = useInput('');
-  const [newUrl, setNewUrl] = useInput('');
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const getUserData = useCallback(async () => {
     try {
@@ -132,28 +126,36 @@ const ChatRoom = () => {
     }
   }, [navigate]);
 
-  const onClickCreateWorkspace = useCallback(() => {
-    setShowCreateWorkspaceModal(true);
-  }, []);
-
-  const onClickAddChannel = useCallback(() => {
-    setShowCreateChannelModal(true);
-  }, []);
-
   const onClickUserProfile = useCallback(() => {
     setShowUserMenu((prev) => !prev);
   }, []);
+
+  const groupedRoomData = makeSection(roomData);
 
   return (
     <>
       <Header>
         {userinfo.nickname && (
           <RightMenu>
-            <span onClick={onClickUserProfile}>
+            <span
+              onClick={onClickUserProfile}
+              onMouseOver={() => setIsProfileHovered(true)}
+              onMouseOut={() => setIsProfileHovered(false)}
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+              }}
+            >
               <ProfileImg
                 src={gravatar.url(userinfo.nickname, { s: '28px', d: 'retro' })}
                 alt={userinfo.nickname}
-                style={{ borderRadius: '20%', width: '40px', height: '40px' }}
+                style={{
+                  borderRadius: '20%',
+                  width: '40px',
+                  height: '40px',
+                  transition: 'box-shadow 0.3s',
+                  boxShadow: isProfileHovered ? '0 0 10px 5px white' : 'none',
+                }}
               />
             </span>
             {showUserMenu && (
@@ -185,50 +187,73 @@ const ChatRoom = () => {
 
         <Chats>
           <MenuScroll>
-            {roomData.map((data, idx) => {
-              const sentTime = new Date(data.sentTime);
-              if (Number.isNaN(sentTime.getTime())) {
-                console.error('Invalid date string:', data.sentTime);
-                return null;
-              }
+            <ChannelTitleBox>
+              <ChannelTitle>#{selectedChannel?.channel_description}</ChannelTitle>
+            </ChannelTitleBox>
 
-              // 날짜 포맷팅
-              const formattedSentTime = new Intl.DateTimeFormat('en-US', {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-              }).format(sentTime);
+            {Object.entries(groupedRoomData).map(([date, chats]) => (
+              <div key={date} style={{ marginBottom: '30px' }}>
+                <h3
+                  style={{
+                    background: 'white',
+                    color: 'gray',
+                    borderRadius: '25px',
+                    padding: '10px 10px',
+                    display: 'block',
+                    border: 'none',
+                    fontSize: '12px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    textAlign: 'center',
+                    margin: '0 auto',
+                    width: '20%',
+                  }}
+                >
+                  {date}
+                </h3>
+                {chats.map((data, idx) => {
+                  const sentTime = new Date(data.sentTime);
 
-              return (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '23px' }}>
-                  {data.senderProfile && (
-                    <img
-                      src={data.senderProfile}
-                      alt={`Profile of ${data.senderNickname}`}
-                      style={{ borderRadius: '20%', width: '40px', height: '40px' }}
-                    />
-                  )}
-                  {!data.senderProfile && (
-                    <img
-                      src={gravatar.url(data.senderNickname, { s: '40px', d: 'retro' })}
-                      alt={`Profile of ${data.senderNickname}`}
-                      style={{ borderRadius: '20%', width: '40px', height: '40px' }}
-                    />
-                  )}
-                  <div style={{ marginLeft: '7px', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <span style={{ fontSize: '16px', fontWeight: 'bold', marginRight: '7px' }}>
-                        {data.senderNickname}
-                      </span>
-                      <span style={{ color: 'lightgray', fontSize: '10px' }}>{formattedSentTime}</span>
+                  if (Number.isNaN(sentTime.getTime())) {
+                    console.error('Invalid date string:', data.sentTime);
+                    return null;
+                  }
+
+                  // 날짜 포맷팅
+                  const formattedSentTime = new Intl.DateTimeFormat('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }).format(sentTime);
+
+                  return (
+                    <div key={idx} style={{ display: 'flex', marginBottom: '30px', marginTop: '30px' }}>
+                      {data.senderProfile && (
+                        <img
+                          src={data.senderProfile}
+                          alt={`Profile of ${data.senderNickname}`}
+                          style={{ borderRadius: '20%', width: '40px', height: '40px' }}
+                        />
+                      )}
+                      {!data.senderProfile && (
+                        <img
+                          src={gravatar.url(data.senderNickname, { s: '40px', d: 'retro' })}
+                          alt={`Profile of ${data.senderNickname}`}
+                          style={{ borderRadius: '20%', width: '40px', height: '40px' }}
+                        />
+                      )}
+                      <div style={{ marginLeft: '7px', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ fontSize: '16px', fontWeight: 'bold', marginRight: '7px' }}>
+                            {data.senderNickname}
+                          </span>
+                          <span style={{ color: 'lightgray', fontSize: '10px' }}>{formattedSentTime}</span>
+                        </div>
+                        <span>{data.content}</span>
+                      </div>
                     </div>
-                    <span>{data.content}</span>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            ))}
             <ChatBox onSubmitForm={onSubmitForm} userData={userinfo} />
           </MenuScroll>
         </Chats>

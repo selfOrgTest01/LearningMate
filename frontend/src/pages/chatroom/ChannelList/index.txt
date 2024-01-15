@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-import CollapseButton from '../DMList/style';
+import CollapseButton from '../../../components/DMList/style';
 import CreateChannelModal from '../CreateChannelModal/index';
 
 const ChannelList = (props) => {
@@ -109,21 +109,7 @@ const ChannelList = (props) => {
             aria-hidden='true'
           />
         </CollapseButton>
-        <span>Channels</span>
-        <button
-          onClick={openCreateChannelModal}
-          style={{
-            paddingLeft: '25px',
-            border: 'none',
-            borderRadius: '1px',
-            padding: '2px 8px',
-            background: 'transparent', // 배경을 투명하게
-            color: '#fff',
-            cursor: 'pointer',
-          }}
-        >
-          +
-        </button>
+        <span style={{ fontSize: '20px', fontWeight: 'bold' }}>Channels</span>
       </h2>
       <div>
         {!channelCollapse &&
@@ -146,18 +132,51 @@ const ChannelList = (props) => {
               </React.Fragment>
             );
           })}
-
-        <CreateChannelModal
-          show={showCreateChannelModal}
-          onCloseModal={closeCreateChannelModal}
-          onChannelCreated={(newChannel) => {
-            // Handle the creation of the new channel, if needed
-            // For example, you can update the channel list or perform other actions
-            console.log('New Channel Created:', newChannel);
-            closeCreateChannelModal();
-          }}
-        />
       </div>
+
+      <button
+        onClick={openCreateChannelModal}
+        style={{
+          width: '200px',
+          margin: '0 auto',
+          border: 'none',
+          borderRadius: '5px',
+          padding: '2px 8px',
+          background: 'transparent',
+          color: '#fff',
+          cursor: 'pointer',
+          display: 'block',
+          transition: 'background-color 0.3s',
+          // fontSize: '14px',
+        }}
+        onMouseOver={(e) => {
+          e.target.style.backgroundColor = 'rgba(143, 125, 125, 0.2)';
+          e.target.style.borderRadius = '5px';
+        }}
+        onMouseOut={(e) => {
+          e.target.style.backgroundColor = 'transparent';
+        }}
+      >
+        + 채널추가
+      </button>
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={closeCreateChannelModal}
+        onChannelCreated={(newChannel) => {
+          console.log('New Channel Created:', newChannel);
+
+          // 서버 응답에서 직접 값을 추출
+          const { channel_id, description } = newChannel || {};
+
+          console.log('Channel Info from Server:', { channel_id, description });
+
+          // 서버 응답에서 직접 값을 추출하여 UI 업데이트 등을 진행
+          // 예를 들어, channel_id 및 description 등을 활용
+          // UI 업데이트 등을 진행
+          closeCreateChannelModal();
+        }}
+        meetId={meetId}
+      />
     </>
   );
 };
