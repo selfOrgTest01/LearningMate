@@ -27,7 +27,7 @@ exports.meetInsert = async (req, res) => {
 
 exports.meetUpdate = async (req, res) => {
   try {
-    const {meet_id} = req.params;
+    const { meet_id } = req.params;
     const meetData = req.body;
     const image = req.file ? `${imageUploadPath}${req.file.filename}` : '';
 
@@ -50,7 +50,7 @@ exports.meetUpdate = async (req, res) => {
 };
 
 exports.meetDelete = async (req, res) => {
-  const {meet_id} = req.params;
+  const { meet_id } = req.params;
   try {
     await meetsDAO.delete(meet_id, (resp) => {
       res.send(resp);
@@ -72,7 +72,7 @@ exports.meetList = async (req, res) => {
 };
 
 exports.meet = async (req, res) => {
-  const {meet_id} = req.params;
+  const { meet_id } = req.params;
   try {
     await meetsDAO.meet(meet_id, (resp) => {
       res.send(resp);
@@ -82,14 +82,14 @@ exports.meet = async (req, res) => {
   }
 };
 
-// exports.findNearbyMeetup = async(req,res) =>{
-//   //프론트에서 현재 사용자의 위치({위도,경도})를 보내준다
-//   const myLocation = req.body;
-//   try{
-//     await meetsDAO.findNearbyMeetup(myLocation,(resp)=>{
-//       res.send(resp);
-//     });
-//   }catch (err){
-//     console.log(err);
-//   }
-// };
+exports.findNearbyMeetup = async (req, res) => {
+  //프론트에서 현재 사용자의 위치({위도,경도})를 보내준다
+  const myLocation = req.body;
+  try {
+    await meetsDAO.findNearbyMeetup(myLocation, (resp) => {
+      res.send(resp);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

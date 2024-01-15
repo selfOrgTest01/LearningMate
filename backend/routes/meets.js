@@ -10,10 +10,11 @@ const staticPath = path.join(__dirname, '..', 'public');
 
 const uploadFile = multer({
   storage: multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(staticPath, 'images', 'meets')),
+    destination: (req, file, cb) =>
+      cb(null, path.join(staticPath, 'images', 'meets')),
     filename: (req, file, cb) => cb(null, `${Date.now()}_${file.originalname}`),
   }),
-  limits: {fileSize: 1024 * 1024 * 3},
+  limits: { fileSize: 1024 * 1024 * 3 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
@@ -23,10 +24,18 @@ const uploadFile = multer({
   },
 });
 
-router.post('/insert', uploadFile.single('meetImage'), meetsController.meetInsert);
+router.post(
+  '/insert',
+  uploadFile.single('meetImage'),
+  meetsController.meetInsert,
+);
 
 // 모임 수정
-router.patch('/update/:meet_id', uploadFile.single('meetImage'), meetsController.meetUpdate);
+router.patch(
+  '/update/:meet_id',
+  uploadFile.single('meetImage'),
+  meetsController.meetUpdate,
+);
 
 // 특정 모임 삭제
 router.delete('/delete/:meet_id', meetsController.meetDelete);
@@ -35,6 +44,6 @@ router.get('/meetList', meetsController.meetList);
 // 특정 모임 상세
 router.get('/meet/:meet_id', meetsController.meet);
 // 주변 모임 탐색
-// router.post('/find-nearby-meetup', meetsController.findNearbyMeetup);
+router.post('/find-nearby-meetup', meetsController.findNearbyMeetup);
 
 module.exports = router;

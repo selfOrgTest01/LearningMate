@@ -42,7 +42,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <h2>모임정보</h2>
+        <h2>내주변 모임정보</h2>
         <MeetSection />
         <br />
         <h2>강의정보</h2>
