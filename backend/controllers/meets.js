@@ -1,31 +1,56 @@
 // 2023.12.26 추가
 
 const meetsDAO = require('../models/meetsDAO');
+const domain = require('../config/config.js');
+const imageUploadPath = `${domain.localDomain}/images/meets/`;
 
 exports.meetInsert = async (req, res) => {
-  const meetData = req.body;
   try {
-    await meetsDAO.insert(meetData, (resp) => {
-      res.send(resp);
-    });
+    const meetData = req.body;
+    const image = req.file ? `${imageUploadPath}${req.file.filename}` : '';
+
+    meetData.image = image;
+
+    const resp = await meetsDAO.insert(meetData, image);
+    res.status(resp.status).json(resp);
   } catch (err) {
-    console.log(err);
+    console.error(err.message);
+
+    res.status(err.status || 500).json({
+      error: {
+        status: err.status || 500,
+        message: err.message || 'Internal Server Error',
+      },
+    });
   }
 };
 
 exports.meetUpdate = async (req, res) => {
-  const meetData = req.body;
   try {
-    await meetsDAO.update(meetData, (resp) => {
-      res.send(resp);
-    });
+    const {meet_id} = req.params;
+    const meetData = req.body;
+    const image = req.file ? `${imageUploadPath}${req.file.filename}` : '';
+
+    meetData.image = image;
+
+    console.log(meet_id);
+    console.log(meetData);
+    const resp = await meetsDAO.update(meet_id, meetData, image);
+    res.status(resp.status).json(resp);
   } catch (err) {
-    console.log(err);
+    console.error(err.message);
+
+    res.status(err.status || 500).json({
+      error: {
+        status: err.status || 500,
+        message: err.message || 'Internal Server Error',
+      },
+    });
   }
 };
 
 exports.meetDelete = async (req, res) => {
-  const { meet_id } = req.params;
+  const {meet_id} = req.params;
   try {
     await meetsDAO.delete(meet_id, (resp) => {
       res.send(resp);
@@ -47,7 +72,7 @@ exports.meetList = async (req, res) => {
 };
 
 exports.meet = async (req, res) => {
-  const { meet_id } = req.params;
+  const {meet_id} = req.params;
   try {
     await meetsDAO.meet(meet_id, (resp) => {
       res.send(resp);
