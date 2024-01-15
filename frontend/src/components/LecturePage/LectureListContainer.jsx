@@ -22,8 +22,8 @@ function LectureListContainer() {
     <>
       <Col lg={12} className='align-items-center mt-3'>
         <Row className='justify-content-start'>
-          {coursesList.map((item) => (
-            <LectureCardComponent item={item} />
+          {coursesList.map((item, index) => (
+            <LectureCardComponent key={index} item={item} />
           ))}
         </Row>
 

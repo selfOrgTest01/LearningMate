@@ -111,6 +111,7 @@ function LectureRegisterPage() {
                 placeholder='강의 설명을 입력하세요'
                 {...register('content', { maxLength: 300 })}
                 style={{ resize: 'none' }}
+                wrap='hard'
               />
             </Form.Group>
             <div className='col-sm-12 mb-3'>
