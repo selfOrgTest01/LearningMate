@@ -1,6 +1,3 @@
-// 2023.12.27 참가자 테이블 & 테스트 완료
-// 2323.12.29 수정 중
-
 const db = require('./../src/database');
 
 const sql = {
@@ -20,6 +17,8 @@ const sql = {
     'FROM meet_participants mp ' +
     'WHERE mp.meet_id = ?',
 };
+
+
 
 const participantsDAO = {
   participantList: async (meet_id, callback) => {
@@ -67,10 +66,8 @@ const participantsDAO = {
   delete: async (meet_id, participant_id, callback) => {
     // 테스트 해봐야함
     try {
-      // 사용자의 세션에서 user_id를 가져오기
       const user_id = req.session.user_id;
 
-      // user_id를 이용하여 삭제할 참가자의 모임과 관련된 정보를 조회
       const meetInfoResult = await db.query(sql.getMeetInfo, [meet_id]);
 
       if (meetInfoResult.length === 0) {
@@ -84,10 +81,8 @@ const participantsDAO = {
 
       const meetInfo = meetInfoResult[0];
 
-      // 모임을 생성한 사용자가 매니저인지 확인
       if (meetInfo.meet_creator_id === user_id && meetInfo.manager === 1) {
-        // 매니저인 경우에만 삭제 가능
-        const resp = await db.query(sql.delete, [participant_id, meet_id]); // participant_id => 삭제하려는 참가자 / meet_id => 해당 모임 id
+        const resp = await db.query(sql.delete, [participant_id, meet_id]);
 
         if (resp.affectedRows === 0) {
           callback({status: 500, message: '참가자 삭제 실패', error: '삭제할 row가 없습니다.'});
@@ -124,13 +119,20 @@ const participantsDAO = {
   // 게시판으로 이동하는 함수
   moveToChatRoom: async () => {
     try {
-      // meet_participants 테이블에서 manager가 1이거나 status가 1인 사용자 선택
-      const userIds = await participantDAO.getParticipants();
+      const resp = await db.query(sql.moveToChatRoom, [user_id, meet_id]);
+      if (resp.affectedRows === 0) {
+        const error = new Error('사용자를 채팅방으로 이동할 수 없습니다.');
+        error.statusCode = 500;
+        throw error;
+      }
 
-      // 여기에서 게시판으로 이동하는 로직을 추가
-      console.log('게시판으로 이동: ', userIds);
+      const chatRoomInfo = await chatRoomDAO.getChatRoomInfo(meet_id);
+      callback({ status: 200, message: '채팅방으로 이동 성공', data: chatRoomInfo });
     } catch (error) {
       console.error(error);
+      const status = error.statusCode || 500;
+      const message = error.message || '채팅방으로 이동 실패';
+      callback({ status, message, error: error.toString() });
     }
   },
 };

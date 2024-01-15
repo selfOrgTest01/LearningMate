@@ -73,7 +73,6 @@ exports.courseDelete = async (req, res) => {
 };
 
 exports.courseList = async (req, res) => {
-  // const course_list = req.query;
   try {
     await coursesDAO.courseList((resp) => {
       res.send(resp);
@@ -84,7 +83,6 @@ exports.courseList = async (req, res) => {
 };
 
 exports.mainCourseList = async (req, res) => {
-  // const course_list = req.query;
   try {
     await coursesDAO.mainCourseList((resp) => {
       res.send(resp);

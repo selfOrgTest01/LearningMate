@@ -1,12 +1,13 @@
-import axios from 'axios';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../store/auth';
 import { userInfoAction } from '../store/userInfo';
+import usersApi from '../services/users';
+import ScrollToTop from '../helpers/scrollToTop';
 
-function Login() {
+function SignInPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState({ email: '', password: '' });
@@ -16,12 +17,8 @@ function Login() {
   const submitData = useCallback(
     async (evt) => {
       evt.preventDefault();
-      // 클라이언트 측에서 서버로 요청을 보낼 때, withCredentials: true 옵션을 설정해야 합니다.
-      // 이 옵션은 서버로부터 쿠키를 받아와서 저장할 수 있도록 해줍니다.
       try {
-        const result = await axios.post('http://localhost:8000/users/login', data, {
-          withCredentials: true,
-        });
+        const result = await usersApi.signInUser(data);
         if (result.data.status === 500) {
           window.alert('잘못된 로그인 정보입니다');
         } else {
@@ -44,8 +41,13 @@ function Login() {
     },
     [data, navigate, dispatch],
   );
+  useEffect(() => {
+    // 페이지가 로드될 때 스크롤을 최상단으로 이동
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container fluid style={{ height: '100vh' }}>
+      <ScrollToTop />
       <Row className='justify-content-md-center'>
         <Col md={4}>
           <h1 className='display-1 text-center' style={{ marginTop: 100 }}>
@@ -86,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignInPage;

@@ -5,12 +5,11 @@ const path = require('path');
 
 exports.login = async (req, res) => {
   const userData = req.body;
-  //세션에 저장할 user_id 세션 설정은 app.js같은 메인파일에서 합니다
   try {
     await usersDao.login(userData, (resp) => {
-      if (resp.status === 200) {
-        req.session.userId = resp.sessionData;
-      }
+      // if (resp.status === 200) {
+      //   req.session.userId = resp.sessionData;
+      // }
       res.send(resp);
     });
   } catch (err) {
@@ -38,7 +37,7 @@ exports.signupUser = async (req, res) => {
 
 exports.userInfo = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.params.id
     await usersDao.userInfo(userId, (resp) => {
       res.send(resp);
     });
@@ -49,8 +48,8 @@ exports.userInfo = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    req.session.destroy();
-    res.clearCookie('connect.sid');
+    // req.session.destroy();
+    // res.clearCookie('connect.sid');
     res.send({ status: 200, message: '로그아웃성공' });
   } catch (err) {
     console.log(err);

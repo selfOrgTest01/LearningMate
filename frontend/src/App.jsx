@@ -6,7 +6,6 @@ import AboutPage from './pages/AboutPage';
 import TestPage from './pages/TestPage';
 import HomePage from './pages/HomePage';
 import UserListPage from './pages/UserListPage';
-import RegisterLecturePage from './pages/lectures/RegisterLecturePage';
 import MeetList from './pages/meets/MeetList';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
@@ -22,12 +21,11 @@ import MyMeets from './pages/mypage/MyMeets';
 import MyCourses from './pages/mypage/MyCourses';
 import Withdraw from './pages/mypage/Withdraw';
 // 강의페이지
-import CoursesSinglePage from './pages/lectures/CoursesSiglePage';
-import UpdateLecturePage from './pages/lectures/UpdateLecturePage';
-import LectureDetail from './pages/lectures/LectureDetail';
-import SearchedLecturePage from './pages/lectures/back/SearchedLecturePage';
+import LectureMainPage, { LectureRegisterPage, LectureUpdatePage, LectureMainPageDetail } from './pages/lectures';
 // 챗봇페이지
-import ChatbotPage from './pages/chatbot/ChabotPage';
+// 채팅방페이지
+import ChatRoom from './layouts/chatroomlayout/index';
+import ParentComponent from './utils/ParentComponent';
 
 function App() {
   return (
@@ -40,20 +38,20 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/test' element={<TestPage />} />
           <Route path='/user-list' element={<UserListPage />} />
+          <Route path='/chat/chatRoom/:meetId/' element={<ChatRoom />} />
+          <Route path='/chat/chatRoom/:meetId/channels/:channelId' element={<ChatRoom />} />
+          <Route path='/parentcomponent' element={<ParentComponent />} />
           {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
-            {/* <Route index element={<Courses />} /> */}
-            <Route index element={<CoursesSinglePage />} />
-            <Route path='register' element={<RegisterLecturePage />} />
-            <Route path='update/:courseid' element={<UpdateLecturePage />} />
-            <Route path='detail/:courseid' element={<LectureDetail />} />
-            <Route path='search-result' element={<SearchedLecturePage />} />
+            <Route index element={<LectureMainPage />} />
+            <Route path='register' element={<LectureRegisterPage />} />
+            <Route path='update/:courseid' element={<LectureUpdatePage />} />
+            <Route path='detail/:courseid' element={<LectureMainPageDetail />} />
           </Route>
           <Route path='/meets' element={<MeetList />} />
           <Route path='/detail/:meetid' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
           <Route path='/update' element={<MeetUpdate />} />
-          <Route path='/chatbot' element={<ChatbotPage />} />
         </Route>
         <Route>
           <Route path='/mypage' element={<Mypage />} />
