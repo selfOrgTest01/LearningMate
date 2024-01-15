@@ -81,7 +81,6 @@ const meetsDAO = {
           return distanceInKm <= radius;
         }
       });
-      console.log(nearbyMeets);
       callback({ status: 200, message: '통신성공', data: nearbyMeets });
     } catch (error) {
       console.log(error);

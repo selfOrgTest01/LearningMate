@@ -1,5 +1,3 @@
-// 개선해야할 사항
-// 1.강의설명 줄바꿈이 안되는 문제 해결
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
@@ -59,8 +57,6 @@ function LectureRegisterPage() {
         const formData = new FormData();
         const { files: videoFiles } = document.querySelector('input[name="lectureVideo"]');
         const { files: imageFiles } = document.querySelector('input[name="lectureImage"]');
-        console.log('Selected video files:', videoFiles);
-        console.log('Selected image files:', imageFiles);
         formData.append('data', JSON.stringify(submitData));
         formData.append('lectureVideo', videoFiles[0]);
         formData.append('lectureImage', imageFiles[0]);

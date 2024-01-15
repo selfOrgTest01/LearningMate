@@ -14,10 +14,8 @@ import CardForMeetSwiper from './CardForMeetSwiper';
 export default function MeetSection() {
   const location = useSelector((state) => state.location);
   const [response, setResponse] = useState('');
-  const img = `${process.env.PUBLIC_URL}/img/Hani.jpg`;
   const fetchData = useCallback(async () => {
     const resp = await axios.post(`${localDomain}/meets/find-nearby-meetup`, location);
-    console.log(resp.data.data);
     setResponse(resp.data.data);
   }, [location]);
 
@@ -40,13 +38,16 @@ export default function MeetSection() {
           modules={[Autoplay, Pagination]}
           className='mySwiper'
         >
-          {/* 슬라이드 내용에 통신으로 meet에서 가져온 객체를 프롭으로 보낸다 */}
+          {/* 슬라이드 10개만 만들게 조건문을 사용 */}
           {response &&
-            response.map((item, index) => (
-              <SwiperSlide key={index}>
-                <CardForMeetSwiper item={item} />
-              </SwiperSlide>
-            ))}
+            response.map(
+              (item, index) =>
+                index < 10 && (
+                  <SwiperSlide key={index}>
+                    <CardForMeetSwiper item={item} />
+                  </SwiperSlide>
+                ),
+            )}
         </Swiper>
       </Container>
     </>

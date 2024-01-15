@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { lectureAction } from '../../store/lecture';
-import { SearchBarSection, LectureTable } from '../../components/LecturePage';
+import { SearchBarSection } from '../../components/LecturePage';
 import coursesApi from '../../services/courses';
 import LectureListContainer from '../../components/LecturePage/LectureListContainer';
 
