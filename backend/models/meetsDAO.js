@@ -14,7 +14,7 @@ const sql = {
   insert: `INSERT INTO meets(title, content, start_date, end_date, max_num, onoff, image, category, approve, user_id, latitude, longitude) 
            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   update:
-    'UPDATE meets SET title = ?, content = ?, start_date = ?, end_date = ?, max_num = ?, onoff = ?, image = ?, category = ?, approve = ?, updatedAt = NOW() WHERE meet_id = ?',
+    'UPDATE meets SET title = ?, content = ?, start_date = ?, end_date = ?, max_num = ?, onoff = ?, image = ?, category = ?, approve = ?, latitude = ?, longitude = ?, updatedAt = NOW() WHERE meet_id = ?',
   delete: 'DELETE FROM meets WHERE meet_id = ?',
   totalCount: 'SELECT COUNT(*) as cnt FROM meets', // 총 게시물 개수
 };
@@ -40,7 +40,7 @@ const meetsDAO = {
       });
     } catch (error) {
       console.error(error);
-      callback({ status: 500, message: '모임 리스트 조회 실패', error: error });
+      callback({status: 500, message: '모임 리스트 조회 실패', error: error});
     }
   },
 
@@ -50,7 +50,7 @@ const meetsDAO = {
       const resp = await db.query(sql.meet, [id]);
       if (resp.length === 0) {
         // meet_id에 해당하는 미팅이 없다면
-        callback({ status: 500, message: '모임 상세 조회 실패', error: error });
+        callback({status: 500, message: '모임 상세 조회 실패', error: error});
       } else {
         callback({
           status: 200,
@@ -60,7 +60,7 @@ const meetsDAO = {
       }
     } catch (error) {
       console.error(error);
-      callback({ status: 500, message: '모임 상세 조회 실패', error: error });
+      callback({status: 500, message: '모임 상세 조회 실패', error: error});
     }
   },
   // // 주변 모임을 찾는 함수
@@ -78,8 +78,7 @@ const meetsDAO = {
   //   }
   // },
 
-  insert: async (item, callback) => {
-    // data 들어온거 확인 완료!
+  insert: async (item, image) => {
     try {
       const resp = await db.query(sql.insert, [
         item.title,
@@ -88,21 +87,22 @@ const meetsDAO = {
         item.end_date,
         item.max_num,
         item.onoff,
-        item.image,
+        image,
         item.category,
         item.approve,
         item.user_id,
         item.position.lat,
         item.position.lng,
       ]);
-      callback({ status: 200, message: '모임 생성 성공', data: resp });
-    } catch (error) {
-      console.error(error);
-      callback({ status: 500, message: '모임 생성 실패', error: error });
+
+      return {status: 200, message: '모임 생성 성공', data: resp};
+    } catch (err) {
+      console.error(err);
+      throw {status: 500, message: '서버 오류', error: err};
     }
   },
 
-  update: async (item, callback) => {
+  update: async (item, image) => {
     // data 들어온거 확인 완료!
     try {
       const resp = await db.query(sql.update, [
@@ -112,19 +112,17 @@ const meetsDAO = {
         item.end_date,
         item.max_num,
         item.onoff,
-        item.image,
+        image,
         item.category,
         item.approve,
         item.meet_id,
+        item.position.lat,
+        item.position.lng,
       ]);
-      if (resp.affectedRows === 0) {
-        callback({ status: 500, message: '모임 수정 실패', error: error });
-      } else {
-        callback({ status: 200, message: '모임 수정 성공', data: resp });
-      }
+      return {status: 200, message: '모임 수정 성공', data: resp};
     } catch (error) {
       console.error(error);
-      callback({ status: 500, message: '모임 수정 실패', error: error });
+      throw {status: 500, message: '서버 오류', error: err};
     }
   },
 
@@ -134,13 +132,13 @@ const meetsDAO = {
       const resp = await db.query(sql.delete, [id]);
       if (resp.affectedRows === 0) {
         //  해당 조건에 맞는 행이 존재하지 않는다면 affectedRows가 0
-        callback({ status: 500, message: '모임 삭제 실패', error: error });
+        callback({status: 500, message: '모임 삭제 실패', error: error});
       } else {
-        callback({ status: 200, message: '모임 삭제 성공' });
+        callback({status: 200, message: '모임 삭제 성공'});
       }
     } catch (error) {
       console.error(error);
-      callback({ status: 500, message: '모임 삭제 실패', error: error });
+      callback({status: 500, message: '모임 삭제 실패', error: error});
     }
   },
 };

@@ -1,18 +1,9 @@
 /* eslint-disable no-console */
 // 모임 디테일
-// 24.01.03 - 데이터 나오는데 화면에 안 나옴 - 해결
-// 24.01.04 ~
 // - 다른 곳에서 사용한 모임 아니면 삭제 가능.. 이걸 어떻게 해야하지?
-// - 날짜 값 변경 - 완료
 // - 참석 인원 수 받기
-// - 사진 올라오게 하기
-// 24.01.08 ~
-// - 리뷰 기능 - 완료
-// - 지도 기능
 // - 참여 버튼 누르면 관리자에게 요청
-// - 내가 이 모임에 status가 1인 경우 리뷰 작성 버튼
-// - 관리자만 수정, 삭제 가능 (meet_id의 작성자와 비교) - 완료
-
+// - 유저가 이 모임에 status가 1인 경우 리뷰 작성 버튼
 import axios from 'axios';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -155,12 +146,11 @@ function MeetDetail() {
                   <tr>
                     <td>
                       <img
-                        src={`${process.env.PUBLIC_URL}/img/Hani.jpg`}
-                        alt='exampleImage2.jpg'
+                        src={meet.image}
+                        alt='모임이미지.jpg'
                         style={{ borderRadius: '15px', width: '880px', height: '450px' }}
                       ></img>
                     </td>
-                    {/* <td>{meet.image}</td> */}
                   </tr>
                   <tr>
                     <td>{meet.content}</td>
@@ -172,7 +162,10 @@ function MeetDetail() {
                       </button>{' '}
                       {userInfo.nickname === meet.nickname && (
                         <>
-                          <button className='btn btn-warning btn-sm' onClick={() => navigate('/update')}>
+                          <button
+                            className='btn btn-warning btn-sm'
+                            onClick={() => navigate(`/update/${meet.meet_id}`)}
+                          >
                             수정
                           </button>{' '}
                           <button className='btn btn-danger btn-sm' onClick={() => deleteMeet(meet.meet_id)}>

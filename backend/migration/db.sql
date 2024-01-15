@@ -1,4 +1,4 @@
--- Active: 1703034513814@@34.64.245.68@3306@learningmate
+-- Active: 1703035126470@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -197,6 +197,18 @@ CREATE TABLE meets(
 ) -- 현재 제약을 삭제
 ALTER TABLE
     meets DROP FOREIGN KEY meet_user_id_fk;
+
+-- Modify start_date column to DATETIME
+ALTER TABLE meets
+MODIFY start_date DATETIME NOT NULL;
+
+-- Modify end_date column to DATETIME
+ALTER TABLE meets
+MODIFY end_date DATETIME;
+
+
+ALTER TABLE meets
+MODIFY COLUMN image TEXT NOT NULL;
 
 -- 새로운 제약을 추가하고 ON DELETE CASCADE 옵션을 설정
 ALTER TABLE
