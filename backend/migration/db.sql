@@ -170,6 +170,9 @@ ALTER TABLE
 ADD
     CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+DELETE FROM
+    courses;
+
 ----------------- 민경 -----------------
 -------- meet table ------
 DROP TABLE meets;
@@ -194,6 +197,18 @@ CREATE TABLE meets(
 ) -- 현재 제약을 삭제
 ALTER TABLE
     meets DROP FOREIGN KEY meet_user_id_fk;
+
+-- Modify start_date column to DATETIME
+ALTER TABLE meets
+MODIFY start_date TIMESTAMP NOT NULL;
+
+-- Modify end_date column to DATETIME
+ALTER TABLE meets
+MODIFY end_date TIMESTAMP;
+
+
+ALTER TABLE meets
+MODIFY COLUMN image TEXT NOT NULL;
 
 -- 새로운 제약을 추가하고 ON DELETE CASCADE 옵션을 설정
 ALTER TABLE

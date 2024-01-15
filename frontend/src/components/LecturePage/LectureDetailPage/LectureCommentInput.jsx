@@ -3,8 +3,8 @@ import { Button, Container, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
-import axios from 'axios';
 import { commentAction } from '../../../store/comment';
+import commentsApi from '../../../services/comments';
 
 function LectureCommentInput() {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ function LectureCommentInput() {
     async (formData) => {
       try {
         const submitData = { comment: formData.comment, user_id: userInfo.userId, course_id };
-        const result = await axios.post('http://localhost:8000/comments/insert', submitData);
+        const result = await commentsApi.insertComment(submitData);
         dispatch(
           commentAction.insert({
             commentList: result.data.data,

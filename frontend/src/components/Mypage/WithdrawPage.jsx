@@ -1,15 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { authAction } from '../../store/auth';
-import { userInfoAction } from '../../store/userInfo';
 import { localDomain } from '../../config/config';
 import LogoutFunction from '../../containers/Header/LogoutFunction';
 
 function WithdrawPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState({ password: '' });
   const userInfo = useSelector((state) => state.userInfo);
@@ -20,7 +17,7 @@ function WithdrawPage() {
   }, []);
 
   const confirmWithdraw = useCallback(async () => {
-    // 입력 필드가 비어있는지 확인
+    // 입력이 비어있는지 확인
     if (!data.password) {
       window.alert('비밀번호를 입력해주세요.');
       return;
@@ -33,8 +30,9 @@ function WithdrawPage() {
       // 입력된 비밀번호와 저장된 비밀번호 비교
       const result = await axios.delete(`${localDomain}/users/delete/${userInfo.userId}`, {
         withCredentials: true,
-        data: { password: data.password, user_id: userInfo.userId }, // 서버로 이메일과 비밀번호 전달
+        data: { password: data.password, user_id: userInfo.userId },
       });
+      console.log('Server Response:', result.data);
       if (result.data.status === 200) {
         window.alert('탈퇴 요청이 성공적으로 처리되었습니다. 안녕히가세요.');
         logoutUser();

@@ -18,7 +18,6 @@ const commentRouter = require('./routes/comments'); // 나현 추가
 const bookmarkRouter = require('./routes/bookmark'); // 나현 추가
 const eventRouter = require('./routes/events'); // 나현 추가
 const chatRoutes = require('./routes/chatRoom'); // 소영 추가
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -37,18 +36,18 @@ app.use(
 );
 //saveUninitialized는 세션이 초기화될 때(예: 사용자가 웹사이트에 처음 방문했을 때) 세션을 저장할지 여부를 결정합니다.
 //resave는 요청이 완료된 후(통신 후)에 세션을 저장할지 여부를 결정합니다.
-app.use(
-  session({
-    secret: 'login session',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true, // 클라이언트에서 쿠키에 접근하는 것을 방지
-      secure: false, // HTTPS를 통해서만 쿠키를 전송하도록 설정 (배포 시에는 true로 변경) 로컬은 http 쓰기때문에 false로 사용
-      // maxAge: 1800000, // 쿠키의 만료 기간 (밀리초 단위, 여기서는 30분)1800000 maxAge 옵션을 0이아니라 설정하지 않으면 브라우저 종료시 세션이 삭제됨
-    },
-  })
-);
+// app.use(
+//   session({
+//     secret: 'login session',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true, // 클라이언트에서 쿠키에 접근하는 것을 방지
+//       secure: false, // HTTPS를 통해서만 쿠키를 전송하도록 설정 (배포 시에는 true로 변경) 로컬은 http 쓰기때문에 false로 사용
+//       // maxAge: 1800000, // 쿠키의 만료 기간 (밀리초 단위, 여기서는 30분)1800000 maxAge 옵션을 0이아니라 설정하지 않으면 브라우저 종료시 세션이 삭제됨
+//     },
+//   })
+// );
 
 //라우터
 app.use('/', indexRouter);

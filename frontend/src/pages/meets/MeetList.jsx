@@ -5,7 +5,9 @@
 // - 카테고리별로 리스트 나오게 하기
 // - 예쁘게 꾸미기
 // 01.09 ~
-// - 새로 생성한 모임이 안 뜸;;
+// - 새로 생성한 모임이 안 뜸 - 완료
+// 01.12 ~
+// - 쪽 수 기능
 
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';

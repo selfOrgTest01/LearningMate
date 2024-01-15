@@ -41,7 +41,7 @@ router.post('/image/:id', uploadFile.single('image'), usersController.image);
 
 router.get('/imagetest/:id', usersController.imagetest);
 //마이리스트
-router.get('/userinfo', usersController.userInfo);
+router.get('/userinfo/:id', usersController.userInfo);
 //회원 프로필 불러오기
 router.get('/getuserprofile/:user_id', usersController.getUserProfile);
 //회원 프로필 수정하기

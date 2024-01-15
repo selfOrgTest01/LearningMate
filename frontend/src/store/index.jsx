@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
 import authReducer from './auth';
-import lectureReducer from './lecture';
+import { lectureReducer, lectureDetailReducer } from './lecture';
 import commentReducer from './comment';
 import { locationReducer, positionReducer } from './location';
 import userInfoReducer from './userInfo';
@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
   position: positionReducer,
   userInfo: userInfoReducer,
   lecture: lectureReducer,
+  lectureDetail: lectureDetailReducer,
   comment: commentReducer,
   meetStore,
   userStore,
@@ -25,7 +26,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['auth', 'location', 'position', 'userInfo', 'lecture'], // 리듀서의 이름이 들어가야함
+  whitelist: ['auth', 'location', 'position', 'userInfo', 'lecture', 'lectureDetail'], // 리듀서의 이름이 들어가야함
 };
 // persistReducer를 사용하여 Redux reducer를 감싸고, configureStore에 전달합니다.
 const persistedReducer = persistReducer(persistConfig, rootReducer);
