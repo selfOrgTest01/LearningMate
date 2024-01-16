@@ -35,9 +35,9 @@ const CourseReviewList = () => {
 
   return (
     <div>
-      <h3>내가 작성한 리뷰 목록</h3>
+      <h5>내가 작성한 강의 댓글 목록</h5>
       {commentList.length === 0 ? (
-        <p>작성한 리뷰가 없습니다.</p>
+        <p>작성한 강의 댓글이 없습니다.</p>
       ) : (
         <ul>
           {commentList.map((review) => (
