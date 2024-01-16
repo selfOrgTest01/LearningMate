@@ -2,8 +2,6 @@
 /* eslint-disable no-alert */
 // 모임 생성
 // - 최대 참여 인원만큼 참여자 수 제한해야함
-// - 하나라도 작성 안 하면 생성 안 되게
-// - meets 사진도 public - users에 넣기
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +11,6 @@ import { Button } from 'react-bootstrap';
 import { localDomain } from '../../config/config';
 import { changeData, clearData, setDates } from '../../store/meetStore';
 import LandingModal from '../../components/maps/LandingModal';
-// import ImageUpload from './ImageUpload';
 
 function MeetInsert() {
   const navigate = useNavigate();
@@ -24,7 +21,6 @@ function MeetInsert() {
   const { meet } = useSelector((state) => state.meetStore);
   const userId = useSelector((state) => state.userInfo.userId);
   const auth = useSelector((state) => state.auth.isAuth);
-  // const { register } = useForm({ defaultValues: {}, mode: 'onBlur' });
   const categories = ['게임', '요리', '운동', '여행', '취미', '문화예술']; // 카테고리 생성
 
   const [data, setData] = useState({ user_id: '', nickname: '' });
@@ -81,12 +77,40 @@ function MeetInsert() {
     async (evt) => {
       evt.preventDefault();
 
-      // 이미지 파일 가져오기
-      const { files: imageFiles } = document.querySelector('input[name="meetImage"]');
+      // 필수 입력 항목 체크
+      if (
+        !meet.title ||
+        !meet.content ||
+        !meet.start_date ||
+        !meet.end_date ||
+        !meet.max_num ||
+        meet.onoff === null ||
+        !meet.category
+      ) {
+        console.log('Meet 데이터:', meet);
+        console.log('Meet 데이터 값 확인:', {
+          title: meet.title,
+          content: meet.content,
+          start_date: meet.start_date,
+          end_date: meet.end_date,
+          max_num: meet.max_num,
+          onoff: meet.onoff,
+          category: meet.category,
+        });
+        window.alert('필수 입력 항목을 모두 작성해주세요.');
+        return;
+      }
 
-      // 이미지 파일만을 담은 FormData 생성
+      // 이미지 파일 가져오기
+      const {
+        files: [imageFile],
+      } = document.querySelector('input[name="meetImage"]');
+
+      // 이미지 파일이 선택된 경우에만 FormData 생성
       const imageFormData = new FormData();
-      imageFormData.append('meetImage', imageFiles[0]);
+      if (imageFile) {
+        imageFormData.append('meetImage', imageFile);
+      }
 
       // Meet 데이터 생성
       const meetData = {
@@ -97,17 +121,25 @@ function MeetInsert() {
         max_num: meet.max_num,
         onoff: meet.onoff === '온라인' ? 1 : 0,
         category: meet.category,
-        approve: meet.approve === '승인 후 참가' ? 1 : 0,
         user_id: data.user_id,
         position,
       };
 
-      // Meet 데이터에 이미지 데이터 추가
-      meetData.meetImage = imageFormData.get('meetImage');
+      // 이미지 파일이 선택된 경우에만 Meet 데이터에 이미지 데이터 추가
+      if (imageFile) {
+        meetData.meetImage = imageFile;
+      }
+
+      // meetImage가 null인지 확인하고 로그와 경고 메시지 표시
+      if (!meetData.meetImage) {
+        console.log('meetImage 값:', meetData.meetImage);
+        window.alert('이미지를 선택해주세요.');
+        return;
+      }
 
       try {
         // Meet 데이터와 이미지를 서버로 전송
-        const response = await axios.post(`${localDomain}/meets/insert`, meetData, {
+        const resp = await axios.post(`${localDomain}/meets/insert`, meetData, {
           withCredentials: true,
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -318,33 +350,6 @@ function MeetInsert() {
                           </option>
                         ))}
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>승인 허가 여부</td>
-                    <td>
-                      <div className='form-check form-check-inline'>
-                        <input
-                          type='radio'
-                          className='form-check-input'
-                          name='approve'
-                          value='승인 후 참가'
-                          checked={meet.approve === '승인 후 참가'}
-                          onChange={(evt) => dispatch(changeData(evt))}
-                        />
-                        <label className='form-check-label'>승인 후 참가</label>
-                      </div>
-                      <div className='form-check form-check-inline'>
-                        <input
-                          type='radio'
-                          className='form-check-input'
-                          name='approve'
-                          value='자유 참가'
-                          checked={meet.approve === '자유 참가'}
-                          onChange={(evt) => dispatch(changeData(evt))}
-                        />
-                        <label className='form-check-label'>자유 참가</label>
-                      </div>
                     </td>
                   </tr>
                   <tr>

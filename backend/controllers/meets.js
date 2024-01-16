@@ -27,7 +27,7 @@ exports.meetInsert = async (req, res) => {
 
 exports.meetUpdate = async (req, res) => {
   try {
-    const { meet_id } = req.params;
+    const {meet_id} = req.params;
     const meetData = req.body;
     const image = req.file ? `${imageUploadPath}${req.file.filename}` : '';
 
@@ -50,7 +50,7 @@ exports.meetUpdate = async (req, res) => {
 };
 
 exports.meetDelete = async (req, res) => {
-  const { meet_id } = req.params;
+  const {meet_id} = req.params;
   try {
     await meetsDAO.delete(meet_id, (resp) => {
       res.send(resp);
@@ -61,18 +61,28 @@ exports.meetDelete = async (req, res) => {
 };
 
 exports.meetList = async (req, res) => {
-  const meet_list = req.query;
+  const meetListParams = req.query;
+
+  const {category} = meetListParams;
+
   try {
-    await meetsDAO.meetList(meet_list, (resp) => {
-      res.send(resp);
+    await meetsDAO.meetList(meetListParams, (resp) => {
+      let filteredMeetups = resp.data;
+
+      if (category) {
+        filteredMeetups = filteredMeetups.filter((meetup) => meetup.category === category);
+      }
+
+      res.json({data: filteredMeetups});
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).send('Internal Server Error');
   }
 };
 
 exports.meet = async (req, res) => {
-  const { meet_id } = req.params;
+  const {meet_id} = req.params;
   try {
     await meetsDAO.meet(meet_id, (resp) => {
       res.send(resp);

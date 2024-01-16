@@ -15,5 +15,7 @@ router.delete('/delete/:participant_id/:meet_id', participantsController.partici
 router.get('/participantList/:meet_id', participantsController.participantList);
 // 참가자 수 카운트
 router.get('/detail/:meet_id/getMeetParticipantsCount', participantsController.getParticipantCount);
+// 참가 여부 확인
+// router.get('/checkJoinStatus', participantsController.checkJoinStatus);
 
 module.exports = router;
