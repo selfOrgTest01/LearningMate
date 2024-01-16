@@ -1,9 +1,9 @@
-import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 function LectureDetailSection({ lectureInfo }) {
   const lectureDetail = useSelector((state) => state.lectureDetail);
+  const { content } = lectureDetail;
   return (
     <>
       <Container>
@@ -25,7 +25,10 @@ function LectureDetailSection({ lectureInfo }) {
         <h4>
           조회수:{lectureInfo.views} 등록일:{lectureDetail.createdAt}
         </h4>
-        <p>{lectureDetail.content}</p>
+        {/* dispatch때 문자열로 저장한 content 문자열을 <div>로 나눠서 하나씩 출력하면 줄바꿈이 적용되어서 화면에 나옴 */}
+        {content.map((line, index) => (
+          <div key={index}>{line}</div>
+        ))}
       </Container>
     </>
   );

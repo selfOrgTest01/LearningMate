@@ -35,9 +35,9 @@ function LectureCommentInput() {
   );
   return (
     <Container>
-      <div className='d-flex align-items-center'>
-        <div className='flex-shrink-0'>
-          <img src={userInfo.profilePath} alt={`default.png`} style={{ width: '70px' }} />
+      <div className='d-flex align-items-center mt-4 mx-2'>
+        <div className='flex-shrink-0 mt-2 mx-1'>
+          <img src={userInfo.profilePath} alt={`default.png`} style={{ width: '70px', maxHeight: '70px' }} />
         </div>
         <div className='flex-grow-1 ms-3'>
           <h4>{userInfo.nickname}</h4>

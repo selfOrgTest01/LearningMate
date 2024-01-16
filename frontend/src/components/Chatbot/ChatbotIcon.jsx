@@ -23,7 +23,7 @@ function ChatbotIcon({ onClick }) {
               <Image
                 src={`${process.env.PUBLIC_URL}/img/나무늘보.jpg`}
                 roundedCircle
-                style={{ width: '120px', height: '120px', cursor: 'pointer' }}
+                style={{ width: '100px', height: '100px', cursor: 'pointer' }}
               />
             </div>
           </OverlayTrigger>
