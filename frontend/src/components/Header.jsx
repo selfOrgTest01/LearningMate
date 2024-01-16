@@ -48,7 +48,7 @@ function Header() {
               </Link>
             </li> */}
             <li className='nav-item mx-3'>
-              <Link className='nav-link' to='/meets'>
+              <Link className='nav-link' to='/meetcategory'>
                 모임
                 <span className='visually-hidden'>(current)</span>
               </Link>
