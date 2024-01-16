@@ -5,26 +5,28 @@ export const RightMenu = styled.div`
 `;
 
 export const Header = styled.header`
-  height: 70px;
+  height: 80px;
   background: #46c4ee;
   color: #ffffff;
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
   padding: 5px;
   text-align: center;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 수정된 부분 */
 `;
 
 export const ProfileImg = styled.img`
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  top: 120px;
-  right: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20%;
+  margin-right: 20px;
 `;
 
 export const ProfileModal = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 15px;
 
   & img {
     display: flex;
@@ -57,6 +59,9 @@ export const LogOutButton = styled.button`
   padding: 5px 20px 5px;
   outline: none;
   cursor: pointer;
+  &:hover {
+    background-color: rgba(143, 125, 125, 0.2);
+  }
 `;
 
 export const WorkspaceWrapper = styled.div`
@@ -76,7 +81,7 @@ export const Workspaces = styled.div`
 `;
 
 export const Channels = styled.nav`
-  width: 180px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   background: #46c4ee;
@@ -87,8 +92,11 @@ export const Channels = styled.nav`
     padding-left: 52px;
     color: inherit;
     text-decoration: none;
-    height: 28px;
-    line-height: 28px;
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+
     &.selected {
       color: white;
     }
@@ -114,6 +122,9 @@ export const Channels = styled.nav`
   }
 
   & h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 36px;
     line-height: 36px;
     margin: 0;
@@ -122,8 +133,12 @@ export const Channels = styled.nav`
     white-space: nowrap;
     font-size: 15px;
   }
-`;
 
+  & a:hover {
+    background-color: rgba(143, 125, 125, 0.2);
+    border-radius: 5px;
+  }
+`;
 export const WorkspaceName = styled.button`
   height: 64px;
   line-height: 64px;
@@ -175,7 +190,23 @@ export const WorkspaceModal = styled.div`
 export const Chats = styled.div`
   flex: 1;
   padding-left: 20px;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+`;
+
+export const ChannelTitleBox = styled.div`
+  display: flex;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: gray;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+export const ChannelTitle = styled.div`
+  margin-top: 10px; /* 가로로 띄우기 위한 여백 */
 `;
 
 export const AddButton = styled.button`

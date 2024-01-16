@@ -25,8 +25,7 @@ import Withdraw from './pages/mypage/Withdraw';
 import LectureMainPage, { LectureRegisterPage, LectureUpdatePage, LectureMainPageDetail } from './pages/lectures';
 // 챗봇페이지
 // 채팅방페이지
-import ChatRoom from './layouts/chatroomlayout/index';
-import ParentComponent from './utils/ParentComponent';
+import ChatRoom from './pages/chatroom/index';
 
 function App() {
   return (
@@ -41,7 +40,7 @@ function App() {
           <Route path='/user-list' element={<UserListPage />} />
           <Route path='/chat/chatRoom/:meetId/' element={<ChatRoom />} />
           <Route path='/chat/chatRoom/:meetId/channels/:channelId' element={<ChatRoom />} />
-          <Route path='/parentcomponent' element={<ParentComponent />} />
+
           {/* 중첩할때 앞에 /붙이면 에러나므로 주의할것 ex)/register(x) register(o) */}
           <Route path='/courses'>
             <Route index element={<LectureMainPage />} />
