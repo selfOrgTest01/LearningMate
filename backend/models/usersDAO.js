@@ -6,11 +6,10 @@ const sql = {
     'SELECT user_id,email,password_hash,nickname,phone_number,profile_name FROM users WHERE email = ?',
   sql_signUp:
     'INSERT INTO users(email,phone_number, password_hash,nickname,profile_name,profile_nickname) VALUES (?,?,?,?,?,?)', //회원가입
-  sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date FROM users', //유저정보조회
+  sql_userList: 'SELECT user_id,email,phone_number,nickname,signup_date,profile_name FROM users', //유저정보조회
   sql_userDelete: 'DELETE FROM users WHERE user_id=?', //유저정보삭제
   sql_check: 'SELECT user_id,email,phone_number,nickname FROM users', //중복체크
-  sql_userInfo:
-    'SELECT user_id, profile_name, email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
+  sql_userInfo: 'SELECT email, phone_number, nickname FROM users WHERE user_id=?', //마이페이지 정보
   sql_image: 'UPDATE users SET profile_name=?,profile_nickname = ? WHERE user_id = ?', //이미지
   sql_imagetest: 'SELECT profile_name FROM users WHERE user_id=?',
 };

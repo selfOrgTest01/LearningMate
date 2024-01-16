@@ -35,6 +35,7 @@ exports.courseInsert = async (req, res) => {
 
 exports.courseUpdate = async (req, res) => {
   const courseData = JSON.parse(req.body.data);
+  console.log(courseData);
   const videoPath = req.files['lectureVideo'][0]
     ? `${videoUploadPath}/${req.files['lectureVideo'][0].filename}`
     : '';
@@ -73,7 +74,6 @@ exports.courseDelete = async (req, res) => {
 };
 
 exports.courseList = async (req, res) => {
-  // const course_list = req.query;
   try {
     await coursesDAO.courseList((resp) => {
       res.send(resp);
@@ -84,7 +84,6 @@ exports.courseList = async (req, res) => {
 };
 
 exports.mainCourseList = async (req, res) => {
-  // const course_list = req.query;
   try {
     await coursesDAO.mainCourseList((resp) => {
       res.send(resp);

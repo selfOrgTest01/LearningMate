@@ -55,7 +55,7 @@ const ChatRoom = () => {
             nickname: loggedInUser.nickname,
             email: loggedInUser.email,
             phone_number: loggedInUser.phone_number,
-            profilePath: loggedInUser.profilePath,
+            profilePath: loggedInUser.profile_name,
           }),
         );
       }
@@ -63,6 +63,8 @@ const ChatRoom = () => {
       console.error(error);
     }
   }, [dispatch, userinfo.userId]);
+
+  const profileImagePath = userinfo.profilePath || gravatar.url(userinfo.nickname, { s: '28px', d: 'retro' });
 
   const onChannelClick = useCallback(
     async (channel) => {
@@ -152,12 +154,12 @@ const ChatRoom = () => {
               }}
             >
               <ProfileImg
-                src={gravatar.url(userinfo.nickname, { s: '28px', d: 'retro' })}
+                src={profileImagePath}
                 alt={userinfo.nickname}
                 style={{
                   borderRadius: '20%',
-                  width: '40px',
-                  height: '40px',
+                  width: '50px',
+                  height: '50px',
                   transition: 'box-shadow 0.3s',
                   boxShadow: isProfileHovered ? '0 0 10px 5px white' : 'none',
                 }}
@@ -167,7 +169,7 @@ const ChatRoom = () => {
               <Menu style={{ right: 0, top: 38 }} show={showUserMenu} onCloseModal={onClickUserProfile}>
                 <ProfileModal>
                   <img
-                    src={gravatar.url(userinfo.nickname, { s: '36px', d: 'retro' })}
+                    src={profileImagePath}
                     alt={userinfo.nickname}
                     style={{ borderRadius: '20%', width: '40px', height: '40px' }}
                   />
@@ -239,14 +241,13 @@ const ChatRoom = () => {
 
                   return (
                     <div key={idx} style={{ display: 'flex', marginBottom: '30px', marginTop: '30px' }}>
-                      {data.senderProfile && (
+                      {data.profile ? (
                         <img
-                          src={data.senderProfile}
+                          src={data.profile}
                           alt={`Profile of ${data.senderNickname}`}
                           style={{ borderRadius: '20%', width: '40px', height: '40px' }}
                         />
-                      )}
-                      {!data.senderProfile && (
+                      ) : (
                         <img
                           src={gravatar.url(data.senderNickname, { s: '40px', d: 'retro' })}
                           alt={`Profile of ${data.senderNickname}`}

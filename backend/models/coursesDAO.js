@@ -1,7 +1,7 @@
 const db = require('../src/database');
 
 const sql = {
-  courseList: `SELECT c.course_id, u.nickname, title, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
+  courseList: `SELECT c.course_id, u.nickname, u.profile_name, title, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
                FROM users u INNER JOIN courses c ON u.user_id = c.user_id
                ORDER BY c.course_id DESC;`, // 강의번호로 내림차순 (GROUP BY c.course_id 해야하나?)
 
@@ -10,7 +10,7 @@ const sql = {
                 ORDER BY c.course_id DESC
                 LIMIT 9;`,
 
-  course: `SELECT c.user_id, c.course_id, u.nickname, title, content, category, attach_file_path, attach_file_name, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d') as createdAt
+  course: `SELECT c.user_id, c.course_id, u.nickname, u.profile_name, title, content, category, attach_file_path, attach_file_name, attach_image_path, view_cnt, DATE_FORMAT(c.createdAt, '%Y-%m-%d %H:%i') as createdAt
             FROM users u INNER JOIN courses c ON u.user_id = c.user_id
             WHERE c.course_id = ?;`, // 특정 강의 상세조회
 
@@ -102,6 +102,7 @@ const coursesDAO = {
   },
 
   update: async (item, videoPath, videoName, imagePath, callback) => {
+    console.log(item.content);
     try {
       const resp = await db.query(sql.update, [
         item.title,

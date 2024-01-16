@@ -41,6 +41,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
         const senderUserId = userData.userId;
         const senderNickname = userData.nickname;
         const senderProfile = userData.profilePath;
+        console.log(senderProfile);
 
         try {
           console.log('Sending data to the server:', {

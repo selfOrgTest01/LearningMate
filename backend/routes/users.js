@@ -41,7 +41,7 @@ router.post('/image/:id', uploadFile.single('image'), usersController.image);
 
 router.get('/imagetest/:id', usersController.imagetest);
 //마이리스트
-router.get('/userinfo', usersController.userInfo);
+router.get('/userinfo/:id', usersController.userInfo);
 //회원리스트
 router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색
