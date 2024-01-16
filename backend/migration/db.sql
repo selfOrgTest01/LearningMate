@@ -1,4 +1,4 @@
--- Active: 1703035126470@@34.64.245.68@3306@learningmate
+-- Active: 1703657196229@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -171,7 +171,25 @@ ADD
     CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DELETE FROM
-    courses;
+    bookmark;
+
+SELECT * FROM bookmark;
+
+ALTER TABLE bookmark
+DROP COLUMN status;
+
+ALTER TABLE bookmark
+DROP FOREIGN KEY user_id;
+
+DROP TABLE bookmark;
+
+CREATE TABLE bookmark (
+    bookmark INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    course_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE
+);
 
 ----------------- 민경 -----------------
 -------- meet table ------
