@@ -27,6 +27,7 @@ const sql = {
            WHERE title LIKE CONCAT('%', ?, '%') OR content LIKE CONCAT('%', ?, '%');`,
 
   increase_view: `UPDATE courses SET view_cnt = view_cnt + 1 WHERE course_id = ?`,
+  myCourseList: 'SELECT * FROM courses WHERE user_id = ?',
 };
 
 const coursesDAO = {
@@ -146,6 +147,16 @@ const coursesDAO = {
     } catch (error) {
       console.log(error);
       callback({ status: 500, message: '검색실패', error: error });
+    }
+  },
+
+  myCourseList: async (user_id) => {
+    try {
+      const [rows, fields] = await db.query(sql.myCourseList, [user_id]);
+      return { status: 200, data: rows };
+    } catch (error) {
+      console.error('내 강의 불러오기 중 에러 발생:', error);
+      return { status: 500, message: '내 강의 불러오기 실패', error: error.message };
     }
   },
 };

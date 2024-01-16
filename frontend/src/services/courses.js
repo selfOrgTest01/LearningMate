@@ -66,6 +66,17 @@ const coursesApi = {
       return error;
     }
   },
+  // 해당 유저가 올린 강의
+  myCourseList: async (user_id) => {
+    try {
+      const response = await axios.get(`${localDomain}/courses/courseList/${user_id}`, {
+        params: { userId: user_id },
+      });
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
 };
 
 export default coursesApi;
