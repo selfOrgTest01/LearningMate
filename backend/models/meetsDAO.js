@@ -20,6 +20,7 @@ const sql = {
     'UPDATE meets SET title = ?, content = ?, start_date = ?, end_date = ?, max_num = ?, onoff = ?, image = ?, category = ?, latitude = ?, longitude = ?, updatedAt = NOW() WHERE meet_id = ?',
   delete: 'DELETE FROM meets WHERE meet_id = ?',
   totalCount: 'SELECT COUNT(*) as cnt FROM meets', // 총 게시물 개수
+  myMeetList: 'SELECT * FROM meets WHERE user_id = ?',
 };
 
 const meetsDAO = {
@@ -148,6 +149,17 @@ const meetsDAO = {
     } catch (error) {
       console.error(error);
       callback({status: 500, message: '모임 삭제 실패', error: error});
+    }
+  },
+
+  myMeetList: async (user_id) => {
+    try {
+      const [rows, fields] = await db.query(sql.myMeetList, [user_id]);
+      console.log('myMeetList query result:', rows); // 디버깅용 로그
+      return { status: 200, data: rows };
+    } catch (error) {
+      console.error('내 모임 불러오기 중 에러 발생:', error);
+      return { status: 500, message: '내 모임 불러오기 실패', error: error.message };
     }
   },
 };

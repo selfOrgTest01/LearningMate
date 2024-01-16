@@ -45,5 +45,7 @@ router.get('/meetList', meetsController.meetList);
 router.get('/meet/:meet_id', meetsController.meet);
 // 주변 모임 탐색
 router.post('/find-nearby-meetup', meetsController.findNearbyMeetup);
+// 특정 유저가 만든 모임
+router.get('/meetList/:user_id', meetsController.myMeetList);
 
 module.exports = router;
