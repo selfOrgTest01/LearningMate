@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 // 모임 디테일
-// - 참석 인원 수 받기
 import axios from 'axios';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -19,6 +18,7 @@ function MeetDetail() {
   // console.log(userInfo.userId);
   const [reviews, setReviews] = useState([]);
   const [reviewModalContent, setReviewModalContent] = useState(null);
+  const [isJoined, setIsJoined] = useState(false);
 
   const [meet, setMeet] = useState({
     meet_id: '',
@@ -42,18 +42,27 @@ function MeetDetail() {
     alignItems: 'left',
   };
 
-  const iconImageStyle1 = {
-    width: '24px',
-    height: '24px',
-    marginRight: '10px',
-    marginLeft: '8px',
-  };
+  // const iconImageStyle1 = {
+  //   width: '24px',
+  //   height: '24px',
+  //   marginRight: '10px',
+  //   marginLeft: '8px',
+  // };
 
   const iconImageStyle2 = {
     width: '20px',
     height: '20px',
     marginRight: '10px',
     marginLeft: '10px',
+    marginBottom: '5px',
+  };
+
+  const iconImageStyle3 = {
+    width: '28px',
+    height: '28px',
+    marginRight: '5px',
+    marginLeft: '7px',
+    marginBottom: '5px',
   };
 
   const getMeetDetailAndReviews = useCallback(async () => {
@@ -70,6 +79,7 @@ function MeetDetail() {
 
       // 리뷰 정보 설정
       setReviews(reviewResp.data.data);
+      console.log(reviewResp.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -107,7 +117,10 @@ function MeetDetail() {
   }, [meet_id, navigate]);
 
   // 현재 사용자가 글을 작성한 사용자인지 여부를 확인
-  const UserPostAuthor = meet.user_id === userInfo.user_id;
+  const UserPostAuthor = meet.nickname === userInfo.nickname;
+  // console.log(meet.nickname);
+  // console.log(userInfo.nickname);
+  // console.log(UserPostAuthor);
 
   useEffect(() => {
     getMeetDetailAndReviews();
@@ -126,7 +139,7 @@ function MeetDetail() {
               <table className='table table-borderless'>
                 <tbody>
                   <tr>
-                    <td>{meet.title}</td>
+                    <td style={{ fontSize: '30px' }}>{meet.title}</td>
                   </tr>
                   <tr>
                     <td>
@@ -138,7 +151,7 @@ function MeetDetail() {
                     </td>
                   </tr>
                   <tr>
-                    <td>{meet.content}</td>
+                    <td style={{ fontSize: '25px' }}>{meet.content}</td>
                   </tr>
                   <tr>
                     <td colSpan='2' className='text-end'>
@@ -165,7 +178,12 @@ function MeetDetail() {
             </div>
             <div
               className='card p-3'
-              style={{ width: '25rem', height: '20rem', marginTop: '95px', marginLeft: '40px' }}
+              style={{
+                width: '25rem',
+                height: meet.onoff === 1 ? '11rem' : '19rem',
+                marginTop: '120px',
+                marginLeft: '40px',
+              }}
             >
               <table>
                 <tbody>
@@ -176,16 +194,16 @@ function MeetDetail() {
                     </td>
                   </tr>
                   <tr>
-                    <td>{meet.onoff ? '온라인' : '오프라인'}</td>
+                    <td style={{ fontSize: '15px' }}>{meet.onoff ? '온라인 모임' : '오프라인 모임'}</td>
                   </tr>
-                  {meet.onoff === 0 && (
+                  {/* {meet.onoff === 0 && (
                     <tr>
                       <td className='icon-only' style={iconStyle}>
                         <img src='/icons/icon-location.png' alt='Location Icon' style={iconImageStyle1} />
                         제주특별자치도 ...
                       </td>
                     </tr>
-                  )}
+                  )} */}
                   <tr>
                     <td className='icon-only' style={iconStyle}>
                       <img src='/icons/icon-schedule.png' alt='Schedule Icon' style={iconImageStyle2} />
@@ -195,19 +213,30 @@ function MeetDetail() {
                   </tr>
                   <tr>
                     <td className='icon-only' style={iconStyle}>
+                      <img src='/icons/icon-category.png' alt='Category Icon' style={iconImageStyle3} />
+                      {meet.category}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='icon-only' style={iconStyle}>
                       작성자: {meet.nickname}
                     </td>
                   </tr>
                   <tr>
                     <td className='icon-only' style={iconStyle}>
-                      참여자 수: {0}/{meet.max_num}
+                      작성일: {meet.createdAt}
                     </td>
                   </tr>
+                  {/* <tr>
+                    <td className='icon-only' style={iconStyle}>
+                      참여자 수: {0}/{meet.max_num}
+                    </td>
+                  </tr> */}
                 </tbody>
               </table>
-              <div className='d-flex justify-content-end' style={{ marginTop: '130px' }}>
+              <div className='d-flex justify-content-end' style={{ marginTop: '50px' }}>
                 <button
-                  className='btn btn-primary btn-sm'
+                  className={`btn btn-${isJoined ? 'success' : 'primary'} btn-sm`}
                   onClick={joinMeet}
                   style={{ width: '500px', height: '50px' }}
                 >
