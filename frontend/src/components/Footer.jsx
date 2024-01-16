@@ -7,7 +7,7 @@ const Footer = () => (
       <div className='row'>
         <div className='col-md-6 mt-md-0 mt-3'>
           <h5 className='text-uppercase'>러닝메이트</h5>
-          <p>자신의 러닝메이트들을 찾아보세요</p>
+          <p>이곳에서 나만의 러닝메이트들을 찾아보세요</p>
         </div>
 
         <hr className='clearfix w-100 d-md-none pb-0' />
@@ -40,10 +40,10 @@ const Footer = () => (
               <Link to='/about'>개발자소개</Link>
             </li>
             <li>
-              <a href='#!'>커리어</a>
+              <a href='#!'>이용약관</a>
             </li>
             <li>
-              <a href='#!'>블로그</a>
+              <a href='#!'>개인정보처리방침</a>
             </li>
           </ul>
         </div>

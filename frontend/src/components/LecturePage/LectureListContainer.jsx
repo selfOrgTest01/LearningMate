@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Col, Pagination, Row } from 'react-bootstrap';
 import LectureCardComponent from './LectureCardComponent';
@@ -11,9 +11,6 @@ function LectureListContainer() {
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const coursesList = courses.slice(indexOfFirstUser, indexOfLastUser);
-  useEffect(() => {
-    console.log(courses);
-  }, [courses]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -22,12 +19,12 @@ function LectureListContainer() {
     <>
       <Col lg={12} className='align-items-center mt-3'>
         <Row className='justify-content-start'>
-          {coursesList.map((item) => (
-            <LectureCardComponent item={item} />
+          {coursesList.map((item, index) => (
+            <LectureCardComponent key={index} item={item} />
           ))}
         </Row>
 
-        <Row className='mt-3'>
+        <div className='mt-3'>
           <Pagination className='justify-content-center'>
             {[...Array(Math.ceil(courses.length / usersPerPage))].map((_, index) => (
               <Pagination.Item
@@ -39,7 +36,7 @@ function LectureListContainer() {
               </Pagination.Item>
             ))}
           </Pagination>
-        </Row>
+        </div>
       </Col>
     </>
   );

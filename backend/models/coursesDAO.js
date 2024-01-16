@@ -102,6 +102,7 @@ const coursesDAO = {
   },
 
   update: async (item, videoPath, videoName, imagePath, callback) => {
+    console.log(item.content);
     try {
       const resp = await db.query(sql.update, [
         item.title,

@@ -1,5 +1,3 @@
-// 개선해야할 사항
-// 1.강의설명 줄바꿈이 안되는 문제 해결
 import { useCallback, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
@@ -111,6 +109,7 @@ function LectureRegisterPage() {
                 placeholder='강의 설명을 입력하세요'
                 {...register('content', { maxLength: 300 })}
                 style={{ resize: 'none' }}
+                wrap='hard'
               />
             </Form.Group>
             <div className='col-sm-12 mb-3'>
