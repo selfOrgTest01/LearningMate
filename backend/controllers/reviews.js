@@ -2,9 +2,11 @@
 const reviewsDAO = require('../models/reviewsDAO');
 
 exports.reviewInsert = async (req, res) => {
+  const {meet_id} = req.params;
   const reviewData = req.body;
+
   try {
-    await reviewsDAO.insert(reviewData, (resp) => {
+    await reviewsDAO.insert(meet_id, reviewData, (resp) => {
       res.send(resp);
     });
   } catch (err) {

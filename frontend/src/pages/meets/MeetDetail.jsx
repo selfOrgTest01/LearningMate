@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 // 모임 디테일
-// - 다른 곳에서 사용한 모임 아니면 삭제 가능.. 이걸 어떻게 해야하지?
 // - 참석 인원 수 받기
-// - 참여 버튼 누르면 관리자에게 요청
-// - 유저가 이 모임에 status가 1인 경우 리뷰 작성 버튼
 import axios from 'axios';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -11,13 +8,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { localDomain } from '../../config/config';
-import ReviewForm from './MeetReviewForm';
+import MeetReviewForm from './MeetReviewForm';
 import MeetDetailMapSection from '../../components/maps/MeetDetailMapSection';
 
 function MeetDetail() {
   const navigate = useNavigate();
   const meet_id = useParams().meetid;
   const userInfo = useSelector((state) => state.userInfo);
+  const login = useSelector((state) => state.auth.isAuth);
+  // console.log(userInfo.userId);
   const [reviews, setReviews] = useState([]);
   const [reviewModalContent, setReviewModalContent] = useState(null);
 
@@ -33,7 +32,6 @@ function MeetDetail() {
     onoff: false,
     image: '',
     category: '',
-    approve: false,
     createdAt: '',
     latitude: '',
     longitude: '',
@@ -58,34 +56,6 @@ function MeetDetail() {
     marginLeft: '10px',
   };
 
-  const iconImageStyle3 = {
-    width: '24px',
-    height: '24px',
-    marginRight: '10px',
-    marginLeft: '10px',
-  };
-
-  const joinMeet = () => {
-    // 참여 버튼 클릭 시 실행되어야 하는 동작
-    // console.log('Meet 참여 버튼 클릭');
-  };
-
-  // 참가자 수(status=1) 가져와야함
-  // const [participantCount, setParticipantCount] = useState(0);
-
-  // useEffect(() => {
-  //   const fetchParticipantCount = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8000/meets/getMeetParticipantsCount/${id}`);
-  //       setParticipantCount(response.data.participant_count);
-  //     } catch (error) {
-  //       console.error('Error fetching participant count:', error);
-  //     }
-  //   };
-
-  //   fetchParticipantCount();
-  // }, [id]);
-
   const getMeetDetailAndReviews = useCallback(async () => {
     try {
       const [meetResp, reviewResp] = await Promise.all([
@@ -105,9 +75,21 @@ function MeetDetail() {
     }
   }, [meet_id]);
 
+  const joinMeet = () => {
+    if (!login) {
+      // 로그인되지 않은 경우 알림 메시지 표시
+      window.alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      navigate('/sign-in');
+    } else {
+      // 로그인된 경우 참여 로직 실행
+    }
+  };
+
+  console.log('userInfo.userId:', userInfo.userId);
+
   const openReviewModal = () => {
     setReviewModalContent(
-      <ReviewForm
+      <MeetReviewForm
         meet_id={meet_id}
         getMeetDetailAndReviews={getMeetDetailAndReviews}
         handleClose={() => setReviewModalContent(null)}
@@ -123,6 +105,9 @@ function MeetDetail() {
       console.error(error);
     }
   }, [meet_id, navigate]);
+
+  // 현재 사용자가 글을 작성한 사용자인지 여부를 확인
+  const UserPostAuthor = meet.user_id === userInfo.user_id;
 
   useEffect(() => {
     getMeetDetailAndReviews();
@@ -210,12 +195,6 @@ function MeetDetail() {
                   </tr>
                   <tr>
                     <td className='icon-only' style={iconStyle}>
-                      <img src='/icons/icon-approve.png' alt='Location Icon' style={iconImageStyle3} />
-                      {meet.approve ? '자유 참가' : '관리자 승인 후 참가'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='icon-only' style={iconStyle}>
                       작성자: {meet.nickname}
                     </td>
                   </tr>
@@ -240,9 +219,11 @@ function MeetDetail() {
         </div>
         {/* 리뷰 리스트 */}
         <div className='m-4'>
-          <Button size='sm' variant='primary' onClick={openReviewModal}>
-            리뷰 작성하기
-          </Button>
+          {login && !UserPostAuthor && (
+            <Button size='sm' variant='primary' onClick={openReviewModal} style={{ marginLeft: '80px' }}>
+              리뷰 작성하기
+            </Button>
+          )}
           {/* 모달로 띄우기 */}
           <Modal show={reviewModalContent !== null} onHide={() => setReviewModalContent(null)}>
             <Modal.Header closeButton>
@@ -250,7 +231,7 @@ function MeetDetail() {
             </Modal.Header>
             <Modal.Body>{reviewModalContent}</Modal.Body>
           </Modal>{' '}
-          <div className='col'>
+          <div className='col' style={{ marginLeft: '80px', marginTop: '30px' }}>
             <h3>리뷰</h3>
             {reviews.length > 0 ? (
               <ul>

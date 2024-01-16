@@ -7,6 +7,7 @@ import TestPage from './pages/TestPage';
 import HomePage from './pages/HomePage';
 import UserListPage from './pages/UserListPage';
 import MeetList from './pages/meets/MeetList';
+import MeetCategory from './pages/meets/MeetCategory';
 import MeetDetail from './pages/meets/MeetDetail';
 import MeetInsert from './pages/meets/MeetInsert';
 import MeetUpdate from './pages/meets/MeetUpdate';
@@ -48,6 +49,7 @@ function App() {
             <Route path='update/:courseid' element={<LectureUpdatePage />} />
             <Route path='detail/:courseid' element={<LectureMainPageDetail />} />
           </Route>
+          <Route path='/meetcategory' element={<MeetCategory />} />
           <Route path='/meets' element={<MeetList />} />
           <Route path='/detail/:meetid' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />

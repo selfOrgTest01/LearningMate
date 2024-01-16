@@ -47,7 +47,6 @@ const init = {
     onoff: '',
     image: '',
     category: '',
-    approve: '',
     createdAt: '',
   },
 };
