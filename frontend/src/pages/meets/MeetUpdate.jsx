@@ -11,7 +11,7 @@ import moment from 'moment';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { localDomain } from '../../config/config';
-import { changeData, setDates, clearData, updateMeetAction } from '../../store/meetStore';
+import { changeData, setDates, updateMeetAction } from '../../store/meetStore';
 import LandingModal from '../../components/maps/LandingModal';
 
 function MeetUpdate() {
@@ -48,8 +48,7 @@ function MeetUpdate() {
             },
           });
           const updatedMeet = response.data.data[0];
-
-          console.log('Updated Meet Data:', updatedMeet); // 추가된 로그
+          // console.log('Updated Meet Data:', updatedMeet);
 
           // 기존 meet 값이 있는 경우에만 업데이트
           const updatedMeetWithDefaults = {
@@ -92,7 +91,7 @@ function MeetUpdate() {
 
       // 이미지 파일만을 담은 FormData 생성
       const imageFormData = new FormData();
-      imageFormData.append('meetImage', imageFiles[0]); // 파일 이름 추가
+      imageFormData.append('meetImage', imageFiles[0]);
 
       // Meet 상태를 가져와서 사용
       const updatedMeet = {
@@ -103,7 +102,6 @@ function MeetUpdate() {
         max_num: meet.max_num,
         onoff: meet.onoff === '온라인' ? 1 : 0,
         category: meet.category,
-        approve: meet.approve === '승인 후 참가' ? 1 : 0,
         user_id: data.user_id,
         position,
       };
@@ -121,9 +119,7 @@ function MeetUpdate() {
             'Content-Type': 'multipart/form-data',
           },
         });
-
-        console.log('Server Response:', response.data); // 서버 응답을 콘솔에 출력
-        // Redux 스토어 업데이트
+        // console.log('Server Response:', response.data);
         dispatch(updateMeetAction(updatedMeet));
         navigate(`../meets`);
       } catch (error) {
@@ -311,33 +307,6 @@ function MeetUpdate() {
                           </option>
                         ))}
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>승인 허가 여부</td>
-                    <td>
-                      <div className='form-check form-check-inline'>
-                        <input
-                          type='radio'
-                          className='form-check-input'
-                          name='approve'
-                          value='승인 후 참가'
-                          checked={meet.approve === '승인 후 참가'}
-                          onChange={(evt) => dispatch(changeData(evt))}
-                        />
-                        <label className='form-check-label'>승인 후 참가</label>
-                      </div>
-                      <div className='form-check form-check-inline'>
-                        <input
-                          type='radio'
-                          className='form-check-input'
-                          name='approve'
-                          value='자유 참가'
-                          checked={meet.approve === '자유 참가'}
-                          onChange={(evt) => dispatch(changeData(evt))}
-                        />
-                        <label className='form-check-label'>자유 참가</label>
-                      </div>
                     </td>
                   </tr>
                   <tr>

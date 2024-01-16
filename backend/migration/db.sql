@@ -198,6 +198,9 @@ CREATE TABLE meets(
 ALTER TABLE
     meets DROP FOREIGN KEY meet_user_id_fk;
 
+ALTER TABLE meets
+DROP COLUMN approve;
+
 -- Modify start_date column to DATETIME
 ALTER TABLE meets
 MODIFY start_date TIMESTAMP NOT NULL;
@@ -423,7 +426,7 @@ DELETE FROM
 WHERE
     participant_id = ?
     AND meet_id = ?
-    AND manager = 1 -- DELETE mp
+    -- AND manager = 1 -- DELETE mp
     -- FROM meet_participants mp
     -- INNER JOIN meets m ON mp.meet_id = m.meet_id
     -- WHERE mp.participant_id = 10
