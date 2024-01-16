@@ -1,15 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../components/Mypage/Sidebar';
-import Header from '../../components/Mypage/Header';
-import Footer from '../../components/Footer';
 import '../../components/Mypage/styles/Title.css';
 import UserUploadedCourses from '../../components/Mypage/UserUploadedCourses';
 
 function MyCourses() {
   return (
     <div>
-      <Header />
       <Container fluid>
         <h2 className='title'>내가 올린 강의 보기</h2>
         <Row>
@@ -21,7 +18,6 @@ function MyCourses() {
           </Col>
         </Row>
       </Container>
-      <Footer />
     </div>
   );
 }

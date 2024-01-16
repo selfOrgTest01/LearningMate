@@ -54,8 +54,6 @@ function App() {
           <Route path='/detail/:meetid' element={<MeetDetail />} />
           <Route path='/insert' element={<MeetInsert />} />
           <Route path='/update/:meetid' element={<MeetUpdate />} />
-        </Route>
-        <Route>
           <Route path='/mypage' element={<Mypage />} />
           <Route path='/my-info' element={<MyInfo />} />
           <Route path='/my-reviews' element={<MyReviews />} />
