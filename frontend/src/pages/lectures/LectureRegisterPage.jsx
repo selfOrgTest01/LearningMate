@@ -3,11 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-<<<<<<< HEAD:frontend/src/pages/lectures/RegisterLecturePage.jsx
-import { serverDomain } from '../../config/config';
-=======
 import coursesApi from '../../services/courses';
->>>>>>> develop:frontend/src/pages/lectures/LectureRegisterPage.jsx
 
 function LectureRegisterPage() {
   const inputRef = useRef();

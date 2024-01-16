@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Form } from 'react-bootstrap';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 import { changeData, clearData } from '../../store/reviewStore';
 
 function MeetReviewForm() {
@@ -35,7 +35,7 @@ function MeetReviewForm() {
 
     try {
       // 리뷰 데이터를 서버로 전송
-      const resp = await axios.post(`${localDomain}/reviews/insert`, reviewData, {
+      const resp = await axios.post(`${serverDomain}/reviews/insert`, reviewData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',

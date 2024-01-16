@@ -4,11 +4,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-<<<<<<< HEAD:frontend/src/pages/lectures/UpdateLecturePage.jsx
-import { serverDomain } from '../../config/config';
-=======
 import coursesApi from '../../services/courses';
->>>>>>> develop:frontend/src/pages/lectures/LectureUpdatePage.jsx
 
 function LectureUpdatePage() {
   const inputRef = useRef();
@@ -29,28 +25,6 @@ function LectureUpdatePage() {
     mode: 'onBlur',
   });
 
-<<<<<<< HEAD:frontend/src/pages/lectures/UpdateLecturePage.jsx
-  const getLectureDetail = useCallback(async () => {
-    try {
-      const resp = await axios.get(`${serverDomain}/courses/course/${course_id}`);
-      // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
-      if (resp.data.status === 500) {
-        navigate('../');
-      } else {
-        const respData = resp.data.data[0];
-        setVideoPath(respData.attach_file_path);
-        setImagePath(respData.attach_image_path);
-        setTitle(respData.title);
-        setContent(respData.content);
-        setCategory(respData.category);
-      }
-    } catch (error) {
-      console.error('Error fetching lecture detail:', error);
-    }
-  }, [course_id, navigate]);
-
-=======
->>>>>>> develop:frontend/src/pages/lectures/LectureUpdatePage.jsx
   const handleVideoFileChange = (event) => {
     if (event.target.files[0]) {
       const fileName = event.target.files[0].name;

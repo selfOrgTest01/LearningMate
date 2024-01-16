@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 import { changeData, clearData, setDates } from '../../store/meetStore';
 import LandingModal from '../../components/maps/LandingModal';
 
@@ -36,7 +36,7 @@ function MeetInsert() {
 
   const getData = useCallback(async () => {
     try {
-      const resp = await axios.get(`${localDomain}/users/userinfo/${userId}`, {
+      const resp = await axios.get(`${serverDomain}/users/userinfo/${userId}`, {
         withCredentials: true,
       });
       if (resp.data.data === false) {
@@ -139,7 +139,7 @@ function MeetInsert() {
 
       try {
         // Meet 데이터와 이미지를 서버로 전송
-        const resp = await axios.post(`${localDomain}/meets/insert`, meetData, {
+        const resp = await axios.post(`${serverDomain}/meets/insert`, meetData, {
           withCredentials: true,
           headers: {
             'Content-Type': 'multipart/form-data',

@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
-import { localDomain } from '../../config/config';
+import { serverDomain } from '../../config/config';
 import MeetReviewForm from './MeetReviewForm';
 import MeetDetailMapSection from '../../components/maps/MeetDetailMapSection';
 
@@ -67,8 +67,8 @@ function MeetDetail() {
   const getMeetDetailAndReviews = useCallback(async () => {
     try {
       const [meetResp, reviewResp] = await Promise.all([
-        axios.get(`${localDomain}/meets/meet/${meet_id}`),
-        axios.get(`${localDomain}/reviews/detail/${meet_id}/reviewList`),
+        axios.get(`${serverDomain}/meets/meet/${meet_id}`),
+        axios.get(`${serverDomain}/reviews/detail/${meet_id}/reviewList`),
       ]);
 
       // Meet 정보 설정
@@ -108,7 +108,7 @@ function MeetDetail() {
 
   const deleteMeet = useCallback(async () => {
     try {
-      await axios.delete(`${localDomain}/meets/delete/${meet_id}`);
+      await axios.delete(`${serverDomain}/meets/delete/${meet_id}`);
       navigate('/meets'); // 삭제 후 meets로 이동
     } catch (error) {
       console.error(error);

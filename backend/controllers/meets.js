@@ -2,7 +2,7 @@
 
 const meetsDAO = require('../models/meetsDAO');
 const domain = require('../config/config.js');
-const imageUploadPath = `${domain.localDomain}/images/meets/`;
+const imageUploadPath = `${domain.deployDomain}/images/meets/`;
 
 exports.meetInsert = async (req, res) => {
   try {

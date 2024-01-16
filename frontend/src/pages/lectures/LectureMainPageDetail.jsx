@@ -5,20 +5,12 @@ import { Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router';
 
 import { useDispatch, useSelector } from 'react-redux';
-<<<<<<< HEAD:frontend/src/pages/lectures/LectureDetail.jsx
-import { serverDomain } from '../../config/config';
-import LectureVideoSection from '../../components/LecturePage/LectureDetailPage/LectureVideoSection';
-import LectureDetailSection from '../../components/LecturePage/LectureDetailPage/LectureDetailSection';
-import LectureCommentSection from '../../components/LecturePage/LectureDetailPage/LectureCommentSection';
-import { lectureAction } from '../../store/lecture';
-=======
 import LectureCommentSection, {
   LectureDetailSection,
   LectureVideoSection,
 } from '../../components/LecturePage/LectureDetailPage';
 import { lectureAction, lectureDetailAction } from '../../store/lecture';
 import coursesApi from '../../services/courses';
->>>>>>> develop:frontend/src/pages/lectures/LectureMainPageDetail.jsx
 
 export default function LectureMainPageDetail() {
   const navigate = useNavigate();
@@ -32,14 +24,7 @@ export default function LectureMainPageDetail() {
 
   const getLectureDetail = useCallback(async () => {
     try {
-<<<<<<< HEAD:frontend/src/pages/lectures/LectureDetail.jsx
-      const resp = await axios.get(`${serverDomain}/courses/course/${course_id}`, {
-        params: { userId: userInfo.userId },
-      });
-
-=======
       const resp = await coursesApi.getCourse(course_id, userInfo.userId);
->>>>>>> develop:frontend/src/pages/lectures/LectureMainPageDetail.jsx
       // 삭제된 게시글에 url로 접근하려고하면 팅겨 내버립니다
       if (resp.data.status === 500) {
         navigate('../');
