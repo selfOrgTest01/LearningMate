@@ -26,6 +26,7 @@ function LectureCommentInput() {
             commentList: result.data.data,
           }),
         );
+        console.log(result.data.data);
         setValue('comment', ''); // 입력창 초기화
       } catch (error) {
         console.log(error);

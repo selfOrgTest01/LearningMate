@@ -22,10 +22,7 @@ export const clearData = () => ({ type: REVIEW_CLEAR_DATA });
 
 // 초기 상태 정의 initialState
 const init = {
-  review: {
-    content: '',
-    meet_id: '',
-  },
+  review: [],
 };
 
 // reducer 정의

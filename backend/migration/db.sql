@@ -355,8 +355,6 @@ CREATE TABLE meet_participants (
     participant_id INT NOT NULL AUTO_INCREMENT,
     meet_id INT,
     user_id INT,
-    manager BOOLEAN NOT NULL DEFAULT 0,
-    status BOOLEAN NOT NULL DEFAULT 0,
     -- 참여 여부
     CONSTRAINT meet_participants_participant_id_pk PRIMARY KEY(participant_id),
     CONSTRAINT meet_participants_meet_id_fk FOREIGN KEY(meet_id) REFERENCES meets(meet_id),

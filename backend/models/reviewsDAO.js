@@ -9,7 +9,7 @@ const sql = {
   review: `SELECT r.review_id, m.meet_id, u.nickname, r.content
            FROM meet_reviews r INNER JOIN users u ON r.user_id = u.user_id INNER JOIN meets m ON r.meet_id = m.meet_id
            WHERE m.meet_id = ? AND r.review_id = ?;`, // 특정 미팅 상세조회
-  insert: 'INSERT INTO meet_reviews (content, meet_id, user_id) VALUES(?, ?, ?)',
+  insert: 'INSERT INTO meet_reviews(meet_id, content, user_id) VALUES(?, ?, ?)',
   delete: 'DELETE FROM meet_reviews WHERE review_id = ? AND user_id = ?',
   totalCount: 'SELECT COUNT(*) as cnt FROM meet_reviews', // 총 리뷰 개수 필요..?
 };
@@ -47,9 +47,9 @@ const reviewsDAO = {
     }
   },
 
-  insert: async (item) => {
+  insert: async (meet_id, item) => {
     try {
-      const resp = await db.query(sql.insert, [item.content, item.meet_id, item.user_id]);
+      const resp = await db.query(sql.insert, [Number(meet_id), item.content, item.user_id]);
 
       return {status: 200, message: '리뷰 생성 성공', data: resp};
     } catch (err) {

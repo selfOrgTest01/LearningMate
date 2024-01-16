@@ -5,7 +5,7 @@ const router = express.Router();
 const reviewsController = require('../controllers/reviews');
 
 // 리뷰 생성
-router.post('/insert/:meet_id', reviewsController.reviewInsert);
+router.post('/insert', reviewsController.reviewInsert);
 // 리뷰 삭제
 router.delete('/delete/:review_id/:user_id', reviewsController.reviewDelete);
 // _번 게시물에 대한 리뷰 전체 조회

@@ -6,8 +6,7 @@ const radius = 2;
 const sql = {
   meetList: `SELECT m.meet_id, title, content, onoff, category, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
-             ORDER BY m.meet_id DESC
-             LIMIT ?, ?`, // 미팅번호로 내림차순 (GROUP BY m.meet_id 해야하나?),
+             ORDER BY m.meet_id DESC`, // 미팅번호로 내림차순 (GROUP BY m.meet_id 해야하나?),
   meetListNoLimit: `SELECT u.nickname, m.meet_id, title, content, onoff,  image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt,latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
              ORDER BY m.meet_id DESC`,
