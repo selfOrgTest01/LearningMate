@@ -78,6 +78,30 @@ const ChannelList = (props) => {
     }
   };
 
+  const fetchAndUpdateChannelList = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/chat/channels/${meetId}`);
+      const { data } = response.data;
+
+      setChatRoomInfo(data);
+    } catch (error) {
+      console.error('Error fetching and updating channel list:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchChannelList(); // 최초 렌더링 시에 채널 목록 가져오기
+  }, [meetId]);
+
+  useEffect(() => {
+    // 풀링 주기 설정 (예: 10초마다 채널 목록 갱신)
+    const pollingInterval = setInterval(() => {
+      fetchAndUpdateChannelList();
+    }, 1000); // 10초
+
+    return () => clearInterval(pollingInterval);
+  }, [meetId]);
+
   const handleChannelClick = useCallback(
     async (channel) => {
       try {

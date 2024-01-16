@@ -13,25 +13,21 @@ import { Button, Input, Label } from './style2';
 import ChatBox from './ChatBox/index';
 import { userInfoAction } from '../../store/userInfo';
 import makeSection from './utils/makeSection';
-import ChatList from './ChatList/index';
+import MyCalendar from './components/Calendar';
 
 import {
   AddButton,
+  ProfileImg,
+  ProfileModal,
+  RightMenu,
+  LogOutButton,
+  WorkspaceWrapper,
   Channels,
+  MenuScroll,
   Chats,
   ChannelTitleBox,
   ChannelTitle,
   Header,
-  LogOutButton,
-  MenuScroll,
-  ProfileImg,
-  ProfileModal,
-  RightMenu,
-  WorkspaceButton,
-  WorkspaceModal,
-  WorkspaceName,
-  Workspaces,
-  WorkspaceWrapper,
 } from './style1';
 
 const ChatRoom = () => {
@@ -39,22 +35,17 @@ const ChatRoom = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Redux에서 사용자 정보 가져오기
   const userinfo = useSelector((state) => state.userInfo);
   const [roomData, setRoomData] = useState([]);
-  const [chatValue, onChangeChat, setChatValue] = useInput('');
-  const [selectedChannel, setSelectedChannel] = useState(null);
-  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
-  const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [targetElement, setTargetElement] = useState(null);
+  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const getUserData = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:8000/users/list`, { withCredentials: true });
-      console.log('Response from getUserData:', response.data.data);
-
-      // 서버에서 받아온 데이터 중에서 현재 로그인한 사용자의 정보를 찾아서 Redux의 userInfo에 저장
       const loggedInUser = response.data.data.find((user) => user.user_id === userinfo.userId);
 
       if (loggedInUser) {
@@ -102,7 +93,7 @@ const ChatRoom = () => {
   useEffect(() => {
     const pollingInterval = setInterval(() => {
       getChatData();
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(pollingInterval);
   }, [channelId, meetId, getChatData]);
@@ -131,6 +122,20 @@ const ChatRoom = () => {
   }, []);
 
   const groupedRoomData = makeSection(roomData);
+
+  const navigateToChatForDate = (clickedDate) => {
+    navigate(`/chat/chatRoom/${meetId}/channels/${channelId}`);
+  };
+
+  const handleDateClick = () => {
+    setIsCalendarOpen(true);
+    // setTargetElement(/* specify the target element for positioning the calendar */);
+  };
+
+  const handleSmallCalendarChange = (newDate) => {
+    setIsCalendarOpen(false);
+    navigateToChatForDate(newDate);
+  };
 
   return (
     <>
@@ -207,9 +212,17 @@ const ChatRoom = () => {
                     margin: '0 auto',
                     width: '20%',
                   }}
+                  onClick={handleDateClick} // 날짜를 클릭하면 달력을 열도록 이벤트 핸들러 추가
                 >
                   {date}
                 </h3>
+                <MyCalendar
+                  isCalendarOpen={isCalendarOpen}
+                  targetElement={targetElement}
+                  onChange={handleSmallCalendarChange}
+                  onClose={() => setIsCalendarOpen(false)}
+                />
+
                 {chats.map((data, idx) => {
                   const sentTime = new Date(data.sentTime);
 
