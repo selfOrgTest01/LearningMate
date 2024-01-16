@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 import React, { useEffect, useRef, useState } from 'react';
 import autosize from 'autosize';
 import { ChatArea, Form, SendButton, Toolbox } from './style';
-import { post, get } from '../../utils/fetcher';
-import useInput from '../../hooks/useInput';
+import { post, get } from '../utils/fetcher';
+import useInput from '../hooks/useInput';
 
 const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) => {
   const { meetId, channelId } = useParams();
@@ -37,7 +37,10 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
       if (!e.shiftKey) {
         e.preventDefault();
 
-        const senderUserId = userData && userData.nickname ? userData.nickname : 45; // 임의로 45로 해놓았는데 로그인한 사람으로 바꿔야함
+        const senderUserId = userData.userId;
+        const senderNickname = userData.nickname;
+        const senderProfile = userData.profilePath;
+        console.log(senderProfile);
 
         try {
           console.log('Sending data to the server:', {
@@ -48,6 +51,8 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
           await post(`http://localhost:8000/chat/sendMessage/${meetId}/${channelId}`, {
             content: chatValue,
             senderUserId,
+            senderNickname,
+            senderProfile,
           });
 
           // 수정된 부분: 채팅 전송 후 메시지 창 비우기
@@ -81,7 +86,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
               lineHeight: '22px',
             }}
           />
-          <SendButton
+          {/* <SendButton
             className={`c-button-unstyled c-icon_button c-icon_button--light c-icon_button--size_medium c-texty_input__button c-texty_input__button--send${
               chatValue?.trim() ? '' : ' c-texty_input__button--disabled'
             }`}
@@ -92,7 +97,7 @@ const ChatBox = ({ onSubmitForm, chat, onChangeChat, placeholder, userData }) =>
             disabled={!chatValue?.trim()}
           >
             <i className='c-icon c-icon--paperplane-filled' aria-hidden='true' />
-          </SendButton>
+          </SendButton> */}
         </Toolbox>
       </Form>
     </ChatArea>

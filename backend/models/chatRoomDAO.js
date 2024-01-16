@@ -40,6 +40,10 @@ WHERE
   sendMessage: `
     INSERT INTO chat_history (channel_id, content, sender_user_id, sent_time)
     VALUES (?, ?, ?, NOW())`,
+
+  createChannel: `
+  INSERT INTO chat_room (meet_id, description) VALUES (?, ?)
+  `,
 };
 
 const chatRoomDAO = {
@@ -122,6 +126,29 @@ const chatRoomDAO = {
       fn_callback({
         status: 500,
         message: '채팅 메시지 전송 실패',
+        error: error.message,
+      });
+    }
+  },
+
+  createChannel: async function (meetId, description, fn_callback) {
+    try {
+      const result = await database.query(sql.createChannel, [meetId, description]);
+      const channelId = result[0].insertId; // 수정된 부분
+      console.log(channelId);
+      console.log(description);
+
+      const response = {
+        status: 200,
+        message: '채널 추가 성공',
+        channel: {channel_id: channelId, description: description},
+      };
+
+      fn_callback(response);
+    } catch (error) {
+      fn_callback({
+        status: 500,
+        message: '채널 추가 실패',
         error: error.message,
       });
     }

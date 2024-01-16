@@ -142,9 +142,23 @@ const sendMessage = async (req, res) => {
   }
 };
 
+const createChannel = (req, res) => {
+  const {meetId} = req.params;
+  const {description} = req.body;
+
+  chatRoomDAO.createChannel(meetId, description, (result) => {
+    res.status(result.status).json({
+      message: result.message,
+      data: result.channel,
+      error: result.error,
+    });
+  });
+};
+
 module.exports = {
   getChatRoomInfo,
   getChannelChatRoomData,
   getChannelList,
   sendMessage,
+  createChannel,
 };

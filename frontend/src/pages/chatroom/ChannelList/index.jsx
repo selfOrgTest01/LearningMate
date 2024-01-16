@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-import CollapseButton from '../DMList/style';
+import { localDomain } from '../../../config/config';
+import CollapseButton from './sytle2';
 import CreateChannelModal from '../CreateChannelModal/index';
 
 const ChannelList = (props) => {
@@ -17,7 +18,7 @@ const ChannelList = (props) => {
 
   const getRoomData = useCallback(async () => {
     try {
-      const resp = await axios.get(`http://localhost:8000/chat/chatRoom/${meetId}`);
+      const resp = await axios.get(`${localDomain}/chat/chatRoom/${meetId}`);
       console.log('aaa', resp.data.data.initialRoom);
       setRoomData(resp.data.data.initialRoom);
     } catch (error) {
@@ -66,7 +67,7 @@ const ChannelList = (props) => {
 
   const fetchChannelList = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/chat/channels/${meetId}`);
+      const response = await fetch(`${localDomain}/chat/channels/${meetId}`);
       const data = await response.json();
       if (response.ok) {
         setChatRoomInfo(data.data);
@@ -78,12 +79,34 @@ const ChannelList = (props) => {
     }
   };
 
+  const fetchAndUpdateChannelList = async () => {
+    try {
+      const response = await axios.get(`${localDomain}/chat/channels/${meetId}`);
+      const { data } = response.data;
+
+      setChatRoomInfo(data);
+    } catch (error) {
+      console.error('Error fetching and updating channel list:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchChannelList(); // 최초 렌더링 시에 채널 목록 가져오기
+  }, [meetId]);
+
+  useEffect(() => {
+    // 풀링 주기 설정 (예: 10초마다 채널 목록 갱신)
+    const pollingInterval = setInterval(() => {
+      fetchAndUpdateChannelList();
+    }, 1000); // 10초
+
+    return () => clearInterval(pollingInterval);
+  }, [meetId]);
+
   const handleChannelClick = useCallback(
     async (channel) => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/chat/chatRoom/${meetId}/channels/${channel.channel_id}}`,
-        );
+        const response = await axios.get(`${localDomain}/chat/chatRoom/${meetId}/channels/${channel.channel_id}}`);
         const chatRoomData = response.data.data.channelRoom;
         console.log('ddddd', chatRoomData);
         setRoomData(chatRoomData);
@@ -109,20 +132,7 @@ const ChannelList = (props) => {
             aria-hidden='true'
           />
         </CollapseButton>
-        <span>Channels</span>
-        <button
-          onClick={openCreateChannelModal}
-          style={{
-            border: 'none',
-            borderRadius: '1px',
-            padding: '2px 8px',
-            background: 'transparent', // 배경을 투명하게
-            color: '#fff',
-            cursor: 'pointer',
-          }}
-        >
-          +
-        </button>
+        <span style={{ fontSize: '20px', fontWeight: 'bold' }}>Channels</span>
       </h2>
       <div>
         {!channelCollapse &&
@@ -145,18 +155,51 @@ const ChannelList = (props) => {
               </React.Fragment>
             );
           })}
-
-        <CreateChannelModal
-          show={showCreateChannelModal}
-          onCloseModal={closeCreateChannelModal}
-          onChannelCreated={(newChannel) => {
-            // Handle the creation of the new channel, if needed
-            // For example, you can update the channel list or perform other actions
-            console.log('New Channel Created:', newChannel);
-            closeCreateChannelModal();
-          }}
-        />
       </div>
+
+      <button
+        onClick={openCreateChannelModal}
+        style={{
+          width: '200px',
+          margin: '0 auto',
+          border: 'none',
+          borderRadius: '5px',
+          padding: '2px 8px',
+          background: 'transparent',
+          color: '#fff',
+          cursor: 'pointer',
+          display: 'block',
+          transition: 'background-color 0.3s',
+          // fontSize: '14px',
+        }}
+        onMouseOver={(e) => {
+          e.target.style.backgroundColor = 'rgba(143, 125, 125, 0.2)';
+          e.target.style.borderRadius = '5px';
+        }}
+        onMouseOut={(e) => {
+          e.target.style.backgroundColor = 'transparent';
+        }}
+      >
+        + 채널추가
+      </button>
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={closeCreateChannelModal}
+        onChannelCreated={(newChannel) => {
+          console.log('New Channel Created:', newChannel);
+
+          // 서버 응답에서 직접 값을 추출
+          const { channel_id, description } = newChannel || {};
+
+          console.log('Channel Info from Server:', { channel_id, description });
+
+          // 서버 응답에서 직접 값을 추출하여 UI 업데이트 등을 진행
+          // 예를 들어, channel_id 및 description 등을 활용
+          // UI 업데이트 등을 진행
+          closeCreateChannelModal();
+        }}
+        meetId={meetId}
+      />
     </>
   );
 };
