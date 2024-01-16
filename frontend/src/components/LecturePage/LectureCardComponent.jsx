@@ -9,7 +9,7 @@ function LectureCardComponent({ item }) {
       <>
         <Card
           className='col-lg-3 col-md-6 mb-4 my-4'
-          onClick={() => navigate(`./detail/${item.course_id}`)}
+          onClick={() => navigate(`/courses/detail/${item.course_id}`)}
           style={{ cursor: 'pointer' }}
         >
           <Card.Img variant='top' src={item.attach_image_path} style={{ maxWidth: '100%', height: '200px' }} />

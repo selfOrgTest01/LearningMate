@@ -155,7 +155,6 @@ const meetsDAO = {
   myMeetList: async (user_id) => {
     try {
       const [rows, fields] = await db.query(sql.myMeetList, [user_id]);
-      console.log('myMeetList query result:', rows); // 디버깅용 로그
       return { status: 200, data: rows };
     } catch (error) {
       console.error('내 모임 불러오기 중 에러 발생:', error);

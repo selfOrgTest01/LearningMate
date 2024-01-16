@@ -108,7 +108,6 @@ exports.myMeetList = async (req, res) => {
   const { user_id } = req.params;
   try {
     const resp = await meetsDAO.myMeetList(user_id);
-    console.log('myMeetList response:', resp); // 디버깅용 로그
     res.status(resp.status).send(resp);
   } catch (error) {
     console.error(error);
