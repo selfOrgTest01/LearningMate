@@ -7,7 +7,7 @@ const sql = {
   participantList: `SELECT p.participant_id, m.meet_id, u.nickname, p.status, m.manager
                      FROM meet_participants p INNER JOIN users u ON p.user_id = u.user_id INNER JOIN meets m ON p.meet_id = m.meet_id
                      WHERE p.meet_id = ?`, // 참가자 목록
-  insert: 'INSERT INTO meet_participants(meet_id, user_id) VALUES(?, ?)',
+  insert: 'INSERT INTO meet_participants(meet_id, user_id, manager, status) VALUES(?, ?, ?, ?)',
   update: 'UPDATE meet_participants SET status = 1 WHERE participant_id = ?', // 참가 허락되면 status(권한)이 1
   delete: 'DELETE FROM meet_participants WHERE meet_id = ? AND participant_id = ?', // 삭제를 하려는 사람의 meet_id, participant_id를 가져오기
   // -> 프론트에서 manager가 1인 사람에게만 삭제 버튼이 보여지게 만들기
@@ -17,8 +17,6 @@ const sql = {
     'FROM meet_participants mp ' +
     'WHERE mp.meet_id = ?',
 };
-
-
 
 const participantsDAO = {
   participantList: async (meet_id, callback) => {
@@ -37,14 +35,18 @@ const participantsDAO = {
     }
   },
 
-  insert: async (item, callback) => {
-    // 데이터 들어갔는지 확인 완료!
+  insert: async (meet_id, item) => {
     try {
-      const resp = await db.query(sql.insert, [item.meet_id, item.user_id, item.status]);
-      callback({status: 200, message: '참가자 추가 성공', data: resp});
+      const manager = item.manager || 0;
+      const status = item.status || 1;
+
+      // 참가자를 그냥 추가하고, status는 클라이언트에서 결정하도록 함
+      const resp = await db.query(sql.insert, [meet_id, item.user_id, manager, status]);
+
+      return {status: 200, message: '참가자 추가 성공', data: resp};
     } catch (error) {
       console.error(error);
-      callback({status: 500, message: '참가자 추가 실패', error: error});
+      throw {status: 500, message: '참가자 추가 실패', error: error};
     }
   },
 
@@ -127,12 +129,29 @@ const participantsDAO = {
       }
 
       const chatRoomInfo = await chatRoomDAO.getChatRoomInfo(meet_id);
-      callback({ status: 200, message: '채팅방으로 이동 성공', data: chatRoomInfo });
+      callback({status: 200, message: '채팅방으로 이동 성공', data: chatRoomInfo});
     } catch (error) {
       console.error(error);
       const status = error.statusCode || 500;
       const message = error.message || '채팅방으로 이동 실패';
-      callback({ status, message, error: error.toString() });
+      callback({status, message, error: error.toString()});
+    }
+  },
+
+  checkJoinStatus: async (meet_id, user_id) => {
+    try {
+      const [rows] = await db.query(
+        'SELECT COUNT(*) AS count FROM meet_participants WHERE meet_id = ? AND user_id = ?',
+        [meet_id, user_id]
+      );
+
+      // COUNT(*)이 1이면 참가한 상태, 0이면 참가하지 않은 상태로 간주합니다.
+      const joinStatus = rows[0].count === 1;
+
+      return joinStatus;
+    } catch (error) {
+      console.error('참가 여부 확인 중 에러:', error);
+      throw error;
     }
   },
 };

@@ -35,6 +35,7 @@ exports.courseInsert = async (req, res) => {
 
 exports.courseUpdate = async (req, res) => {
   const courseData = JSON.parse(req.body.data);
+  console.log(courseData);
   const videoPath = req.files['lectureVideo'][0]
     ? `${videoUploadPath}/${req.files['lectureVideo'][0].filename}`
     : '';
@@ -112,5 +113,16 @@ exports.search = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.myCourseList = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const resp = await coursesDAO.myCourseList(user_id);
+    res.status(resp.status).send(resp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ status: 500, message: '내 강의 조회 실패', error: error.message });
   }
 };
