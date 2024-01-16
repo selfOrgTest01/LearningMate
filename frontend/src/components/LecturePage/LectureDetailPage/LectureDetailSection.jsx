@@ -11,7 +11,7 @@ function LectureDetailSection({ lectureInfo }) {
   const { content } = lectureDetail;
   const [isBookmarked, setIsBookmarked] = useState(0);
 
-  const addBookmark = async () => {
+  const toggleBookmark = async () => {
     try {
       if (!isBookmarked) {
         await bookmarksApi.insertBookmark(user_id, course_id);
@@ -29,7 +29,6 @@ function LectureDetailSection({ lectureInfo }) {
     try {
       const response = await bookmarksApi.getBookmarkByUserId(user_id);
       const bookMarkedCourseList = response.data[0];
-      console.log(response.data[0]);
       console.log(bookMarkedCourseList.filter((item) => item.course_id === Number(course_id)).length);
       setIsBookmarked(bookMarkedCourseList.filter((item) => item.course_id === Number(course_id)).length);
     } catch (error) {
@@ -40,9 +39,6 @@ function LectureDetailSection({ lectureInfo }) {
   useEffect(() => {
     getBookmarkByUserId();
   }, [getBookmarkByUserId]);
-  useEffect(() => {
-    console.log(isBookmarked);
-  }, [isBookmarked]);
   return (
     <>
       <Container>
@@ -53,7 +49,7 @@ function LectureDetailSection({ lectureInfo }) {
         {user_id !== 0 && (
           <button
             type='button'
-            onClick={addBookmark}
+            onClick={toggleBookmark}
             style={{ background: 'none', border: 'none', fontSize: '28px', color: 'lightcoral' }}
           >
             {!isBookmarked ? (
