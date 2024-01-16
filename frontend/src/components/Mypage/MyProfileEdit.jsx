@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function MyInfoEdit({ initialData, onSave, onCancel }) {
+function MyProfileEdit({ initialData, onSave, onCancel }) {
   const [editedData, setEditedData] = useState(initialData);
   const navigate = useNavigate();
 
@@ -15,13 +15,9 @@ function MyInfoEdit({ initialData, onSave, onCancel }) {
     }));
   };
 
-  const handleSave = async () => {
-    try {
-      await axios.post('/api/updateUserInfo', editedData);
-      onSave(editedData);
-    } catch (error) {
-      console.error('데이터 업데이트 중 에러 발생:', error);
-    }
+  const handleSave = () => {
+    navigate('/my-info');
+    onSave(editedData);
   };
 
   const handleCancel = () => {
@@ -57,4 +53,4 @@ function MyInfoEdit({ initialData, onSave, onCancel }) {
   );
 }
 
-export default MyInfoEdit;
+export default MyProfileEdit;

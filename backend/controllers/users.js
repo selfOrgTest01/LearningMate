@@ -42,6 +42,29 @@ exports.userInfo = async (req, res) => {
   }
 };
 
+exports.getUserProfile = async (req, res) => {
+  const {user_id} = req.params;
+  try {
+    const resp = await usersDao.getUserProfile(user_id);
+    res.status(resp.status).send(resp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({status: 500, message: '유저 프로필 조회 실패', error: error.message});
+  }
+};
+
+exports.updateUserProfile = async (req, res) => {
+  const {user_id} = req.params;
+  const {nickname, phone_number, email} = req.body;
+  try {
+    const resp = await usersDao.updateUserProfile(user_id, nickname, phone_number, email);
+    res.status(resp.status).send(resp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({status: 500, message: '유저 프로필 수정 실패', error: error.message});
+  }
+};
+
 exports.logout = async (req, res) => {
   try {
     // req.session.destroy();
@@ -63,14 +86,19 @@ exports.userList = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
-  const {id} = req.params;
+exports.delete = async (req, res) => {
+  const {user_id} = req.params;
+  const userData = req.body;
   try {
-    await usersDao.delete(id, (resp) => {
+    await usersDao.delete(user_id, userData, (resp) => {
+      if (resp.status === 200) {
+        req.session.userId = resp.sessionData;
+      }
       res.send(resp);
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send({status: 500, message: '서버 오류'});
   }
 };
 //회원가입 중복검사

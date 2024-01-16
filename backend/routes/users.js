@@ -42,11 +42,15 @@ router.post('/image/:id', uploadFile.single('image'), usersController.image);
 router.get('/imagetest/:id', usersController.imagetest);
 //마이리스트
 router.get('/userinfo/:id', usersController.userInfo);
+//회원 프로필 불러오기
+router.get('/getuserprofile/:user_id', usersController.getUserProfile);
+//회원 프로필 수정하기
+router.patch('/updateuserprofile/:user_id', usersController.updateUserProfile);
 //회원리스트
 router.get('/list', usersController.userList);
 //중복검사용 회원정보 검색
 router.get('/check', usersController.check);
 //회원삭제
-router.delete('/delete/:id', usersController.deleteUser);
+router.delete('/delete/:user_id', usersController.delete);
 
 module.exports = router;

@@ -1,4 +1,4 @@
--- Active: 1703035126470@@34.64.245.68@3306@learningmate
+-- Active: 1703034958535@@34.64.245.68@3306@learningmate
 DROP TABLE courses;
 
 -- 강의 테이블 생성
@@ -171,7 +171,25 @@ ADD
     CONSTRAINT course_comments_course_id_fk FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DELETE FROM
-    courses;
+    bookmark;
+
+SELECT * FROM bookmark;
+
+ALTER TABLE bookmark
+DROP COLUMN status;
+
+ALTER TABLE bookmark
+DROP FOREIGN KEY user_id;
+
+DROP TABLE bookmark;
+
+CREATE TABLE bookmark (
+    bookmark INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    course_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE
+);
 
 ----------------- 민경 -----------------
 -------- meet table ------
@@ -514,3 +532,23 @@ DELETE FROM
 WHERE
     review_id = 1
     AND user_id = 17;
+
+-- 나현
+-- 마이페이지 달력 일정 테이블 생성
+CREATE TABLE events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  title VARCHAR(255),
+  start DATE,
+  end DATE,
+  memo VARCHAR(1024),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+INSERT INTO events (user_id, title, start, end, memo) VALUES (70, '테스트일정', '2024-01-15', '2024-01-16', '테스트이벤트에 대한 메모');
+SELECT * FROM events WHERE user_id = 70;
+ALTER TABLE events
+DROP FOREIGN KEY events_ibfk_1;
+ALTER TABLE events
+ADD FOREIGN KEY (user_id)
+REFERENCES users(user_id)
+ON DELETE CASCADE;
