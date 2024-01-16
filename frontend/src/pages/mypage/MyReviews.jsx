@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Mypage/Sidebar';
 import '../../components/Mypage/styles/Title.css';
-import ReviewList from '../../components/Mypage/ReviewList';
+import CourseReviewList from '../../components/Mypage/CourseReviewList';
 
 function MyReviews() {
+  const userInfo = useSelector((state) => state.userInfo);
   return (
     <div>
       <Container fluid>
@@ -14,7 +16,11 @@ function MyReviews() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
-            <ReviewList />
+            <h3>
+              {userInfo.nickname}
+              님이 작성한 리뷰 목록
+            </h3>
+            <CourseReviewList />
           </Col>
         </Row>
       </Container>

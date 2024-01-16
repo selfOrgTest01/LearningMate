@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import UserId from '../../components/Mypage/UserId';
+import { useSelector } from 'react-redux';
 import UserProfile from '../../components/Mypage/UserProfile';
 import Sidebar from '../../components/Mypage/Sidebar';
 import '../../components/Mypage/styles/Title.css';
 
 function MyInfo() {
+  const userInfo = useSelector((state) => state.userInfo);
   return (
     <div>
       <Container fluid>
@@ -15,7 +16,10 @@ function MyInfo() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
-            <UserId />
+            <h3>
+              {userInfo.nickname}
+              님의 소중한 정보
+            </h3>
             <UserProfile />
           </Col>
         </Row>

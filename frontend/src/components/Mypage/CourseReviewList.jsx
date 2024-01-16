@@ -5,7 +5,7 @@ import axios from 'axios';
 import { commentAction } from '../../store/comment';
 import { localDomain } from '../../config/config';
 
-const ReviewList = () => {
+const CourseReviewList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.userInfo);
@@ -41,7 +41,7 @@ const ReviewList = () => {
       ) : (
         <ul>
           {commentList.map((review) => (
-            <li key={review.review_id} onClick={() => handleReviewClick(review.course_id)}>
+            <li key={review.comment_id} onClick={() => handleReviewClick(review.course_id)}>
               {review.content}
             </li>
           ))}
@@ -51,4 +51,4 @@ const ReviewList = () => {
   );
 };
 
-export default ReviewList;
+export default CourseReviewList;

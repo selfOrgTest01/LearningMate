@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Mypage/Sidebar';
 import '../../components/Mypage/styles/Title.css';
 import UserLikeCourses from '../../components/Mypage/UserLikeCourses';
 
 function LikeCourses() {
+  const userInfo = useSelector((state) => state.userInfo);
   return (
     <div>
       <Container fluid>
@@ -14,6 +16,10 @@ function LikeCourses() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
+            <h3>
+              {userInfo.nickname}
+              님이 구독한 강의 목록
+            </h3>
             <UserLikeCourses />
           </Col>
         </Row>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Mypage/Sidebar';
 import '../../components/Mypage/styles/Title.css';
 import UserCreatedMeets from '../../components/Mypage/UserCreatedMeets';
 
 function MyMeets() {
+  const userInfo = useSelector((state) => state.userInfo);
   return (
     <div>
       <Container fluid>
@@ -14,6 +16,10 @@ function MyMeets() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
+            <h3>
+              {userInfo.nickname}
+              님이 만든 모임 목록
+            </h3>
             <UserCreatedMeets />
           </Col>
         </Row>
