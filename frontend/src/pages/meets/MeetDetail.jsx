@@ -81,7 +81,7 @@ function MeetDetail() {
       window.alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
       navigate('/sign-in');
     } else {
-      // 로그인된 경우 참여 로직 실행
+      navigate(`/chat/chatRoom/${meet_id}`);
     }
   };
 

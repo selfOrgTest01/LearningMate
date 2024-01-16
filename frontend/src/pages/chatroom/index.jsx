@@ -5,11 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
+import { localDomain } from '../../config/config';
 import ChannelList from './ChannelList/index';
 import Menu from '../../components/Menu/index';
-import useInput from './hooks/useInput';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button, Input, Label } from './style2';
 import ChatBox from './ChatBox/index';
 import { userInfoAction } from '../../store/userInfo';
 import makeSection from './utils/makeSection';
@@ -34,7 +33,6 @@ const ChatRoom = () => {
   const { meetId, channelId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const userinfo = useSelector((state) => state.userInfo);
   const [roomData, setRoomData] = useState([]);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -43,9 +41,18 @@ const ChatRoom = () => {
   const [targetElement, setTargetElement] = useState(null);
   const [selectedChannel, setSelectedChannel] = useState(null);
 
+  const InitialChatRoomScreen = () => {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '120px' }}>
+        <h2>Welcome to the Chat Room!</h2>
+        <p>Select a channel on the left to start chatting.</p>
+      </div>
+    );
+  };
+
   const getUserData = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/users/list`, { withCredentials: true });
+      const response = await axios.get(`${localDomain}/users/list`, { withCredentials: true });
       const loggedInUser = response.data.data.find((user) => user.user_id === userinfo.userId);
 
       if (loggedInUser) {
@@ -69,9 +76,7 @@ const ChatRoom = () => {
   const onChannelClick = useCallback(
     async (channel) => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/chat/chatRoom/${meetId}/channels/${channel.channel_id}`,
-        );
+        const response = await axios.get(`${localDomain}/chat/chatRoom/${meetId}/channels/${channel.channel_id}`);
         setRoomData(response.data.data.channelChatRoomData);
         setSelectedChannel(channel);
       } catch (error) {
@@ -84,7 +89,7 @@ const ChatRoom = () => {
   const getChatData = useCallback(async () => {
     try {
       if (channelId !== null) {
-        const response = await axios.get(`http://localhost:8000/chat/chatRoom/${meetId}/channels/${channelId}`);
+        const response = await axios.get(`${localDomain}/chat/chatRoom/${meetId}/channels/${channelId}`);
         setRoomData(response.data.data.channelChatRoomData);
       }
     } catch (error) {
@@ -111,7 +116,7 @@ const ChatRoom = () => {
 
   const onLogOut = useCallback(async () => {
     try {
-      await axios.get(`http://localhost:8000/users/logout`);
+      await axios.get(`${localDomain}/users/logout`);
       navigate('/');
     } catch (error) {
       console.dir(error);
@@ -129,9 +134,11 @@ const ChatRoom = () => {
     navigate(`/chat/chatRoom/${meetId}/channels/${channelId}`);
   };
 
-  const handleDateClick = () => {
+  const handleDateClick = (event, clickedDate) => {
+    setTargetElement(event.currentTarget); // 클릭된 태그를 targetElement로 설정
     setIsCalendarOpen(true);
-    // setTargetElement(/* specify the target element for positioning the calendar */);
+
+    navigateToChatForDate(clickedDate);
   };
 
   const handleSmallCalendarChange = (newDate) => {
@@ -175,7 +182,7 @@ const ChatRoom = () => {
                   />
                   <div>
                     <span id='profile-name'>{userinfo.nickname}</span>
-                    <span id='profile-active'>Active</span>
+                    <span id='profile-name'>{userinfo.email}</span>
                   </div>
                 </ProfileModal>
                 <LogOutButton onClick={onLogOut}>나가기</LogOutButton>
@@ -194,9 +201,11 @@ const ChatRoom = () => {
 
         <Chats>
           <MenuScroll>
-            <ChannelTitleBox>
-              <ChannelTitle>#{selectedChannel?.channel_description}</ChannelTitle>
-            </ChannelTitleBox>
+            {selectedChannel && (
+              <ChannelTitleBox>
+                <ChannelTitle>#{selectedChannel?.channel_description}</ChannelTitle>
+              </ChannelTitleBox>
+            )}
 
             {Object.entries(groupedRoomData).map(([date, chats]) => (
               <div key={date} style={{ marginBottom: '30px' }}>
@@ -214,7 +223,7 @@ const ChatRoom = () => {
                     margin: '0 auto',
                     width: '20%',
                   }}
-                  onClick={handleDateClick} // 날짜를 클릭하면 달력을 열도록 이벤트 핸들러 추가
+                  onClick={handleDateClick}
                 >
                   {date}
                 </h3>
@@ -268,7 +277,8 @@ const ChatRoom = () => {
                 })}
               </div>
             ))}
-            <ChatBox onSubmitForm={onSubmitForm} userData={userinfo} />
+            {selectedChannel && <ChatBox onSubmitForm={onSubmitForm} userData={userinfo} />}
+            {!selectedChannel && <InitialChatRoomScreen />}
           </MenuScroll>
         </Chats>
       </WorkspaceWrapper>

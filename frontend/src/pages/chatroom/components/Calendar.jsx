@@ -41,7 +41,7 @@ const StyledCalendar = styled(Calendar)`
   margin: 0 auto;
 `;
 
-const MyCalendar = ({ isCalendarOpen, targetElement, onChange, onClose }) => {
+const MyCalendar = ({ isCalendarOpen, targetElement, onChange, onClose, onDateClick }) => {
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const calendarRef = useRef(null);
 
@@ -58,6 +58,7 @@ const MyCalendar = ({ isCalendarOpen, targetElement, onChange, onClose }) => {
     const handleDateClick = (date) => {
       onChange(date);
       onClose();
+      onDateClick(date);
     };
 
     if (isCalendarOpen) {

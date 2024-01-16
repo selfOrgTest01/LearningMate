@@ -1,11 +1,9 @@
 import axios from 'axios';
 import React, { useCallback } from 'react';
-import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import Modal from '../../../components/Modal/index';
 import useInput from '../hooks/useInput';
 import { Button, Input, Label } from './style';
-import fetcher from '../utils/fetcher';
 
 const CreateChannelModal = ({ show, onCloseModal, onChannelCreated, meetId }) => {
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
