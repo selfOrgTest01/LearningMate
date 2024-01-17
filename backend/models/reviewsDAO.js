@@ -10,6 +10,7 @@ const sql = {
   insert: 'INSERT INTO meet_reviews(meet_id, content, user_id) VALUES(?, ?, ?)',
   delete: 'DELETE FROM meet_reviews WHERE review_id = ?',
   totalCount: 'SELECT COUNT(*) as cnt FROM meet_reviews',
+  myReviewList: `SELECT * FROM meet_reviews WHERE user_id = ?`,
 };
 
 const reviewsDAO = {
@@ -65,6 +66,16 @@ const reviewsDAO = {
     } catch (error) {
       console.error(error);
       callback({status: 500, message: '리뷰 삭제 실패', error: error});
+    }
+  },
+
+  myReviewList: async (user_id) => {
+    try {
+      const [rows, fields] = await db.query(sql.myReviewList, [user_id]);
+      return { status: 200, data: rows };
+    } catch (error) {
+      console.error('내 리뷰 불러오기 중 에러 발생:', error);
+      return { status: 500, message: '내 리뷰 불러오기 실패', error: error.message };
     }
   },
 };
