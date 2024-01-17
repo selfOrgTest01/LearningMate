@@ -11,6 +11,7 @@ const testRouter = require('./routes/test');
 const meetRouter = require('./routes/meets');
 const participantRouter = require('./routes/participants');
 const reviewRouter = require('./routes/reviews');
+const likebuttonRouter = require('./routes/likebutton');
 const app = express();
 const session = require('express-session');
 const courseRouter = require('./routes/courses'); // 나현 추가
@@ -25,14 +26,14 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 //origin: 클라이언트의 주소 , 다른 포트로 쿠키를 보낼때는 cors 옵션에  credentials: true 추가해야함
 app.use(
   cors({
     origin: ['http://localhost:3001', 'http://localhost:3000'],
     credentials: true,
-  }),
+  })
 );
 
 //라우터
@@ -43,6 +44,7 @@ app.use(testRouter);
 app.use('/meets', meetRouter); // 민경 추가
 app.use('/participants', participantRouter); // 민경 추가
 app.use('/reviews', reviewRouter); // 민경 추가
+app.use('/likebutton', likebuttonRouter); // 민경 추가
 
 app.use('/courses', courseRouter); // 나현 추가
 app.use('/comments', commentRouter); // 나현 추가
