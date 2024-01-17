@@ -19,7 +19,7 @@ function MyReviews() {
           <Col xs={10} id='content'>
             <h3>
               {userInfo.nickname}
-              님이 작성한 리뷰 목록
+              님이 작성한 댓글 & 리뷰 목록
             </h3>
             <CourseReviewList />
             <MeetReviewList />
