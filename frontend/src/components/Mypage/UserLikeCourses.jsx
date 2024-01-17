@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { Col, Container, Row } from 'react-bootstrap';
 import { lectureAction } from '../../store/lecture';
 import bookmarksApi from '../../services/bookmarks';
-import coursesApi from '../../services/courses';
 import LectureListContainer from '../LecturePage/LectureListContainer';
 
 function UserLikeCourses() {
