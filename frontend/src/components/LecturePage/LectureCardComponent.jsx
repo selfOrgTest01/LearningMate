@@ -2,10 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router';
 import gravatar from 'gravatar';
+import cuttingText from '../../helpers/cuttingText';
 
 function LectureCardComponent({ item }) {
   const navigate = useNavigate();
-
+  const lectureTitle = cuttingText(item.title, 21);
   const profileImagePath = item.profile_name || gravatar.url(item.nickname, { s: '50', d: 'retro' });
 
   return (
@@ -23,11 +24,11 @@ function LectureCardComponent({ item }) {
                 <img
                   src={profileImagePath}
                   alt={`default.png`}
-                  style={{ width: '50px', maxHeight: '50px', borderRadius: '100px' }}
+                  style={{ width: '50px', height: '50px', borderRadius: '100px' }}
                 />
               </div>
               <div className='flex-grow-1 ms-3'>
-                <Card.Title>{item.title}</Card.Title>
+                <Card.Title>{lectureTitle}</Card.Title>
                 <Card.Text>{item.nickname}</Card.Text>
                 <Card.Text>조회수: {item.view_cnt}</Card.Text>
                 <Card.Text>등록일: {item.createdAt}</Card.Text>
