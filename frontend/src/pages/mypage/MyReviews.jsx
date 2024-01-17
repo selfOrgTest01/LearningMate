@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Mypage/Sidebar';
 import '../../components/Mypage/styles/Title.css';
 import CourseReviewList from '../../components/Mypage/CourseReviewList';
+import MeetReviewList from '../../components/Mypage/MeetReviewList';
 
 function MyReviews() {
   const userInfo = useSelector((state) => state.userInfo);
@@ -21,6 +22,7 @@ function MyReviews() {
               님이 작성한 리뷰 목록
             </h3>
             <CourseReviewList />
+            <MeetReviewList />
           </Col>
         </Row>
       </Container>
