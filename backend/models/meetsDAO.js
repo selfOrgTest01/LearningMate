@@ -1,7 +1,7 @@
 const geolib = require('geolib');
 const db = require('./../src/database');
 // 주변위치 검색때 반경(km);
-const radius = 2;
+const radius = 5;
 const sql = {
   meetList: `SELECT m.meet_id, title, content, onoff, category, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
