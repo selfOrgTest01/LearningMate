@@ -16,7 +16,6 @@ const sql = {
 
   insert: `INSERT INTO courses(title, content, category, user_id, attach_file_path, attach_file_name, attach_image_path) 
              VALUES(?, ?, ?, ?, ?, ?, ?)`,
-
   update:
     'UPDATE courses SET title = ?, content = ?, category = ?, attach_file_path = ?, attach_file_name = ?, attach_image_path = ? WHERE course_id = ?',
 
