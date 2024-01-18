@@ -31,13 +31,12 @@ function UserLikeCourses() {
 
   return (
     <div>
-      <h3>구독한 강의 목록</h3>
       <Container fluid>
         {loading ? (
           <h1>Loading...</h1>
         ) : (
           <Row className='justify-content-md-center align-items-center'>
-            <Col md={8}>
+            <Col md={10}>
               <LectureListContainer />
             </Col>
           </Row>

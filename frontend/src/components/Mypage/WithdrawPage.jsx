@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { localDomain } from '../../config/config';
 import LogoutFunction from '../../containers/Header/LogoutFunction';
+import './styles/MyPage.css';
 
 function WithdrawPage() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ function WithdrawPage() {
 
   return (
     <div>
-      <h2>회원 탈퇴</h2>
+      <h2 className='subtitle'>회원 탈퇴</h2>
       <Form onSubmit={(e) => e.preventDefault()}>
         <Form.Group className='mb-3'>
           <Form.Label>비밀번호</Form.Label>

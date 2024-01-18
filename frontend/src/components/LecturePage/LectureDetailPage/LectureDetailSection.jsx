@@ -30,7 +30,6 @@ function LectureDetailSection({ lectureInfo }) {
     try {
       const response = await bookmarksApi.getBookmarkByUserId(user_id);
       const bookMarkedCourseList = response.data[0];
-      console.log(bookMarkedCourseList.filter((item) => item.course_id === Number(course_id)).length);
       setIsBookmarked(bookMarkedCourseList.filter((item) => item.course_id === Number(course_id)).length);
     } catch (error) {
       console.log(error);
@@ -40,6 +39,7 @@ function LectureDetailSection({ lectureInfo }) {
   useEffect(() => {
     getBookmarkByUserId();
   }, [getBookmarkByUserId]);
+
   return (
     <>
       <Container>
@@ -71,7 +71,7 @@ function LectureDetailSection({ lectureInfo }) {
                 lectureDetail.registerProfile || gravatar.url(lectureDetail.registerNickname, { s: '70', d: 'retro' })
               }
               alt={`default.png`}
-              style={{ width: '70px', maxHeight: '70px', borderRadius: '40px' }}
+              style={{ width: '70px', height: '70px', borderRadius: '35px' }}
             />
           </div>
           <div className='flex-grow-1 ms-3'>
