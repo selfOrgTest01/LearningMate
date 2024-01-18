@@ -16,7 +16,7 @@ const Footer = () => (
           <h5 className='text-uppercase'>탐색</h5>
           <ul className='list-unstyled '>
             <li>
-              <Link to='/meets' className='no-underline'>
+              <Link to='/meetcategory' className='no-underline'>
                 모임
               </Link>
             </li>
