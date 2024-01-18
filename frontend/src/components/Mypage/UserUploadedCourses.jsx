@@ -32,13 +32,12 @@ function UserUploadedCourses() {
 
   return (
     <div>
-      <h3>내가 업로드한 강의 목록</h3>
       <Container fluid>
         {loading ? (
           <h1>Loading...</h1>
         ) : (
           <Row className='justify-content-md-center align-items-center'>
-            <Col md={8}>
+            <Col md={10}>
               <div className='d-flex justify-content-end'>
                 {login && <Button onClick={() => navigate('../courses/register')}>강의 업로드</Button>}
               </div>
