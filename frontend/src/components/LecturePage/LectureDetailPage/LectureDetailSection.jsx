@@ -39,6 +39,7 @@ function LectureDetailSection({ lectureInfo }) {
   useEffect(() => {
     getBookmarkByUserId();
   }, [getBookmarkByUserId]);
+
   return (
     <>
       <Container>
