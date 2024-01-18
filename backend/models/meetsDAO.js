@@ -1,12 +1,12 @@
 const geolib = require('geolib');
 const db = require('./../src/database');
 // 주변위치 검색때 반경(km);
-const radius = 2;
+const radius = 5;
 const sql = {
   meetList: `SELECT m.meet_id, title, content, onoff, category, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
              ORDER BY m.meet_id DESC`, // 미팅번호로 내림차순 (GROUP BY m.meet_id 해야하나?),
-  meetListNoLimit: `SELECT u.nickname, m.meet_id, title, content, onoff,  image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt,latitude, longitude
+  meetListNoLimit: `SELECT u.nickname, m.meet_id, title, content, onoff, end_date, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt,latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
              ORDER BY m.meet_id DESC`,
   meet: `SELECT m.meet_id, u.nickname, email, title, content, start_date, end_date, max_num, onoff, image, category, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
@@ -69,10 +69,13 @@ const meetsDAO = {
   // 주변 모임을 찾는 함수
   findNearbyMeetup: async (myLocation, callback) => {
     const [resp] = await db.query(sql.meetListNoLimit);
+    const nowDate = Date.now();
     try {
       // resp => db에서 가져온 모임들, if문으로 위치정보가 있는것만 걸러냄
       const nearbyMeets = resp.filter((response) => {
-        if (response.latitude && response.longitude) {
+        const endDate = new Date(response.end_date).getTime();
+        // 이미 종료시간이 지난 모임들을 걸러내기 위해 현재시간보다 작은값을 걸러내도록 로직을작성
+        if (response.latitude && response.longitude && (nowDate < endDate)) {
           const distance = geolib.getDistance(
             {latitude: response.latitude, longitude: response.longitude},
             myLocation
