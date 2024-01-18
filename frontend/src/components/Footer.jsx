@@ -42,12 +42,12 @@ const Footer = () => (
               </Link>
             </li>
             <li>
-              <Link to='#!' className='no-underline'>
+              <Link to='/term-service' className='no-underline'>
                 이용약관
               </Link>
             </li>
             <li>
-              <Link to='#!' className='no-underline'>
+              <Link to='/privacy-policy' className='no-underline'>
                 개인정보처리방침
               </Link>
             </li>
