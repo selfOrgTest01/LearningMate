@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Sidebar from '../../components/Mypage/Sidebar';
-import '../../components/Mypage/styles/Title.css';
+import '../../components/Mypage/styles/MyPage.css';
 import CourseReviewList from '../../components/Mypage/CourseReviewList';
 import MeetReviewList from '../../components/Mypage/MeetReviewList';
 
@@ -17,7 +17,7 @@ function MyReviews() {
             <Sidebar />
           </Col>
           <Col xs={10} id='content'>
-            <h3>
+            <h3 className='subtitle'>
               {userInfo.nickname}
               님이 작성한 댓글 & 리뷰 목록
             </h3>
