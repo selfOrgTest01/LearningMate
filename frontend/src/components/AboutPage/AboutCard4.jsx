@@ -20,7 +20,7 @@ function AboutCard4() {
             </div>
             <div className='col-md-8'>
               <div className='card-body'>
-                <h5 className='card-title'>주나현</h5>
+                <h3 className='card-title'>주나현</h3>
                 <p className='card-text'>
                   안녕하세요~ 저는 LearningMate 팀원 주나현이라고 합니다! 멀티캠퍼스에서 프론트엔드 개발자 취업캠프를
                   통해 이번 프로젝트에 참여하게 되었습니다. 프로그래밍을 접하고 하는 첫 프로젝트인 만큼 잘 하고싶은

@@ -20,7 +20,7 @@ function AboutCard2() {
             </div>
             <div className='col-md-8'>
               <div className='card-body'>
-                <h5 className='card-title'>김민경</h5>
+                <h3 className='card-title'>김민경</h3>
                 <p className='card-text'>
                   안녕하세요! 저는 LearningMate 팀원 김민경입니다. 저희 팀의 주제인 Social Activity & Learning 서비스를
                   개발하는 프로젝트에서 Social Activity 기능을 담당하였습니다. React와 Node.js를 활용하여 로그인을 한
