@@ -20,7 +20,7 @@ function AboutCard4() {
             </div>
             <div className='col-md-8'>
               <div className='card-body'>
-                <h5 className='card-title'>주나현</h5>
+                <h3 className='card-title'>주나현</h3>
                 <p className='card-text'>
                   This is a wider card with supporting text below as a natural lead-in to additional content. This
                   content is a little bit longer.This is a wider card with supporting text below as a natural lead-in to
