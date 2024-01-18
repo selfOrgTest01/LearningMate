@@ -1,5 +1,5 @@
 const database = require('../src/database');
-const participantsDAO = require('./participantsDAO');
+// const participantsDAO = require('./participantsDAO');
 
 const sql = {
   initialRoom: `

@@ -5,25 +5,24 @@ const radius = 5;
 const sql = {
   meetList: `SELECT m.meet_id, title, content, onoff, category, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
-             ORDER BY m.meet_id DESC`, // 미팅번호로 내림차순 (GROUP BY m.meet_id 해야하나?),
+             ORDER BY m.meet_id DESC`,
   meetListNoLimit: `SELECT u.nickname, m.meet_id, title, content, onoff, end_date, image, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt,latitude, longitude
              FROM users u INNER JOIN meets m ON u.user_id = m.user_id
              ORDER BY m.meet_id DESC`,
   meet: `SELECT m.meet_id, u.nickname, email, title, content, start_date, end_date, max_num, onoff, image, category, DATE_FORMAT(m.createdAt, '%Y-%m-%d') as createdAt, latitude, longitude
           FROM users u INNER JOIN meets m ON u.user_id = m.user_id
-          WHERE m.meet_id = ?`, // 특정 미팅 상세조회
+          WHERE m.meet_id = ?`,
   insert: `INSERT INTO meets(title, content, start_date, end_date, max_num, onoff, image, category, user_id, latitude, longitude) 
            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   update:
     'UPDATE meets SET title = ?, content = ?, start_date = ?, end_date = ?, max_num = ?, onoff = ?, image = ?, category = ?, latitude = ?, longitude = ?, updatedAt = NOW() WHERE meet_id = ?',
   delete: 'DELETE FROM meets WHERE meet_id = ?',
-  totalCount: 'SELECT COUNT(*) as cnt FROM meets', // 총 게시물 개수
+  totalCount: 'SELECT COUNT(*) as cnt FROM meets',
   myMeetList: 'SELECT * FROM meets WHERE user_id = ?',
 };
 
 const meetsDAO = {
   meetList: async (item, callback) => {
-    // data 들어온거 확인 완료!
     const no = Number(item.no) - 1 || 0;
     const size = Number(item.size) || 5;
 
@@ -75,7 +74,7 @@ const meetsDAO = {
       const nearbyMeets = resp.filter((response) => {
         const endDate = new Date(response.end_date).getTime();
         // 이미 종료시간이 지난 모임들을 걸러내기 위해 현재시간보다 작은값을 걸러내도록 로직을작성
-        if (response.latitude && response.longitude && (nowDate < endDate)) {
+        if (response.latitude && response.longitude && nowDate < endDate) {
           const distance = geolib.getDistance(
             {latitude: response.latitude, longitude: response.longitude},
             myLocation
@@ -114,7 +113,6 @@ const meetsDAO = {
   },
 
   update: async (meet_id, item, image) => {
-    // data 들어온거 확인 완료!
     console.log(meet_id);
     try {
       const resp = await db.query(sql.update, [
@@ -138,7 +136,6 @@ const meetsDAO = {
   },
 
   delete: async (id, callback) => {
-    // data 들어온거 확인 완료!
     try {
       const resp = await db.query(sql.delete, [id]);
       if (resp.affectedRows === 0) {
